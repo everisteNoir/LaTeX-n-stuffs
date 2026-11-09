@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LaTeX Style Guide &amp; Templates</title>
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script>tailwind.config={darkMode:'class'}</script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono&family=Source+Serif+4:wght@600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAF8F3;--fg:#1F2A44;--ac:#8C2F39;--card:#fff;--bd:#e4dfd2;--mut:#5f6678;--code:#f3efe4}
+.dark{--bg:#0F1420;--fg:#E6E9F0;--ac:#D9A441;--card:#171d2d;--bd:#2a3350;--mut:#9aa4bd;--code:#0b0f19}
+body{background:var(--bg);color:var(--fg);font-family:Inter,sans-serif}
+h1,h2,h3{font-family:'Source Serif 4',serif}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:16px}
+pre{background:var(--code);border:1px solid var(--bd);border-radius:6px;padding:10px;overflow-x:auto;font:12.5px/1.5 'JetBrains Mono',monospace;white-space:pre}
+.btn{border:1px solid var(--bd);border-radius:6px;padding:4px 10px;font-size:13px;cursor:pointer;background:var(--card)}
+.btn:hover,.btn.on{background:var(--ac);color:var(--bg);border-color:var(--ac)}
+.tag{font-size:11px;padding:1px 8px;border-radius:99px;border:1px solid var(--bd)}
+.bad{border-left:3px solid #c0392b}.good{border-left:3px solid #2e8b57}
+input,select{background:var(--card);border:1px solid var(--bd);border-radius:6px;padding:6px 10px;color:var(--fg)}
+nav{background:var(--bg);border-bottom:1px solid var(--bd)}
+a.side{display:block;padding:3px 8px;font-size:14px;border-radius:6px}a.side:hover{background:var(--code)}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ac);color:var(--bg);padding:8px 16px;border-radius:8px;display:none;z-index:50}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+@media print{nav,aside,.btn,footer{display:none}}
+</style>
+</head>
+<body>
+<nav class="sticky top-0 z-40 flex flex-wrap items-center gap-3 px-4 py-2">
+  <h1 class="text-xl" style="color:var(--ac)">LaTeX Guide</h1>
+  <input id="q" class="flex-1 min-w-[160px]" placeholder="Search rules, macros, templates…  (Ctrl+K or /)" aria-label="Search">
+  <button class="btn" id="th" title="Toggle theme"></button>
+</nav>
+<div class="max-w-6xl mx-auto px-4 py-4">
+  <div class="flex flex-wrap gap-2 mb-4" id="tabs"></div>
+  <div id="main"></div>
+</div>
+<footer class="text-center text-sm py-6" style="color:var(--mut)">Edit the RULES, MACROS and template builder in the script to extend this page. Shortcuts: Ctrl+K / "/" search.</footer>
+<div id="toast">Copied!</div>
+<script>
+const r=String.raw;
+const $=s=>document.querySelector(s);
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const LV={R:['Required','🔴'],Y:['Recommended','🟡'],G:['Optional','🟢']};
+const MD={art:'Article',book:'Book/Report',all:'Common'};
+const GR={LAB:'Labels & References',PRE:'Preamble',TXT:'Text Layout',MATH:'Math Mode',EQ:'Equations',LST:'Lists',SYM:'Symbols & Fonts',DEL:'Delimiters',SPC:'Spacing',FLD:'Field-specific',FRC:'Fractions & Sums',THM:'Theorems & Proofs',MAC:'Macros',VN:'Vietnamese',TAB:'Tables',FIG:'Figures',ALG:'Algorithms'};
+
+/* ===== RULES: [id, level, mode, title, explanation, don't, do, KaTeX preview] ===== */
+const RULES=[
+['LAB-01','R','art','Article labels','Section: sec<N>. Subsection: subsec<N.M>. Environments: <env>_sec<section>:<printed number>. Equations: eq_sec<section>:<number>.',r`\label{section-7}
+\label{thm:main}`,r`\label{sec7}
+\label{subsec7.2}
+\label{prop_sec3:6}  % Proposition 3.6
+\label{eq_sec3:2}    % equation (3.2)`,''],
+['LAB-02','R','book','Book/Report labels','Chapter: chap<N>. Section: sec<N.M>. Subsection: subsec<N.M.K>. Environments: <env>_C<chapter>:<rest of printed number>.',r`\label{ch3}
+\label{prop3.6.1}`,r`\label{chap1}
+\label{sec2.1}
+\label{subsec2.1.1}
+\label{prop_C3:6.1}  % Proposition 3.6.1
+\label{eq_C3:6.2}    % equation (3.6.2)`,''],
+['LAB-03','R','all','Label prefixes','Prefix equals the environment name: thm lem prop cor defi rem ex eq fig tab. Extended: claim conj axiom asm fact nota prob exer ques.',r`\label{theorem_main}
+\label{def_sec3:2}`,r`\label{thm_sec3:6}
+\label{defi_sec3:2}`,''],
+['LAB-04','R','book','Figures and tables per chapter','In Book/Report, figures and tables are numbered by chapter.',r`\label{fig:plot}`,r`\label{fig_C3:4}
+\label{tab_C3:4}`,''],
+['LAB-05','R','all','Label only what is cited','No citation, no \\label. Unlabelled equations use equation* or align*.',r`\begin{equation}\label{eq_sec1:1}
+  a=b
+\end{equation}  % never cited`,r`\begin{equation*}
+  a=b
+\end{equation*}`,''],
+['LAB-06','R','all','Use \\cref','Never type the name by hand.',r`Theorem~\ref{thm_sec3:6}`,r`\cref{thm_sec3:6}   % mid-sentence
+\Cref{thm_sec3:6}   % sentence start`,''],
+['LAB-08','R','all','Homework labels','Problem counter is "prob"; theorems are numbered per problem.',r`\label{lem1}`,r`\label{prob_hw:3}
+\label{lem_prob2:1}
+\label{eq_prob2:3}`,''],
+['PRE-01','R','all','cleveref loads last','Load after hyperref and amsthm.',r`\usepackage{cleveref}
+\usepackage{hyperref}`,r`\usepackage{hyperref}
+\usepackage[capitalize,nameinlink]{cleveref}`,''],
+['PRE-02','R','all','Bibliography','Always natbib with numbers and the ieeetr style.',r`\usepackage{biblatex}`,r`\usepackage[numbers]{natbib}
+\bibliographystyle{ieeetr}
+\bibliography{refs}`,''],
+['PRE-03','R','all','Load order','Engine/fonts, then math, then hyperref, then cleveref.',r`\usepackage{cleveref}
+\usepackage{amsmath}`,r`\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{hyperref}
+\usepackage[capitalize,nameinlink]{cleveref}`,''],
+['MATH-01','R','all','Inline math','Use $...$, never \\( \\).',r`\(x^2+1\)`,r`$x^2+1$`,r`x^2+1`],
+['MATH-02','R','all','Display math','Use $$...$$, never \\[ \\].',r`\[ x^2+1 \]`,r`$$
+  x^2+1.
+$$`,r`x^2+1.`],
+['MATH-03','R','all','No blank lines in display math','A blank line inside display math breaks compilation.',r`$$
+  a=b
+
+  +c
+$$`,r`$$
+  a=b+c
+$$`,''],
+['MATH-04','R','all','No eqnarray','Use align (labelled) or align* (unlabelled).',r`\begin{eqnarray}
+ a&=&b
+\end{eqnarray}`,r`\begin{align*}
+  a &= b \\
+    &= c.
+\end{align*}`,r`\begin{aligned}a&=b\\&=c.\end{aligned}`],
+['EQ-01','R','all','Numbering follows citation','Labelled: equation/align. Unlabelled: equation*/align* or $$.',r`\begin{equation}
+  a=b
+\end{equation}`,r`\begin{equation}\label{eq_sec2:1}
+  a=b
+\end{equation}
+\begin{equation*}
+  a=b
+\end{equation*}`,''],
+['SYM-01','R','all','Upright operators','Named functions are upright.',r`$sin x$, $rank A$`,r`$\sin x$, $\operatorname{rank}A$`,r`\sin x,\ \operatorname{rank}A`],
+['SYM-02','R','all','Upright differential','Thin space before d, upright d.',r`\int f(x)dx`,r`\int f(x)\,\mathrm{d}x`,r`\int f(x)\,\mathrm{d}x`],
+['SYM-03','Y','all','Upright constants','e and i as constants are upright.',r`e^{ix}`,r`\mathrm{e}^{\mathrm{i}x}`,r`\mathrm{e}^{\mathrm{i}x}`],
+['SYM-06','R','all','Words use \\text','Words inside formulas are text.',r`x_{max}, if x>0`,r`x_{\max},\quad \text{if } x>0`,r`x_{\max},\quad \text{if } x>0`],
+['DEL-01','R','all','Stretchy delimiters','\\left\\right for stretchy, \\bigl\\bigr for fixed size.',r`(\frac{a}{b})`,r`\left(\frac{a}{b}\right)`,r`\left(\frac{a}{b}\right)`],
+['DEL-02','R','all','Absolute value and norm','Use \\lvert \\rvert and \\lVert \\rVert.',r`|x|, ||v||`,r`\lvert x\rvert,\ \lVert v\rVert`,r`\lvert x\rvert,\ \lVert v\rVert`],
+['DEL-03','R','all','Angle brackets','Use \\langle \\rangle, not < >.',r`<x,y>`,r`\langle x,y\rangle`,r`\langle x,y\rangle`],
+['DEL-04','Y','all','\\mid and \\colon','\\mid in sets, \\colon in maps.',r`\{x | x>0\}, f: A\to B`,r`\{x \mid x>0\},\ f\colon A\to B`,r`\{x \mid x>0\},\ f\colon A\to B`],
+['SPC-03','R','all','Dots','Use \\dots, \\cdots, \\vdots, \\ddots.',r`1,2,...,n`,r`1,2,\dots,n`,r`1,2,\dots,n,\quad 1+\cdots+n`],
+['FRC-01','Y','all','Fraction size','\\tfrac inline, \\dfrac in text-size contexts, \\frac in display.',r`$\frac{1}{2}$ in a sentence`,r`$\tfrac12$ in a sentence`,r`\tfrac12,\ \dfrac{1}{2}`],
+['THM-01','R','all','Short environment names','Use thm lem prop cor defi rem ex. Never name an environment def, not or note.',r`\newtheorem{def}{Definition}`,r`\newtheorem{defi}[thm]{Definition}`,''],
+['THM-03','R','all','Theorem styles and counter','plain / definition / remark styles; one shared counter numbered within section.',r`\newtheorem{lem}{Lemma}`,r`\theoremstyle{plain}
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}[thm]{Lemma}
+\numberwithin{thm}{section}`,''],
+['THM-05','R','all','Proofs','Use proof; \\qedhere inside equation* when the proof ends in display math.',r`\textbf{Proof.} ... $\square$`,r`\begin{proof}
+  ...
+  \begin{equation*}
+    a=b. \qedhere
+  \end{equation*}
+\end{proof}`,''],
+['MAC-01','R','all','Macros','\\newcommand or \\DeclareMathOperator, never \\def.',r`\def\R{\mathbb R}`,r`\newcommand{\R}{\mathbb{R}}`,r`\mathbb{R}`],
+['MAC-02','R','all','Do not override commands','Pick a new name instead of redefining.',r`\newcommand{\vec}[1]{\mathbf{#1}}`,r`\newcommand{\vect}[1]{\mathbf{#1}}`,''],
+['VN-01','R','all','pdfLaTeX Vietnamese','T5 fontenc and babel vietnamese.',r`\usepackage[T1]{fontenc}`,r`\usepackage[T5]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[vietnamese]{babel}`,''],
+['VN-02','R','all','XeLaTeX Vietnamese','fontspec and babel vietnamese.',r`\usepackage[T5]{fontenc}`,r`\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\usepackage[vietnamese]{babel}`,''],
+['TAB-01','R','all','Tables','booktabs, never \\hline.',r`\hline a & b \\ \hline`,r`\toprule a & b \\
+\midrule c & d \\
+\bottomrule`,''],
+['TAB-02','Y','all','Caption position','Caption above tables, below figures.',r`\begin{table}
+\begin{tabular}...\end{tabular}
+\caption{...}`,r`\begin{table}
+\caption{...}
+\begin{tabular}...\end{tabular}`,''],
+['LAB-07','Y','all','Label placement','Put \\label right after \\begin{env}; for figures and tables, after \\caption.',r`\begin{figure}
+  \label{fig_C3:4}
+  \caption{Plot}`,r`\begin{figure}
+  \caption{Plot}
+  \label{fig_C3:4}`,''],
+['PRE-04','Y','all','Choose one engine','pdfLaTeX: fontenc + inputenc. XeLaTeX/LuaLaTeX: fontspec. Never mix them.',r`\usepackage{fontspec}
+\usepackage[T1]{fontenc}`,r`% pdfLaTeX
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+% XeLaTeX
+\usepackage{fontspec}`,''],
+['PRE-06','Y','all','Trailing % in macros','Stop stray spaces inside macro definitions.',r`\newcommand{\hi}{
+  Hello
+}`,r`\newcommand{\hi}{%
+  Hello%
+}`,''],
+['PRE-07','G','all','Collect macros in mymath.sty','Keep the preamble short; share one macro file across documents.',r`\newcommand{\R}{\mathbb{R}}  % 60 more lines in main.tex`,r`\usepackage{mymath}`,''],
+['PRE-08','R','all','refs.bib must exist','natbib + \\bibliography{refs} needs refs.bib next to main.tex. Run bibtex between LaTeX runs.',r`\bibliography{refs}   % but no refs.bib file`,r`% refs.bib
+@article{smith2020,
+  author  = {Smith, John},
+  title   = {An Example},
+  journal = {Journal of Examples},
+  year    = {2020}
+}`,''],
+['MATH-05','Y','all','gather, split, cases','Use cases for piecewise definitions, gather for centred lines, split for one equation across lines.',r`\begin{array}{ll} x & x\ge0 \\ -x & x<0 \end{array}`,r`\begin{cases}
+  x  & x\ge 0 \\
+  -x & x<0
+\end{cases}`,r`\lvert x\rvert=\begin{cases}x&x\ge0\\-x&x<0\end{cases}`],
+['EQ-02','Y','all','Manual tags','Use \\tag for hand-numbered formulas and cite them with \\eqref or \\cref.',r`$$ a=b \quad (*) $$`,r`$$
+  a=b \tag{$*$}
+$$`,''],
+['EQ-03','Y','all','Punctuation in display math','Commas and full stops belong inside the formula.',r`$$
+  a=b
+$$
+where $b>0$`,r`$$
+  a=b,
+$$
+where $b>0$.`,r`a=b,`],
+['EQ-04','Y','art','Number equations within sections','Counter restarts in each section: (3.1), (3.2).',r`% equations numbered (27), (28), ...`,r`\numberwithin{equation}{section}`,''],
+['SYM-04','Y','all','Alphabets','\\mathbb for number sets, \\mathcal for families, \\mathfrak for algebras, \\mathscr for sigma-algebras.',r`R, F, g`,r`\mathbb{R}, \mathcal{F}, \mathfrak{g}`,r`\mathbb{R},\ \mathcal{F},\ \mathfrak{g}`],
+['SYM-05','Y','all','Vectors and matrices','Pick one style (bold) and keep it in the whole document.',r`\vec{x}, \mathbf{A}, \underline{y}`,r`\boldsymbol{x}, \mathbf{A}`,r`\boldsymbol{x},\ \mathbf{A}`],
+['SYM-07','G','all','Textual subscripts','Labels used as subscripts are upright text.',r`x_{train}`,r`x_{\text{train}}`,r`x_{\text{train}}`],
+['DEL-05','G','all','Paired delimiters','Declare once, get auto-sizing with the star form.',r`\left\lvert \frac{a}{b} \right\rvert`,r`\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\abs*{\frac{a}{b}}`,''],
+['SPC-01','Y','all','Spaces','\\, thin, \\: medium, \\; thick, \\quad between conditions.',r`x>0 ,y>0`,r`x>0,\quad y>0`,r`x>0,\quad y>0`],
+['SPC-02','Y','all','Negative space','Use \\! only for tight integral signs, never in chains.',r`x\!\!\!\!y`,r`\int_0^1\!\!\int_0^1 f\,\mathrm{d}x\,\mathrm{d}y`,r`\int_0^1\!\!\int_0^1 f\,\mathrm{d}x\,\mathrm{d}y`],
+['SPC-04','Y','all','Products','\\cdot for multiplication, \\times for sizes and cross products.',r`a*b, 3 x 4`,r`a\cdot b,\ 3\times 4`,r`a\cdot b,\ 3\times 4`],
+['SPC-05','Y','all','Minus signs','A minus in running text is still math.',r`the value -1`,r`the value $-1$`,''],
+['SPC-06','G','all','Primes','Use ^{\\prime} only for stacked cases; f\' and f\'\' otherwise.',r`f^{'}`,r`f',\ f''`,r`f',\ f''`],
+['FLD-01','Y','all','Calculus','Limits, sums and integrals with explicit bounds.',r`lim n->inf sum 1/k^2`,r`\lim_{n\to\infty}\sum_{k=1}^{n}\frac{1}{k^2}`,r`\lim_{n\to\infty}\sum_{k=1}^{n}\frac{1}{k^2}=\frac{\pi^2}{6}`],
+['FLD-02','Y','all','Linear algebra','pmatrix for matrices, \\det, transpose as ^{\\top}.',r`\begin{array}{cc}a&b\\c&d\end{array}, A^T`,r`\begin{pmatrix} a & b \\ c & d \end{pmatrix},\ \det A,\ A^{\top}`,r`\begin{pmatrix}a&b\\c&d\end{pmatrix},\ \det A,\ A^{\top}`],
+['FLD-03','Y','all','Probability and statistics','\\Pr, \\mathbb{E}, \\operatorname{Var}.',r`P(X>0), E[X], Var X`,r`\Pr(X>0),\ \mathbb{E}[X],\ \operatorname{Var}(X)`,r`\Pr(X>0),\ \mathbb{E}[X],\ \operatorname{Var}(X)`],
+['FLD-04','Y','all','Sets and logic','Symbols, not words.',r`A c B, for all x exists y`,r`A\subseteq B,\ \forall x\ \exists y,\ P\implies Q`,r`A\subseteq B,\ \forall x\ \exists y,\ P\implies Q`],
+['FLD-05','Y','all','Binomials','\\binom, not a hand-built fraction.',r`\frac{n!}{k!(n-k)!}`,r`\binom{n}{k}`,r`\binom{n}{k}`],
+['FLD-06','G','all','Floor and ceiling','Dedicated delimiters.',r`[x]`,r`\lfloor x\rfloor,\ \lceil x\rceil`,r`\lfloor x\rfloor,\ \lceil x\rceil`],
+['FRC-02','Y','all','\\limits and \\nolimits','Force limits above/below in inline math with \\limits.',r`$\sum_{k=1}^{n}$`,r`$\sum\limits_{k=1}^{n}$`,r`\sum\limits_{k=1}^{n}a_k`],
+['FRC-03','Y','all','\\substack','Several conditions under one sum.',r`\sum_{i<j, j<n}`,r`\sum_{\substack{i<j\\ j<n}}`,r`\sum_{\substack{0<i<m\\ 0<j<n}}P(i,j)`],
+['FRC-04','Y','all','No deeply nested fractions','Rewrite with powers or a slash.',r`\frac{1}{1+\frac{1}{1+x}}`,r`1/\bigl(1+(1+x)^{-1}\bigr)`,r`1/\bigl(1+(1+x)^{-1}\bigr)`],
+['FRC-05','G','all','\\nicefrac','Compact fractions in running text (package nicefrac).',r`1/2 of the data`,r`\nicefrac{1}{2} of the data`,''],
+['THM-02','R','all','Name equals label prefix','The label prefix is the environment name (defi, not def).',r`\begin{defi}\label{def_sec3:2}`,r`\begin{defi}\label{defi_sec3:2}`,''],
+['THM-04','R','all','Shared counter','All theorem-like environments count together.',r`\newtheorem{lem}{Lemma}`,r`\newtheorem{lem}[thm]{Lemma}`,''],
+['THM-06','R','all','Localise \\crefname (Vietnamese)','Every environment gets \\crefname and \\Crefname with a capitalised name, so \\cref prints Example 3.6, not example 3.6.',r`% \cref prints "Theorem" in a Vietnamese text`,r`\crefname{thm}{Định lý}{Định lý}\Crefname{thm}{Định lý}{Định lý}  % capitalised, so \cref prints Định lý 3.6`,''],
+['THM-07','Y','all','Long names stay commented','Enable them only when needed.',r`\newtheorem{theorem}[thm]{Theorem}  % always on`,r`%\newtheorem{theorem}[thm]{Theorem}\crefalias{theorem}{thm}`,''],
+['THM-08','Y','all','Self-contained statements','State all hypotheses inside the environment.',r`Then the claim holds.`,r`Let $f\colon[0,1]\to\mathbb{R}$ be continuous. Then $f$ is bounded.`,''],
+['THM-10','Y','all','prob in Homework','Homework: own counter, theorems numbered per problem. Elsewhere prob shares the theorem counter and is commented.',r`\newtheorem{prob}[thm]{Problem}  % in homework`,r`\newtheorem{prob}{Problem}
+\newtheorem{thm}{Theorem}[prob]`,''],
+['MAC-03','Y','all','Meaningful names','Short but readable macro names.',r`\newcommand{\a}{\mathbb{R}}`,r`\newcommand{\R}{\mathbb{R}}`,r`\mathbb{R}`],
+['MAC-04','Y','all','Macros with arguments','Use DeclarePairedDelimiter instead of hand-made \\left\\right macros.',r`\newcommand{\abs}[1]{\left|#1\right|}`,r`\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}`,''],
+['MAC-05','G','all','Group into mymath.sty','One file, reused everywhere. See the Macro Pack tab.',r`% same 30 macros pasted into every project`,r`\usepackage{mymath}`,''],
+['VN-03','Y','all','Vietnamese names','Theorem names are Vietnamese in Vietnamese documents.',r`\newtheorem{thm}{Theorem}`,r`\newtheorem{thm}{Định lý}`,''],
+['VN-04','Y','all','Dates and foreign names','Keep accents of foreign names; use \\today with babel.',r`Poincare, 8/11/2026`,r`Poincar\'e, \today`,''],
+['FIG-01','Y','all','Diagrams','tikz or pgfplots for plots instead of screenshots.',r`\includegraphics{plot-screenshot.png}`,r`\usepackage{tikz,pgfplots}
+\pgfplotsset{compat=1.18}`,''],
+['ALG-01','G','all','Algorithms','algorithm2e, not verbatim.',r`\begin{verbatim} for i in range(n) \end{verbatim}`,r`\usepackage[ruled,vlined]{algorithm2e}`,''],
+['TXT-01','R','all','No arbitrary line breaks','Write a paragraph as one line. A new indented paragraph is two Enters; use it only when the idea changes. Never break a line mid-sentence or around inline math. Applies to Article, Book/Report, Homework and Beamer.',r`Cho $abc$
+là
+một hình tam giác`,r`Cho $abc$ là một hình tam giác.`,''],
+['TXT-02','R','all','Display math on its own lines','$$ opens and closes on separate lines, the formula is indented two spaces, and there is no blank line around or inside. Text before and after stays in the same paragraph.',r`Ta có $$ a=b, $$ trong đó $b>0$.
+
+Ta có
+
+$$
+  a=b,
+$$
+
+trong đó $b>0$.`,r`Ta có
+$$
+  a=b,
+$$
+trong đó $b>0$.`,r`a=b,`],
+['EQ-05','R','all','Layout of equation and align','\\begin and \\end each on their own line, no blank line before or after the block.',r`Ta có \begin{equation*} a=b \end{equation*}
+
+trong đó $b>0$.`,r`Ta có
+\begin{equation*}
+  a=b,
+\end{equation*}
+trong đó $b>0$.`,''],
+['THM-11','R','all','Layout of theorems and proofs','The proof sits right under its statement with no blank line. Every other block (thm, lem, prop, cor, defi, rem, ex, paragraph) is separated by exactly one blank line.',r`\begin{thm}
+  ...
+\end{thm}
+
+\begin{proof}
+  ...
+\end{proof}
+\begin{prop}
+  ...
+\end{prop}`,r`\begin{thm}
+  ...
+\end{thm}
+\begin{proof}
+  ...
+\end{proof}
+
+\begin{prop}
+  ...
+\end{prop}`,''],
+['LST-01','R','all','Numbered things use enumerate','Anything with a count (steps, conditions, parts a, b, c) is an enumerate list; bullets use itemize. \\begin, \\end and every \\item sit on their own lines.',r`1. Hàm $f$ liên tục.
+2. Hàm $f$ bị chặn.
+
+(a) $x>0$ \\
+(b) $y>0$`,r`\begin{enumerate}
+  \item Hàm $f$ liên tục.
+  \item Hàm $f$ bị chặn.
+\end{enumerate}`,''],
+['LST-02','R','all','(i) in theorems, (a) elsewhere','Inside thm lem prop cor defi rem the labels are (i), (ii); elsewhere (a), (b). Nested: outer (a), inner (i). The templates switch this automatically.',r`\begin{thm}
+  \begin{enumerate}[label=(\alph*)]
+    \item ...
+  \end{enumerate}
+\end{thm}`,r`\begin{thm}
+  The following are equivalent:
+  \begin{enumerate}
+    \item ...   % printed (i)
+    \item ...   % printed (ii)
+  \end{enumerate}
+\end{thm}`,''],
+['LST-03','Y','all','Labels on items','\\label right after \\item, only when the item is cited (see LAB-05).',r`\item ... \label{item1}  % never cited`,r`\item\label{item_sec3:1} ...  % cited later with \cref`,'']
+
+];
+const SORTED=[...RULES].sort((a,b)=>Object.keys(GR).indexOf(a[0].split('-')[0])-Object.keys(GR).indexOf(b[0].split('-')[0]));
+const DD=[[r`\(x\)`,r`$x$`],[r`\[ x \]`,r`$$ x $$`],[r`sin x`,r`\sin x`],[r`\int f(x)dx`,r`\int f(x)\,\mathrm{d}x`],[r`|x|`,r`\lvert x\rvert`],[r`<x,y>`,r`\langle x,y\rangle`],[r`\{x | x>0\}`,r`\{x \mid x>0\}`],[r`f: A\to B`,r`f\colon A\to B`],[r`1,2,...,n`,r`1,2,\dots,n`],[r`a*b, 3 x 4`,r`a\cdot b, 3\times 4`],[r`\def\R{\mathbb R}`,r`\newcommand{\R}{\mathbb{R}}`],[r`\begin{eqnarray}`,r`\begin{align*}`],[r`\begin{equation} (no label)`,r`\begin{equation*}`],[r`Theorem~\ref{thm_sec3:6}`,r`\cref{thm_sec3:6}`],[r`\hline`,r`\toprule \midrule \bottomrule`],[r`cleveref loaded before hyperref`,r`cleveref loaded last`],[r`\begin{def}`,r`\begin{defi}`],[r`\label{sec:intro}`,r`\label{sec1}`],[r`$x if y$`,r`$x \text{ if } y$`],[r`(\frac{a}{b})`,r`\left(\frac{a}{b}\right)`]];
+const CK=['The document compiles without errors; Overfull/Underfull warnings were checked.','refs.bib exists next to main.tex, bibtex was run, no "undefined citation" warnings.','Every \\label is cited, and every cited label exists.','Labels follow the convention for the document type (Article or Book/Report).','Only $...$ and $$...$$ are used; no \\( \\) or \\[ \\].','Unlabelled equations use equation*, align* or $$.','Operators, the differential d, and constants e, i are upright.','cleveref is loaded last and \\cref / \\Cref are used for every reference.','Theorem environments use the short names and one shared counter.','Vietnamese documents: the engine matches the preamble and the names are localised.','Paragraphs are single lines (new paragraph = two Enters, used sparingly); $$ sits on its own lines; proof is right under its statement.','Anything numbered uses enumerate: (a) by default, (i) inside theorems.'];
+const CONV=r`- Packages: \usepackage[numbers]{natbib}, \bibliographystyle{ieeetr}, \usepackage[capitalize,nameinlink]{cleveref} loaded LAST. A refs.bib file must exist next to main.tex.
+- Math: $...$ inline, $$...$$ display. Never \( \) or \[ \].
+- Equations: cited => equation/align with \label. Not cited => equation*/align*/$$ (no label).
+- Theorem environments (one shared counter): thm lem prop cor defi rem ex. Extended (commented out by default): claim conj axiom asm fact nota prob exer ques. Long names (theorem, lemma, definition...) stay commented. Never name an environment def, not or note. Use the proof environment for proofs.
+- Label prefixes: thm lem prop cor defi rem ex eq fig tab claim conj axiom asm fact nota prob exer ques.
+- Article labels: sec7, subsec7.2, <env>_sec<section>:<printed number> (prop_sec3:6), eq_sec3:2.
+- Book/Report labels: chap1, sec2.1, subsec2.1.1, <env>_C<chapter>:<rest of printed number> (prop_C3:6.1), eq_C3:6.2, fig_C3:4, tab_C3:4. Use \numberwithin{thm}{section}.
+- Homework: own counter for prob; theorems numbered within prob. Labels prob_hw:3, lem_prob2:1, eq_prob2:3. Solutions in the sol environment, toggled by \solutionstrue / \solutionsfalse.
+- Vietnamese: pdfLaTeX = [T5]{fontenc} + [utf8]{inputenc} + babel[vietnamese]; XeLaTeX = fontspec + babel[vietnamese]. Localise every \crefname (Vietnamese templates).
+- Tables use booktabs; caption above tables, below figures.
+- Text layout: one paragraph = one line; a new paragraph = two Enters, used sparingly; never break lines mid-sentence or around inline math.
+- Display math: $$ opens and closes on their own lines, formula indented two spaces, no blank line around or inside. Same for equation(*) and align(*): \begin and \end on their own lines.
+- Theorems: proof directly under its statement (no blank line); one blank line between all other blocks.
+- Lists: anything numbered uses enumerate (never typed by hand); bullets use itemize. Labels (a),(b) by default, (i),(ii) inside thm lem prop cor defi rem; nested: outer (a), inner (i). Load enumitem and etoolbox.`;
+const BIB=`@article{smith2020,
+  author  = {Smith, John and Nguyen, An},
+  title   = {An Example Article},
+  journal = {Journal of Examples},
+  year    = {2020},
+  volume  = {1},
+  pages   = {1--10}
+}
+
+@book{rudin1976,
+  author    = {Rudin, Walter},
+  title     = {Principles of Mathematical Analysis},
+  publisher = {McGraw-Hill},
+  year      = {1976},
+  edition   = {3}
+}
+`;
+function guide(){
+  const f=t=>t.replace(/\n/g,' ⏎ ');
+  let s='# LaTeX style guide (rules for AI assistants)\n\nFollow every rule below when writing or editing LaTeX. Treat Required rules as mandatory. If a user request conflicts with a rule, point it out and ask.\n\n## Fixed conventions\n'+CONV+'\n\n## Rules\n';
+  SORTED.forEach(x=>{s+='- '+x[0]+' ['+LV[x[1]][0]+'; '+MD[x[2]]+'] '+x[3]+': '+x[4]+'\n  DONT: '+f(x[5])+'\n  DO: '+f(x[6])+'\n'});
+  s+='\n## Common mistakes\n'+DD.map(d=>'- DONT '+d[0]+'  =>  DO '+d[1]).join('\n')+'\n\n## Final checklist\n'+CK.map(c=>'- [ ] '+c).join('\n')+'\n';
+  return s;
+}
+function vCheck(){
+  const D=DD.filter(hit);
+  return '<h2 class="text-2xl mb-3">Don\'t / Do</h2><div class="card mb-6 overflow-x-auto"><table class="w-full text-sm"><thead><tr><th class="text-left p-2">✗ Don\'t</th><th class="text-left p-2">✓ Do</th></tr></thead><tbody>'+D.map(d=>'<tr style="border-top:1px solid var(--bd)"><td class="p-2"><code>'+esc(d[0])+'</code></td><td class="p-2"><code>'+esc(d[1])+'</code></td></tr>').join('')+'</tbody></table></div><h2 class="text-2xl mb-3">Checklist before submitting</h2><div class="card">'+CK.map(c=>'<label class="flex gap-2 py-1"><input type="checkbox"> <span>'+esc(c)+'</span></label>').join('')+'</div>';
+}
+function vAI(){
+  const g=guide();
+  return '<div class="card"><h3 class="text-xl mb-1">AI rules file</h3><p class="text-sm mb-3" style="color:var(--mut)">Every rule, convention, common mistake and the checklist as one Markdown text. Paste it into an AI system prompt or project instructions, or attach the file.</p><div class="flex flex-wrap gap-2 mb-2">'+cp(g,'Copy all')+dl('latex-rules.md',g)+'</div><pre style="max-height:560px">'+esc(g)+'</pre></div>';
+}
+
+/* ===== MACROS ===== */
+const KM={'\\R':r`\mathbb{R}`,'\\N':r`\mathbb{N}`,'\\Z':r`\mathbb{Z}`,'\\Q':r`\mathbb{Q}`,'\\C':r`\mathbb{C}`,
+'\\abs':r`\left\lvert#1\right\rvert`,'\\norm':r`\left\lVert#1\right\rVert`,'\\floor':r`\left\lfloor#1\right\rfloor`,'\\ceil':r`\left\lceil#1\right\rceil`,'\\set':r`\left\{#1\right\}`,'\\inner':r`\left\langle#1,#2\right\rangle`,
+'\\Var':r`\operatorname{Var}`,'\\Cov':r`\operatorname{Cov}`,'\\tr':r`\operatorname{tr}`,'\\rank':r`\operatorname{rank}`,'\\diag':r`\operatorname{diag}`,'\\argmin':r`\operatorname*{arg\,min}`,'\\argmax':r`\operatorname*{arg\,max}`,'\\E':r`\mathbb{E}`,
+'\\dd':r`\mathop{}\!\mathrm{d}`,'\\dv':r`\frac{\mathrm{d}#1}{\mathrm{d}#2}`,'\\pdv':r`\frac{\partial #1}{\partial #2}`,
+'\\eps':r`\varepsilon`,'\\vphi':r`\varphi`,'\\iid':r`\stackrel{\mathrm{iid}}{\sim}`,'\\as':r`\text{ a.s.}`};
+const MACROS=[
+['Number sets',r`\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}`,[r`\R^n,\ \N,\ \Z,\ \Q,\ \C`]],
+['Delimiters (needs mathtools)',r`\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\set}{\lbrace}{\rbrace}
+\newcommand{\inner}[2]{\left\langle #1,#2\right\rangle}`,[r`\abs{x},\ \norm{v},\ \floor{x},\ \ceil{x},\ \set{x\in\R},\ \inner{u}{v}`]],
+['Operators',r`\newcommand{\E}{\mathbb{E}}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}`,[r`\E[X],\ \Var(X),\ \Cov(X,Y),\ \tr A,\ \rank A,\ \argmin_x f(x)`]],
+['Calculus',r`\newcommand{\dd}{\mathop{}\!\mathrm{d}}
+\newcommand{\dv}[2]{\frac{\mathrm{d}#1}{\mathrm{d}#2}}
+\newcommand{\pdv}[2]{\frac{\partial #1}{\partial #2}}`,[r`\int_0^1 f(x)\dd x,\ \dv{f}{x},\ \pdv{f}{x}`]],
+['Abbreviations',r`\newcommand{\eps}{\varepsilon}
+\newcommand{\vphi}{\varphi}
+\newcommand{\iid}{\stackrel{\mathrm{iid}}{\sim}}
+\newcommand{\as}{\text{ a.s.}}`,[r`\eps>0,\ \vphi,\ X_i\iid\mathcal{N}(0,1),\ X_n\to X\as`]]
+];
+const STY=r`\ProvidesPackage{mymath}
+\RequirePackage{amsmath,amssymb,mathtools}
+`+MACROS.map(m=>'% '+m[0]+'\n'+m[1]).join('\n\n')+'\n';
+
+/* ===== TEMPLATE BUILDER (16 variants) ===== */
+const N={vi:{thm:'Định lý',lem:'Bổ đề',prop:'Mệnh đề',cor:'Hệ quả',defi:'Định nghĩa',rem:'Nhận xét',ex:'Ví dụ',claim:'Khẳng định',conj:'Giả thuyết',axiom:'Tiên đề',asm:'Giả thiết',fact:'Sự kiện',nota:'Ký hiệu',prob:'Bài toán',exer:'Bài tập',ques:'Câu hỏi'},
+en:{thm:'Theorem',lem:'Lemma',prop:'Proposition',cor:'Corollary',defi:'Definition',rem:'Remark',ex:'Example',claim:'Claim',conj:'Conjecture',axiom:'Axiom',asm:'Assumption',fact:'Fact',nota:'Notation',prob:'Problem',exer:'Exercise',ques:'Question'}};
+const LONG={thm:'theorem',lem:'lemma',prop:'proposition',cor:'corollary',defi:'definition',rem:'remark',ex:'example',claim:'claim',conj:'conjecture',asm:'assumption',nota:'notation',prob:'problem',exer:'exercise',ques:'question'};
+const T2=(l,a,b)=>l=='vi'?a:b;
+
+function thms(l,m){
+  const n=N[l],hw=m=='hw',bm=m=='bm';
+  const pl=w=>l=='vi'?w:(w.endsWith('y')?w.slice(0,-1)+'ies':w+'s');
+  const cap=t=>t.charAt(0).toUpperCase()+t.slice(1);
+  const cd=(k,w,p)=>r`\crefname{${k}}{${cap(w)}}{${cap(p)}}\Crefname{${k}}{${cap(w)}}{${cap(p)}}`;
+  const cn=k=>{const w=n[k].toLowerCase();return cd(k,w,pl(w))};
+  const nt=k=>r`\newtheorem{${k}}[thm]{${n[k]}}`;
+  let s='% --- Theorem-like environments (one shared counter) ---\n';
+  if(hw)s+=r`\newtheorem{prob}{${T2(l,'Bài','Problem')}}`+'\n';
+  if(!bm)s+=r`\theoremstyle{plain}`+'\n';
+  s+=r`\newtheorem{thm}{${n.thm}}${hw?'[prob]':''}`+'\n';
+  ['lem','prop','cor'].forEach(k=>s+=nt(k)+'\n');
+  if(!bm)s+=r`\theoremstyle{definition}`+'\n';
+  ['defi','ex'].forEach(k=>s+=nt(k)+'\n');
+  if(!bm)s+=r`\theoremstyle{remark}`+'\n';
+  s+=nt('rem')+'\n';
+  if(!bm)s+=(hw?r`\numberwithin{equation}{prob}`:r`\numberwithin{thm}{section}`+'\n'+r`\numberwithin{equation}{section}`)+'\n';
+  s+='\n% --- Reference names ---\n';
+  s+=['thm','lem','prop','cor','defi','rem','ex'].map(cn).join('\n')+'\n';
+  if(hw)s+=cd('prob',T2(l,'bài','problem'),T2(l,'bài','problems'))+'\n';
+  if(vi(l))s+=[['section','mục'],['subsection','mục'],['chapter','chương'],['equation','công thức'],['figure','hình'],['table','bảng']].map(a=>cd(a[0],a[1],a[1])).join('\n')+'\n';
+  if(!bm){
+    s+='\n'+T2(l,'% --- Tên đầy đủ: bỏ % ở đầu dòng nếu muốn gõ \\begin{theorem} ---','% --- Long names: remove the leading % to type \\begin{theorem} ---')+'\n';
+    ['thm','lem','prop','cor','defi','rem','ex'].forEach(k=>s+=r`%\newtheorem{${LONG[k]}}[thm]{${n[k]}}\crefalias{${LONG[k]}}{${k}}`+'\n');
+  }else s+='% theorem, lemma, proposition, corollary, definition, example already exist in Beamer.\n';
+  s+='\n'+T2(l,'% --- Môi trường mở rộng (đang tắt) ---','% --- Extended environments (disabled) ---')+'\n';
+  ['claim','conj','axiom','asm','fact','nota'].concat(hw?[]:['prob'],['exer','ques']).forEach(k=>{
+    s+=r`%\newtheorem{${k}}[thm]{${n[k]}}${cn(k)}`+'\n';
+    if(LONG[k]&&LONG[k]!=k)s+=r`%\newtheorem{${LONG[k]}}[thm]{${n[k]}}\crefalias{${LONG[k]}}{${k}}`+'\n';
+  });
+  return s;
+}
+const listcfg=l=>'\n'+T2(l,'% --- Danh sách: (a) mặc định, (i) trong định lý ---','% --- Lists: (a) by default, (i) inside theorems ---')+'\n'+r`\setlist[enumerate,1]{label=(\alph*)}
+\setlist[enumerate,2]{label=(\roman*)}
+\newcommand{\romanlists}[1]{\AtBeginEnvironment{#1}{\setlist[enumerate,1]{label=(\roman*)}\setlist[enumerate,2]{label=(\alph*)}}}
+\forcsvlist{\romanlists}{thm,lem,prop,cor,defi,rem}
+`;
+const vi=l=>l=='vi';
+
+function body(t,l){
+  const A=(a,b)=>T2(l,a,b);
+  const bib=r`%% refs.bib ${A('BẮT BUỘC có trong cùng thư mục. Trích dẫn bằng \\cite{key}.','is REQUIRED in the same folder. Cite with \\cite{key}.')}
+\bibliographystyle{ieeetr}
+\bibliography{refs}`;
+  const head=r`\title{${A('Tiêu đề','Title')}}
+\author{${A('Tác giả','Author')}}
+\date{\today}
+`;
+  if(t=='art')return '\n'+head+r`
+\begin{document}
+\maketitle
+
+${bib}
+\end{document}
+`;
+  if(t=='book')return '\n'+head+r`
+\begin{document}
+\maketitle
+\tableofcontents
+
+\chapter{}
+
+${bib}
+\end{document}
+`;
+  if(t=='bm')return '\n'+head+r`\institute{${A('Đơn vị','Institution')}}
+
+\begin{document}
+\begin{frame}\titlepage\end{frame}
+
+\begin{frame}[allowframebreaks]{${A('Tài liệu tham khảo','References')}}
+  ${bib.replace(/\n/g,'\n  ')}
+\end{frame}
+\end{document}
+`;
+  return r`
+% ${A('Thông tin sinh viên','Student info')}
+\newcommand{\StudentName}{${A('Họ và tên','Full name')}}
+\newcommand{\StudentID}{${A('MSSV','Student ID')}}
+\newcommand{\Course}{${A('Tên môn học','Course name')}}
+\newcommand{\Week}{1}
+
+\title{\Course\\ \large ${A('Bài tập tuần','Homework, week')} \Week}
+\author{\StudentName\ (\StudentID)}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{prob}
+\end{prob}
+\begin{sol}
+\end{sol}
+
+${bib}
+\end{document}
+`;
+}
+
+function build(t,l,e){
+  const v=vi(l),x=e=='xe',bm=t=='bm',hw=t=='hw';
+  const cls={art:r`\documentclass[12pt,a4paper]{article}`,book:r`\documentclass[12pt,a4paper]{report}`,hw:r`\documentclass[12pt,a4paper]{article}`,bm:r`\documentclass[aspectratio=169]{beamer}`}[t];
+  const eng=x?'xelatex':'pdflatex',lg=v?'vietnamese':'english';
+  let s='% '+T2(l,'Biên dịch','Compile')+': '+eng+' main → bibtex main → '+eng+' ×2\n% '+T2(l,'BẮT BUỘC tạo refs.bib cùng thư mục với main.tex','REQUIRED: create refs.bib next to main.tex')+'\n'+T2(l,'% QUY TẮC: một đoạn = một dòng; đoạn mới = Enter hai lần (hạn chế). $$ riêng dòng; proof sát phát biểu; các khối cách nhau một dòng trống; có đếm số thì dùng enumerate.','% STYLE: one paragraph = one line; new paragraph = two Enters (sparingly). $$ on its own lines; proof right after its statement; one blank line between blocks; numbered things use enumerate.')+'\n'+cls+'\n\n';
+  s+=x?r`\usepackage{fontspec}`+'\n'+r`\setmainfont{${v?'Times New Roman':'Latin Modern Roman'}}`+'\n'+r`\usepackage[${lg}]{babel}`
+      :r`\usepackage[${v?'T5':'T1'}]{fontenc}`+'\n'+r`\usepackage[utf8]{inputenc}`+'\n'+r`\usepackage[${lg}]{babel}`;
+  s+='\n\n'+r`\usepackage{amsmath,amssymb,mathtools,booktabs,graphicx}`+'\n';
+  if(!bm)s+=r`\usepackage{amsthm,enumitem,etoolbox}`+'\n';
+  if(hw)s+=r`\usepackage{environ}`+'\n';
+  s+=r`%\usepackage{mymath}  % `+T2(l,'tùy chọn: xem tab Macro Pack','optional: see the Macro Pack tab')+'\n';
+  s+=r`\usepackage[numbers]{natbib}`+'\n';
+  if(!bm)s+=r`\usepackage{hyperref}`+'\n';
+  s+=r`\usepackage[capitalize,nameinlink]{cleveref} % `+T2(l,'nạp CUỐI CÙNG','load LAST')+'\n\n';
+  if(bm)s+=r`\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{theorems}[numbered]
+\setbeamertemplate{bibliography item}[text]`+'\n\n';
+  s+=thms(l,t)+(bm?'% Beamer: enumerate[(a)] or [(i)] for lists\n':listcfg(l));
+  if(hw)s+='\n'+r`\newif\ifsolutions\solutionstrue % `+T2(l,'đổi thành \\solutionsfalse để ẩn lời giải','use \\solutionsfalse to hide solutions')+'\n'+r`\NewEnviron{sol}{\ifsolutions\par\noindent\textit{${T2(l,'Lời giải','Solution')}.}\ \BODY\par\fi}`+'\n';
+  return s+body(t,l);
+}
+
+const TYPES=[['art','Article','\\section, labels sec7 / thm_sec3:6'],['book','Book/Report','\\chapter, labels chap1 / prop_C3:6.1'],['bm','Beamer','16:9 slides, overlays'],['hw','Homework','prob / sol with on-off flag']];
+const TPL=[];
+TYPES.forEach(t=>['pdf','xe'].forEach(e=>['vi','en'].forEach(l=>TPL.push({id:t[0]+'-'+e+'-'+l,t:t[0],e,l,title:t[1]+' · '+(e=='xe'?'XeLaTeX':'pdfLaTeX')+' · '+l.toUpperCase(),desc:t[2],code:build(t[0],l,e)}))));
+
+const EX_MAIN="\\documentclass[12pt,a4paper]{article} \n\\input{Setup_DeKiemTra}\n\\begin{document}\n\\input{Header1st}\n\\phan{PHẦN I.}{Thí sinh trả lời từ câu 1 đến câu 12.} \n\t\n\n\\end{document}";
+const EX_SETUP="\\usepackage[utf8]{vietnam}\n\\usepackage{amsmath,amsxtra,amssymb,amsthm} \n\\usepackage{geometry}\n\\usepackage{graphicx}\n\\usepackage{tikz} \n\\usepackage{multicol} \n\\usepackage{enumitem} \n\\usepackage{mathptmx} \n\\usepackage{fancyhdr}\n\\usetikzlibrary{patterns}\n% --- Gói quan trọng nhất cho trắc nghiệm ---\n\\usepackage{tasks} \n\n% Căn lề\n\\geometry{top=1.5cm, bottom=1.5cm, left=1.5cm, right=1.5cm}\n\n% Cấu hình hiển thị A. B. C. D.\n\\settasks{\n\tlabel=\\textbf{\\Alph*.}, \n\tlabel-width=1.5em,\n\titem-indent=2em, \n\tcolumn-sep=1em,\n\tafter-item-skip=0.1em, % Khoảng cách giữa các dòng đáp án (nếu rớt dòng)\n\tafter-skip=-0.5em,     % QUAN TRỌNG: Kéo phần dưới lên một chút\n\tbefore-skip=0.2em      % Khoảng cách từ câu hỏi xuống đáp án\n}\n% --- TẠO BỘ ĐẾM RIÊNG (FIX LỖI MẤT SỐ CÂU) ---\n\\newcounter{socau} % Tạo biến đếm tên là 'socau'\n\n% Lệnh \\cau: Tự động tăng số + In đậm \"Câu X.\"\n\\newcommand{\\cau}[5]{\n\t\\vspace{0.2cm} % Cách câu trên một chút cho thoáng\n\t\\stepcounter{socau} % Tăng số thứ tự lên 1\n\t\\noindent \\textbf{Câu \\thesocau.} #1 % In ra: Câu 1. [Nội dung]\n\t\\begin{tasks}(4) % Mặc định 4 cột\n\t\t\\task #2\n\t\t\\task #3\n\t\t\\task #4\n\t\t\\task #5\n\t\\end{tasks}\n}\n\n% Lệnh \\cauhai: Dành cho đáp án dài (chia 2 cột)\n\\newcommand{\\cauh}[5]{\n\t\\vspace{0.2cm}\n\t\\stepcounter{socau}\n\t\\noindent \\textbf{Câu \\thesocau.} #1\n\t\\begin{tasks}(2) % Chia 2 cột\n\t\t\\task #2\n\t\t\\task #3\n\t\t\\task #4\n\t\t\\task #5\n\t\\end{tasks}\n}\n\\newcommand{\\cauhoibenhinh}[6]{\n\t\\vspace{0.2cm} % Khoảng cách tách biệt với câu trên\n\t\\noindent\n\t\\begin{minipage}[t]{0.7\\linewidth} % Bên trái chứa CHỮ\n\t\t\\vspace{0pt} \n\t\t% Gọi lại logic của lệnh \\cau nhưng viết trực tiếp để tránh lỗi vspace thừa\n\t\t\\stepcounter{socau} \n\t\t\\textbf{Câu \\thesocau.} #1\n\t\t\\begin{tasks}(2) % Tự động chia 2 cột đáp án cho gọn\n\t\t\t\\task #2\n\t\t\t\\task #3\n\t\t\t\\task #4\n\t\t\t\\task #5\n\t\t\\end{tasks}\n\t\\end{minipage}\n\t\\hfill\n\t\\begin{minipage}[t]{0.30\\linewidth} % Bên phải chứa HÌNH\n\t\t\\vspace{0pt}\n\t\t\\centering\n\t\t\\includegraphics[width=\\linewidth, keepaspectratio]{#6}\n\t\\end{minipage}\n\t\\vspace{0.2cm}\n}\n\n\n\\newcommand{\\phan}[2]{\n\t\\vspace{0.3cm}\n\t\\noindent \\textbf{#1} #2\n\t\\vspace{0.2cm}\n}";
+const EX_HEADER="\\pagestyle{fancy}\n\\fancyhf{}\n\\fancyfoot[C]{Trang \\thepage/[số trang] - Mã đề [mã đề]} % Chân trang: số trang và mã đề\n\\renewcommand{\\headrulewidth}{0pt}\n\n% --- HEADER ---\n\\noindent\n\\begin{minipage}[t]{0.45\\textwidth}\n\t\\centering\n\t\\textbf{[CƠ QUAN QUẢN LÝ]}\\\\\n\t\\textbf{[ĐỊA PHƯƠNG]}\\\\\n\t\\textbf{[TÊN TRƯỜNG]}\\\\[-1.7ex] % Kéo dòng kẻ lên sát tên trường\n\t\\rule{3cm}{0.6pt} \\\\\n\t\\vspace{0.1cm} % Chỉnh khoảng cách từ dòng kẻ xuống chữ ĐỀ CHÍNH THỨC\n\t\\textbf{ĐỀ CHÍNH THỨC} \\\\\n\t\\it{(Đề có [số trang] trang)}\n\\end{minipage}\n\\hfill\n\\begin{minipage}[t]{0.55\\textwidth}\n\t\\centering\n\t\\textbf{[TÊN KỲ KIỂM TRA] NĂM HỌC [NĂM HỌC]} \\\\\n\t\\textbf{MÔN: [MÔN HỌC] - Lớp [LỚP]} \\\\\n\t\\textit{(Thời gian làm bài: [số] phút)} \\\\\n\t\\textbf{\\textit{Học sinh làm bài trên giấy kiểm tra}}\n\t\\vspace{0.3cm}\\\\\n\t\\begin{flushright}\n\t\t\\fbox{\\textbf{Mã đề: [mã đề]}} % Khung mã đề\n\t\\end{flushright}\n\\end{minipage}\n\n\\vspace{0.2cm}\n\\hrule\n\\vspace{0.3cm}";
+/* ===== CUSTOM TEMPLATES (multi-file) ===== */
+const bookMain=()=>r`% !TEX program = xelatex
+% !TEX bibProgram = bibtex
+% Files: main.tex, setup.tex, refs.bib (REQUIRED), chapter1.tex, chapter2.tex, ...
+% QUY TẮC: một đoạn = một dòng; đoạn mới = Enter hai lần (hạn chế). $$ riêng dòng; proof sát phát biểu; các khối cách nhau một dòng trống; có đếm số thì dùng enumerate.
+\documentclass[12pt,a4paper,notitlepage,openany]{book}
+\input{setup}
+
+% --- Font tùy chọn (XeLaTeX): bỏ dấu % ở đầu mỗi dòng bên dưới để dùng ---
+%\usepackage{fontspec}
+%\setmainfont{Mali}
+%\usepackage{unicode-math}
+%\setmathfont{Euler Math}
+%\setmathfont[range={cal,bfcal}, Scale=MatchUppercase]{TeX Gyre Pagella Math}
+%\setmathfont[range=up/{latin,Latin}]{Euler Math}
+%\setoperatorfont\symup
+
+\begin{document}
+\thispagestyle{empty}
+
+\begin{center}
+  % Tiêu đề chính: màu chủ đạo, đậm
+  {\Huge \bfseries \color{customRed} \DocTitle \par}
+  {\large \color{customRed} \textit{\DocSubtitle}}
+
+  \vspace{3mm}
+  % Đường kẻ trang trí: pha nhạt 60%
+  {\color{customRed!60}\rule{0.55\textwidth}{0.8pt}\par}
+  \vspace{3mm}
+  % Tác giả, đơn vị: pha thêm đen để chữ trầm hơn
+  {\large \bfseries \color{customRed!75!black} \DocAuthor, \DocInstitution \par}
+  \vspace{1.5mm}
+  % Ngày tháng: màu phụ
+  {\large \color{customGreen} \today \par}
+\end{center}
+\vspace{1.5cm}
+
+\tableofcontents
+
+% Tạo các file chapter1.tex, chapter2.tex, ... rồi bỏ % ở đầu dòng tương ứng
+\input{chapter1}
+%\input{chapter2}
+%\input{chapter3}
+
+% Tài liệu tham khảo (cần file refs.bib cùng thư mục)
+\addcontentsline{toc}{chapter}{Tài liệu tham khảo}
+\nocite{*}
+\bibliography{refs}
+\end{document}
+`;
+const bookSetup=()=>r`% ============================================================
+%  setup.tex — cấu hình cho Book/Report (XeLaTeX, tiếng Việt)
+%  Mục: 0 Thông tin  1 Gói cơ bản  2 Màu  3 Hình/bảng  4 TikZ
+%       5 Listings  6 Tài liệu tham khảo  7 Hyperref
+%       8 Header/Footer  9 Tiêu đề  10 TOC  11 Lệnh riêng
+%       12 cleveref (nạp cuối) + môi trường định lý
+% ============================================================
+
+% ---------- 0. THÔNG TIN TÀI LIỆU (SỬA Ở ĐÂY) ----------
+\newcommand{\DocTitle}{Tiêu đề tài liệu}
+\newcommand{\DocSubtitle}{Phụ đề hoặc khẩu hiệu}
+\newcommand{\DocAuthor}{Tên tác giả}
+\newcommand{\DocInstitution}{Đơn vị}
+
+% ---------- 1. GÓI CƠ BẢN ----------
+\usepackage[vietnamese]{babel}
+\usepackage{amsmath, amsthm, amssymb, amsfonts, amscd, latexsym, mathtools}
+\usepackage{enumerate, enumitem, etoolbox, titlesec, titletoc, float, indentfirst}
+\usepackage[titletoc]{appendix}
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=1.5cm]{geometry} % lề theo quy chuẩn khóa luận
+\usepackage{silence}
+\WarningFilter{hyperref}{Token not allowed in a PDF string}
+
+% ---------- 2. MÀU SẮC ----------
+\usepackage[dvipsnames]{xcolor}
+\definecolor{customRed}{RGB}{178,34,34}     % màu chủ đạo: chương, mục, header
+\definecolor{customGreen}{RGB}{0,102,51}    % trích dẫn, ngày tháng
+\definecolor{customDarkRed}{RGB}{153,0,0}   % liên kết URL
+\colorlet{customOrange}{orange}             % liên kết nội bộ
+
+% ---------- 3. HÌNH ẢNH, BẢNG ----------
+\usepackage{graphicx, wrapfig, multirow, tabularx, fancybox, url}
+\usepackage{caption, subcaption}
+\captionsetup[subfigure]{labelformat=empty}
+\captionsetup[figure]{labelsep=space}
+
+% ---------- 4. TIKZ & SƠ ĐỒ ----------
+\usepackage{tikz, tkz-tab, tikz-cd, tcolorbox}
+\usetikzlibrary{calc, patterns, shadings, angles, intersections, quotes, arrows.meta, decorations.pathreplacing}
+\usepackage[all]{xy}
+
+% quiver (https://q.uiver.app): sơ đồ giao hoán. Tác giả: varkor, AndréC, Andrew Stacey (v1.6.0)
+\usetikzlibrary{decorations.pathmorphing, spath3}
+\tikzset{curve/.style={settings={#1},to path={(\tikztostart)
+          .. controls ($(\tikztostart)!\pv{pos}!(\tikztotarget)!\pv{height}!270:(\tikztotarget)$)
+          and ($(\tikztostart)!1-\pv{pos}!(\tikztotarget)!\pv{height}!270:(\tikztotarget)$)
+          .. (\tikztotarget)\tikztonodes}},
+  settings/.code={\tikzset{quiver/.cd,#1}
+      \def\pv##1{\pgfkeysvalueof{/tikz/quiver/##1}}},
+  quiver/.cd,pos/.initial=0.35,height/.initial=0}
+\tikzset{between/.style n args={2}{/tikz/execute at end to={
+          \tikzset{spath/split at keep middle={current}{#1}{#2}}
+        }}}
+\tikzset{tail reversed/.code={\pgfsetarrowsstart{tikzcd to}}}
+\tikzset{2tail/.code={\pgfsetarrowsstart{Implies[reversed]}}}
+\tikzset{2tail reversed/.code={\pgfsetarrowsstart{Implies}}}
+\tikzset{no body/.style={/tikz/dash pattern=on 0 off 1mm}}
+
+% ---------- 5. LISTINGS (mã nguồn) ----------
+\usepackage{listings}
+\lstset{
+  language=Python,
+  backgroundcolor=\color{gray!10},
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{green!60!black},
+  stringstyle=\color{red},
+  showstringspaces=false,
+  breaklines=true,
+  frame=single
+}
+
+% ---------- 6. TÀI LIỆU THAM KHẢO ----------
+\usepackage[numbers]{natbib}
+\bibliographystyle{ieeetr}
+
+% ---------- 7. HYPERREF ----------
+\usepackage[unicode]{hyperref}
+\hypersetup{
+  unicode    = true,
+  colorlinks = true,
+  linkcolor  = customOrange,
+  citecolor  = customGreen,
+  urlcolor   = customDarkRed,
+  filecolor  = customDarkRed,
+  pdftitle   = {\DocTitle},
+  pdfauthor  = {\DocAuthor}
+}
+
+% ---------- 8. HEADER & FOOTER ----------
+\usepackage{fancyhdr}
+\setlength{\headheight}{16pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LO]{\color{customRed}\bfseries \DocAuthor}        % góc trái, trang lẻ
+\fancyhead[RE]{\color{customRed}\bfseries \DocInstitution}   % góc phải, trang chẵn
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0pt}
+% Trang mở đầu chương: chỉ có số trang
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[C]{\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
+
+% ---------- 9. TIÊU ĐỀ CHƯƠNG / MỤC ----------
+\providecommand{\chaptertitlename}{}
+\renewcommand{\chaptertitlename}{\fontsize{14pt}{14pt}\selectfont{CHƯƠNG}}
+\titleformat{\chapter}[display]
+  {\vspace{-2cm}\normalfont\Large\filcenter\bfseries\color{customRed}}
+  {{\chaptertitlename\,}\thechapter}{0pc}{\color{customRed}\MakeUppercase}
+  [\vspace{2mm}{\color{customRed}\titlerule[1pt]}\vspace{4mm}]
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{customRed}}{\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{customRed!75!black}}{\thesubsection}{1em}{}
+
+% ---------- 10. MỤC LỤC KHÔNG TIÊU ĐỀ ----------
+\makeatletter
+\renewcommand{\tableofcontents}{\@starttoc{toc}}
+\makeatother
+
+% ---------- 11. LỆNH RIÊNG ----------
+\newcommand{\suyra}{\Rightarrow}
+\newcommand{\td}{\Leftrightarrow}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\im}{im}
+% \usepackage{mymath}   % hoặc gom các lệnh trên vào mymath.sty (xem tab Macro Pack)
+
+% ---------- 12. CLEVEREF (nạp CUỐI CÙNG) + MÔI TRƯỜNG ----------
+\usepackage[capitalize,nameinlink]{cleveref}
+
+${thms('vi','book').replace(/(Đ|đ)ịnh lý/g,'$1ịnh lí')}
+% --- Môi trường riêng ---
+\theoremstyle{plain}
+\newtheorem{pty}[thm]{Tính chất}
+\crefname{pty}{Tính chất}{Tính chất}\Crefname{pty}{Tính chất}{Tính chất}
+${listcfg('vi')}\romanlists{pty}
+`;
+const EXAM_GUIDE=[
+'Put the three files in one folder: <code>Template_De_Kiem_Tra.tex</code> (main file), <code>Setup_DeKiemTra.tex</code> (packages and question commands) and <code>Header1st.tex</code> (exam header and footer).',
+'Compile <code>Template_De_Kiem_Tra.tex</code> with <b>pdfLaTeX</b>. It uses <code>vietnam</code> and <code>mathptmx</code>; no bibliography is needed.',
+'Edit <code>Header1st.tex</code>: replace every placeholder in square brackets (<code>[CƠ QUAN QUẢN LÝ]</code>, <code>[ĐỊA PHƯƠNG]</code>, <code>[TÊN TRƯỜNG]</code>, exam name, school year, subject, class, duration). The exam code <code>[mã đề]</code> appears in <b>both</b> the footer and the box, and <code>[số trang]</code> in the footer and the header line should be the total page count (or load <code>lastpage</code> and write <code>\\pageref{LastPage}</code>).',
+'Part heading: <code>\\phan{PHẦN I.}{instruction}</code>.',
+'Multiple choice with four answers in one row: <code>\\cau{question}{A}{B}{C}{D}</code>. Long answers, two per row: <code>\\cauh{question}{A}{B}{C}{D}</code>. With a figure on the right (30% width): <code>\\cauhoibenhinh{question}{A}{B}{C}{D}{figure.png}</code>.',
+'Every argument must be wrapped in braces, and the figure file must sit in the same folder as the main file.',
+'Question numbers come from the counter <code>socau</code> and keep running through the file. Use <code>\\setcounter{socau}{0}</code> to restart (for example for a second exam code).',
+'Exam files do not follow the label and cleveref rules of the style guide; those apply to Article, Book/Report, Beamer and Homework.'];
+const EXAM_EX=r`\phan{PHẦN I.}{Thí sinh trả lời từ câu 1 đến câu 12.}
+
+\cau{Tập nghiệm của phương trình $x^2-1=0$ là}
+  {$\{1\}$}{$\{-1\}$}{$\{-1;1\}$}{$\emptyset$}
+
+\cauh{Mệnh đề nào sau đây đúng?}
+  {Đáp án A dài}{Đáp án B dài}{Đáp án C dài}{Đáp án D dài}
+
+\cauhoibenhinh{Cho đồ thị như hình vẽ. Hàm số nào đúng?}
+  {$y=x^2$}{$y=x^3$}{$y=\sqrt{x}$}{$y=\lvert x\rvert$}{hinh1.png}
+`;
+const CUSTOM_BOOK={id:'book-xe-vi',t:'book',e:'xe',l:'vi',title:'Book/Report · XeLaTeX · VI',desc:'Your layout: coloured headings, fancyhdr, TikZ/quiver, listings. Files: main.tex + setup.tex. Fonts are commented out.',files:[{n:'main.tex',c:bookMain()},{n:'setup.tex',c:bookSetup()}],guide:['Put <code>main.tex</code>, <code>setup.tex</code>, <code>refs.bib</code> and your <code>chapter1.tex</code>, <code>chapter2.tex</code>… in one folder; compile <code>main.tex</code> with XeLaTeX.','Edit the four <code>\\Doc…</code> macros at the top of <code>setup.tex</code> (title, subtitle, author, institution). Change the three colours <code>customRed</code>, <code>customGreen</code>, <code>customDarkRed</code> to re-theme everything.','To use a custom font, remove the <code>%</code> from the font block in <code>main.tex</code> (needs the Mali and Euler Math fonts installed).','Theorem environments follow the style guide: <code>thm lem prop cor defi rem ex</code> plus <code>pty</code> (Tính chất). Print numbers are chapter.section.n, labels look like <code>prop_C3:6.1</code>.']};
+const CUSTOM_EXAM={id:'exam-pdf-vi',t:'exam',e:'pdf',l:'vi',title:'Exam (Đề kiểm tra) · pdfLaTeX · VI',desc:'Multiple-choice exam with \\cau, \\cauh, \\cauhoibenhinh. 3 files: main + setup + header.',nobib:true,files:[{n:'Template_De_Kiem_Tra.tex',c:EX_MAIN},{n:'Setup_DeKiemTra.tex',c:EX_SETUP},{n:'Header1st.tex',c:EX_HEADER}],guide:EXAM_GUIDE,example:EXAM_EX};
+TPL.splice(TPL.findIndex(x=>x.id=='book-xe-vi'),1,CUSTOM_BOOK);
+TPL.push(CUSTOM_EXAM);
+TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map(f=>f.c).join('\n')});
+
+/* ===== UI ===== */
+const S={tab:'rules',mode:'any',lvl:'all',q:'',tt:'all',te:'all',tl:'all',sel:null};
+let store=[];
+const cp=(t,l)=>'<button class="btn" data-copy="'+(store.push(t)-1)+'">'+(l||'Copy')+'</button>';
+const dl=(n,t)=>'<button class="btn" data-dl="'+(store.push(t)-1)+'" data-name="'+n+'">Download '+n+'</button>';
+const flt=(k,label,opts)=>'<label class="text-sm">'+label+' <select data-k="'+k+'">'+opts.map(o=>'<option value="'+o[0]+'"'+(S[k]==o[0]?' selected':'')+'>'+o[1]+'</option>').join('')+'</select></label>';
+const hit=a=>!S.q||a.join(' ').toLowerCase().includes(S.q);
+
+function vRules(){
+  const L=SORTED.filter(x=>(S.mode=='any'||x[2]==S.mode||x[2]=='all')&&(S.lvl=='all'||x[1]==S.lvl)&&hit(x));
+  const gs=[...new Set(L.map(x=>x[0].split('-')[0]))];
+  let h='<div class="flex flex-wrap gap-3 mb-4 items-center">'+flt('mode','Mode',[['any','All'],['art','Article'],['book','Book/Report'],['all','Common']])+flt('lvl','Level',[['all','All'],['R','🔴 Required'],['Y','🟡 Recommended'],['G','🟢 Optional']])+'<span class="text-sm" style="color:var(--mut)">'+L.length+' rules</span></div>';
+  h+='<div class="grid lg:grid-cols-[200px_1fr] gap-6"><aside class="flex flex-wrap gap-1 lg:block lg:sticky lg:top-16 lg:self-start">'+gs.map(g=>'<a class="side" href="#g-'+g+'">'+GR[g]+'</a>').join('')+'</aside><div>';
+  let cur='';
+  L.forEach(x=>{
+    const g=x[0].split('-')[0];
+    if(g!=cur){cur=g;h+='<h2 id="g-'+g+'" class="text-2xl mt-6 mb-3" style="scroll-margin-top:70px">'+GR[g]+'</h2>';}
+    h+='<article id="'+x[0]+'" class="card mb-4" style="scroll-margin-top:70px"><div class="flex flex-wrap items-center gap-2"><code class="font-bold" style="color:var(--ac)">'+x[0]+'</code><span class="tag">'+LV[x[1]][1]+' '+LV[x[1]][0]+'</span><span class="tag">'+MD[x[2]]+'</span><h3 class="font-semibold text-lg">'+esc(x[3])+'</h3></div>'
+    +'<p class="my-2 text-sm" style="color:var(--mut)">'+esc(x[4])+'</p><div class="grid md:grid-cols-2 gap-3"><div><b class="text-xs">✗ Don\'t</b><pre class="bad">'+esc(x[5])+'</pre></div><div><b class="text-xs">✓ Do</b><pre class="good">'+esc(x[6])+'</pre></div></div>'
+    +(x[7]?'<div class="my-2 text-lg" data-tex="'+esc(x[7])+'"></div>':'')+'<div class="flex gap-2 mt-2">'+cp(x[6])+'<button class="btn" data-link="'+x[0]+'">Link</button></div></article>';
+  });
+  return h+(L.length?'':'<p>No rule matches.</p>')+'</div></div>';
+}
+function vMacros(){
+  const L=MACROS.filter(m=>hit(m));
+  let h='<div class="flex flex-wrap gap-2 mb-4">'+cp(STY)+' '+dl('mymath.sty',STY)+'<span class="text-sm self-center" style="color:var(--mut)">Copy all groups as a complete mymath.sty</span></div>';
+  L.forEach(m=>h+='<div class="card mb-4"><h3 class="text-lg font-semibold mb-2">'+m[0]+'</h3><pre>'+esc(m[1])+'</pre>'+m[2].map(p=>'<div class="my-2 text-lg" data-tex="'+esc(p)+'"></div>').join('')+cp(m[1])+'</div>');
+  return h;
+}
+function vTpl(){
+  const L=TPL.filter(x=>(S.tt=='all'||x.t==S.tt)&&(S.te=='all'||x.e==S.te)&&(S.tl=='all'||x.l==S.tl)&&hit([x.title,x.desc,x.code]));
+  let h='<div class="flex flex-wrap gap-3 mb-4 items-center">'+flt('tt','Type',[['all','All']].concat(TYPES.map(t=>[t[0],t[1]]),[['exam','Exam (Đề kiểm tra)']]))+flt('te','Engine',[['all','All'],['pdf','pdfLaTeX'],['xe','XeLaTeX']])+flt('tl','Language',[['all','All'],['vi','Vietnamese'],['en','English']])+'<span class="text-sm" style="color:var(--mut)">'+L.length+' templates</span></div>';
+  const sel=TPL.find(x=>x.id==S.sel);
+  if(sel){
+    const en=sel.e=='xe'?'xelatex':'pdflatex';
+    h+='<div class="card mb-4"><h3 class="text-xl mb-1">'+sel.title+'</h3><p class="text-sm mb-2" style="color:var(--mut)">'+esc(sel.desc)+'</p>';
+    if(!sel.nobib)h+='<div class="p-2 mb-2 text-sm" style="border:1px solid var(--ac);border-radius:6px"><b>Create refs.bib.</b> Every template uses natbib + ieeetr, so put a <code>refs.bib</code> file in the same folder, cite with <code>\\cite{key}</code>, and run bibtex ('+en+' → bibtex → '+en+' ×2).</div><div class="flex flex-wrap gap-2 mb-3">'+cp(BIB,'Copy sample refs.bib')+dl('refs.bib',BIB)+'</div>';
+    if(sel.guide)h+='<h4 class="font-semibold mb-1">How to use</h4><ol class="list-decimal pl-5 text-sm mb-3 space-y-1">'+sel.guide.map(g=>'<li>'+g+'</li>').join('')+'</ol>';
+    if(sel.example)h+='<h4 class="font-semibold mb-1">Example questions</h4><div class="flex gap-2 mb-1">'+cp(sel.example,'Copy example')+'</div><pre class="mb-3">'+esc(sel.example)+'</pre>';
+    sel.files.forEach(f=>{h+='<div class="flex flex-wrap items-center gap-2 mt-3 mb-1"><code class="font-bold" style="color:var(--ac)">'+f.n+'</code>'+cp(f.c,'Copy')+dl(f.n,f.c)+'</div><pre style="max-height:420px">'+esc(f.c)+'</pre>'});
+    h+='</div>';
+  }
+  h+='<div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">'+L.map(x=>'<button class="card text-left '+(x.id==S.sel?'ring-2':'')+'" data-sel="'+x.id+'" style="'+(x.id==S.sel?'border-color:var(--ac)':'')+'"><b>'+x.title+'</b><div class="text-xs mt-1" style="color:var(--mut)">'+esc(x.desc)+'</div>'+(x.files.length>1?'<div class="text-xs mt-1">'+x.files.length+' files</div>':'')+'</button>').join('')+'</div>';
+  return h;
+}
+function render(){
+  store=[];
+  $('#tabs').innerHTML=[['rules','Rules','fa-scale-balanced'],['macros','Macro Pack','fa-code'],['tpl','Templates','fa-file-lines'],['check','Pitfalls & Checklist','fa-list-check'],['ai','AI Prompt','fa-robot']].map(t=>'<button class="btn '+(S.tab==t[0]?'on':'')+'" data-tab="'+t[0]+'">'+t[1]+'</button>').join('');
+  $('#main').innerHTML=({rules:vRules,macros:vMacros,tpl:vTpl,check:vCheck,ai:vAI})[S.tab]();
+  document.querySelectorAll('[data-tex]').forEach(e=>{try{katex.render(e.dataset.tex,e,{throwOnError:false,macros:Object.assign({},KM)})}catch(_){e.textContent=e.dataset.tex}});
+}
+function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',1400)}
+function copy(t){
+  if(navigator.clipboard&&window.isSecureContext)return navigator.clipboard.writeText(t).then(()=>toast('Copied!'),()=>fb(t));
+  fb(t);
+}
+function fb(t){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');toast('Copied!')}catch(_){toast('Copy failed')}a.remove()}
+
+document.addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.tab){S.tab=b.dataset.tab;render()}
+  else if(b.dataset.copy)copy(store[b.dataset.copy]);
+  else if(b.dataset.dl){const u=URL.createObjectURL(new Blob([store[b.dataset.dl]],{type:'text/plain'}));const a=document.createElement('a');a.href=u;a.download=b.dataset.name;a.click();URL.revokeObjectURL(u)}
+  else if(b.dataset.link)copy(location.href.split('#')[0]+'#'+b.dataset.link);
+  else if(b.dataset.sel){S.sel=b.dataset.sel;render();window.scrollTo({top:0,behavior:'smooth'})}
+});
+document.addEventListener('change',e=>{if(e.target.dataset.k){S[e.target.dataset.k]=e.target.value;render()}});
+$('#q').addEventListener('input',e=>{S.q=e.target.value.toLowerCase().trim();render()});
+document.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key=='k'||(e.key=='/'&&!/INPUT|SELECT/.test(document.activeElement.tagName))){e.preventDefault();$('#q').focus()}
+});
+$('#th').addEventListener('click',()=>{const d=document.documentElement.classList.toggle('dark');try{localStorage.setItem('th',d?'d':'l')}catch(_){}});
+(function(){let d=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches;try{const v=localStorage.getItem('th');if(v)d=v=='d'}catch(_){}document.documentElement.classList.toggle('dark',d)})();
+window.addEventListener('load',()=>{render();if(location.hash){const el=document.getElementById(location.hash.slice(1));if(el)el.scrollIntoView()}});
+</script>
+</body>
+</html>
