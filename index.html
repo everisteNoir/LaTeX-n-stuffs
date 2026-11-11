@@ -645,7 +645,7 @@ const $=s=>document.querySelector(s);
 const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const LV={R:['Required','🔴'],Y:['Recommended','🟡'],G:['Optional','🟢']};
 const MD={art:'Article',book:'Book/Report',all:'Common'};
-const GR={LAB:'Labels & References',PRE:'Preamble',TXT:'Text Layout',MATH:'Math Mode',EQ:'Equations',LST:'Lists',SYM:'Symbols & Fonts',DEL:'Delimiters',SPC:'Spacing',FLD:'Field-specific',FRC:'Fractions & Sums',THM:'Theorems & Proofs',MAC:'Macros',VN:'Vietnamese',TAB:'Tables',FIG:'Figures',ALG:'Algorithms'};
+const GR={LAB:'Labels & References',PRE:'Preamble',BIB:'Bibliography',TXT:'Text Layout',MATH:'Math Mode',EQ:'Equations',LST:'Lists',SYM:'Symbols & Fonts',DEL:'Delimiters',SPC:'Spacing',FLD:'Field-specific',FRC:'Fractions & Sums',THM:'Theorems & Proofs',MAC:'Macros',VN:'Vietnamese',TAB:'Tables',FIG:'Figures',ALG:'Algorithms'};
 
 /* ===== RULES: [id, level, mode, title, explanation, don't, do, KaTeX preview] ===== */
 const RULES=[
@@ -660,7 +660,7 @@ const RULES=[
 \label{subsec2.1.1}
 \label{prop_C3:6.1}  % Proposition 3.6.1
 \label{eq_C3:6.2}    % equation (3.6.2)`,''],
-['LAB-03','R','all','Label prefixes','Prefix equals the environment name: thm lem prop cor defi rem ex eq fig tab. Extended: claim conj axiom asm fact nota prob exer ques.',r`\label{theorem_main}
+['LAB-03','R','all','Label prefixes','Prefix equals the environment name. Article: thm lem prop cor def rem ex eq. Other templates: thm lem prop cor defi rem ex eq fig tab. Extended (not in Article): claim conj axiom asm fact nota prob exer ques.',r`\label{theorem_main}
 \label{def_sec3:2}`,r`\label{thm_sec3:6}
 \label{defi_sec3:2}`,''],
 ['LAB-04','R','book','Figures and tables per chapter','In Book/Report, figures and tables are numbered by chapter.',r`\label{fig:plot}`,r`\label{fig_C3:4}
@@ -678,7 +678,8 @@ const RULES=[
 ['PRE-01','R','all','cleveref loads last','Load after hyperref and amsthm.',r`\usepackage{cleveref}
 \usepackage{hyperref}`,r`\usepackage{hyperref}
 \usepackage[capitalize,nameinlink]{cleveref}`,''],
-['PRE-02','R','all','Bibliography','Always natbib with numbers and the ieeetr style.',r`\usepackage{biblatex}`,r`\usepackage[numbers]{natbib}
+['PRE-02','R','all','Bibliography setup','Article, Homework and Beamer: no natbib and no refs.bib; write a thebibliography block inside the file (see BIB-01). Book/Report: natbib with numbers and the ieeetr style.',r`\usepackage{biblatex}   % or natbib in an Article`,r`% Book/Report only
+\usepackage[numbers]{natbib}
 \bibliographystyle{ieeetr}
 \bibliography{refs}`,''],
 ['PRE-03','R','all','Load order','Engine/fonts, then math, then hyperref, then cleveref.',r`\usepackage{cleveref}
@@ -720,7 +721,7 @@ $$`,''],
 ['DEL-04','Y','all','\\mid and \\colon','\\mid in sets, \\colon in maps.',r`\{x | x>0\}, f: A\to B`,r`\{x \mid x>0\},\ f\colon A\to B`,r`\{x \mid x>0\},\ f\colon A\to B`],
 ['SPC-03','R','all','Dots','Use \\dots, \\cdots, \\vdots, \\ddots.',r`1,2,...,n`,r`1,2,\dots,n`,r`1,2,\dots,n,\quad 1+\cdots+n`],
 ['FRC-01','Y','all','Fraction size','\\tfrac inline, \\dfrac in text-size contexts, \\frac in display.',r`$\frac{1}{2}$ in a sentence`,r`$\tfrac12$ in a sentence`,r`\tfrac12,\ \dfrac{1}{2}`],
-['THM-01','R','all','Short environment names','Use thm lem prop cor defi rem ex. Never name an environment def, not or note.',r`\newtheorem{def}{Definition}`,r`\newtheorem{defi}[thm]{Definition}`,''],
+['THM-01','R','book','Short environment names','Book/Report, Homework and Beamer: use thm lem prop cor defi rem ex. Never name an environment def, not or note. (Article uses full names, see THM-12.)',r`\newtheorem{def}{Definition}`,r`\newtheorem{defi}[thm]{Definition}`,''],
 ['THM-03','R','all','Theorem styles and counter','plain / definition / remark styles; one shared counter numbered within section.',r`\newtheorem{lem}{Lemma}`,r`\theoremstyle{plain}
 \newtheorem{thm}{Theorem}
 \newtheorem{lem}[thm]{Lemma}
@@ -764,13 +765,21 @@ $$`,''],
   Hello%
 }`,''],
 ['PRE-07','G','all','Collect macros in mymath.sty','Keep the preamble short; share one macro file across documents.',r`\newcommand{\R}{\mathbb{R}}  % 60 more lines in main.tex`,r`\usepackage{mymath}`,''],
-['PRE-08','R','all','refs.bib must exist','natbib + \\bibliography{refs} needs refs.bib next to main.tex. Run bibtex between LaTeX runs.',r`\bibliography{refs}   % but no refs.bib file`,r`% refs.bib
+['PRE-08','R','book','refs.bib for Book/Report','Book/Report: natbib + \\bibliography{refs} needs refs.bib next to main.tex; run bibtex between LaTeX runs. Article, Homework and Beamer do not use refs.bib.',r`\bibliography{refs}   % but no refs.bib file`,r`% refs.bib
 @article{smith2020,
   author  = {Smith, John},
   title   = {An Example},
   journal = {Journal of Examples},
   year    = {2020}
 }`,''],
+['BIB-01','R','art','Bibliography inside the file','Article, Homework and Beamer: no refs.bib, no natbib. Put a thebibliography block at the end of the file, before \\end{document}, and cite with \\cite. Compile twice; no bibtex.',r`\bibliographystyle{ieeetr}
+\bibliography{refs}   % needs refs.bib`,r`\begin{thebibliography}{99}
+  \bibitem{smith2020}
+    J. Smith and A. Nguyen, \textquotedblleft An example article,\textquotedblright\ \emph{Journal of Examples}, vol.~1, no.~2, pp.~1--10, 2020.
+\end{thebibliography}`,''],
+['BIB-02','Y','art','Citation keys','Keys are author plus year, lower case.',r`\bibitem{ref1}  ...  \cite{ref1}`,r`\bibitem{smith2020}  ...  \cite{smith2020}`,''],
+['BIB-03','Y','art','IEEE style items','One \\bibitem per source, written in IEEE style: initials first, title in quotes, journal in italics, volume, number, pages, year.',r`\bibitem{a} Smith, J. (2020). An example. Journal of Examples, 1(2).`,r`\bibitem{smith2020}
+  J. Smith, \textquotedblleft An example,\textquotedblright\ \emph{Journal of Examples}, vol.~1, no.~2, pp.~1--10, 2020.`,''],
 ['MATH-05','Y','all','gather, split, cases','Use cases for piecewise definitions, gather for centred lines, split for one equation across lines.',r`\begin{array}{ll} x & x\ge0 \\ -x & x<0 \end{array}`,r`\begin{cases}
   x  & x\ge 0 \\
   -x & x<0
@@ -806,10 +815,18 @@ where $b>0$.`,r`a=b,`],
 ['FRC-03','Y','all','\\substack','Several conditions under one sum.',r`\sum_{i<j, j<n}`,r`\sum_{\substack{i<j\\ j<n}}`,r`\sum_{\substack{0<i<m\\ 0<j<n}}P(i,j)`],
 ['FRC-04','Y','all','No deeply nested fractions','Rewrite with powers or a slash.',r`\frac{1}{1+\frac{1}{1+x}}`,r`1/\bigl(1+(1+x)^{-1}\bigr)`,r`1/\bigl(1+(1+x)^{-1}\bigr)`],
 ['FRC-05','G','all','\\nicefrac','Compact fractions in running text (package nicefrac).',r`1/2 of the data`,r`\nicefrac{1}{2} of the data`,''],
-['THM-02','R','all','Name equals label prefix','The label prefix is the environment name (defi, not def).',r`\begin{defi}\label{def_sec3:2}`,r`\begin{defi}\label{defi_sec3:2}`,''],
-['THM-04','R','all','Shared counter','All theorem-like environments count together.',r`\newtheorem{lem}{Lemma}`,r`\newtheorem{lem}[thm]{Lemma}`,''],
-['THM-06','R','all','Localise \\crefname (Vietnamese)','Every environment gets \\crefname and \\Crefname with a capitalised name, so \\cref prints Example 3.6, not example 3.6.',r`% \cref prints "Theorem" in a Vietnamese text`,r`\crefname{thm}{Định lý}{Định lý}\Crefname{thm}{Định lý}{Định lý}  % capitalised, so \cref prints Định lý 3.6`,''],
-['THM-07','Y','all','Long names stay commented','Enable them only when needed.',r`\newtheorem{theorem}[thm]{Theorem}  % always on`,r`%\newtheorem{theorem}[thm]{Theorem}\crefalias{theorem}{thm}`,''],
+['THM-02','R','book','Name equals label prefix','Book/Report, Homework and Beamer: the label prefix is the environment name (defi, not def).',r`\begin{defi}\label{def_sec3:2}`,r`\begin{defi}\label{defi_sec3:2}`,''],
+['THM-04','R','book','Shared counter','All theorem-like environments count together (Book/Report, Homework, Beamer). Article does the same with [theorem].',r`\newtheorem{lem}{Lemma}`,r`\newtheorem{lem}[thm]{Lemma}`,''],
+['THM-06','R','all','Localise \\crefname (Vietnamese)','Every environment gets \\crefname and \\Crefname with a capitalised name, so \\cref prints Example 3.6, not example 3.6. English Article needs none: cleveref already knows the full names.',r`% \cref prints "Theorem" in a Vietnamese text`,r`\crefname{thm}{Định lý}{Định lý}\Crefname{thm}{Định lý}{Định lý}  % capitalised, so \cref prints Định lý 3.6`,''],
+['LAB-09','R','all','Renumbering updates labels','When an insertion or deletion changes printed numbers, rename every affected \\label and update every \\cref / \\Cref that points to it.',r`% a lemma was inserted before Proposition 3.6 (now 3.7)
+\label{prop_sec3:6}   % stale`,r`\label{prop_sec3:7}     % renamed
+% and every \cref{prop_sec3:6} changed to \cref{prop_sec3:7}`,''],
+['THM-12','R','art','Article: full environment names only','Article uses only theorem, lemma, proposition, corollary, definition, example, remark and proof. No abbreviations, and no extra environments unless asked. Label prefixes stay short (thm lem prop cor def rem ex).',r`\begin{thm}\label{thm_sec3:6}
+  ...
+\end{thm}`,r`\begin{theorem}\label{thm_sec3:6}
+  ...
+\end{theorem}`,''],
+['THM-07','Y','book','Long names stay commented','Book/Report, Homework and Beamer: enable them only when needed. Article uses full names only.',r`\newtheorem{theorem}[thm]{Theorem}  % always on`,r`%\newtheorem{theorem}[thm]{Theorem}\crefalias{theorem}{thm}`,''],
 ['THM-08','Y','all','Self-contained statements','State all hypotheses inside the environment.',r`Then the claim holds.`,r`Let $f\colon[0,1]\to\mathbb{R}$ be continuous. Then $f$ is bounded.`,''],
 ['THM-10','Y','all','prob in Homework','Homework: own counter, theorems numbered per problem. Elsewhere prob shares the theorem counter and is commented.',r`\newtheorem{prob}[thm]{Problem}  % in homework`,r`\newtheorem{prob}{Problem}
 \newtheorem{thm}{Theorem}[prob]`,''],
@@ -887,21 +904,22 @@ trong đó $b>0$.`,''],
 ];
 const SORTED=[...RULES].sort((a,b)=>Object.keys(GR).indexOf(a[0].split('-')[0])-Object.keys(GR).indexOf(b[0].split('-')[0]));
 const DD=[[r`\(x\)`,r`$x$`],[r`\[ x \]`,r`$$ x $$`],[r`sin x`,r`\sin x`],[r`\int f(x)dx`,r`\int f(x)\,\mathrm{d}x`],[r`|x|`,r`\lvert x\rvert`],[r`<x,y>`,r`\langle x,y\rangle`],[r`\{x | x>0\}`,r`\{x \mid x>0\}`],[r`f: A\to B`,r`f\colon A\to B`],[r`1,2,...,n`,r`1,2,\dots,n`],[r`a*b, 3 x 4`,r`a\cdot b, 3\times 4`],[r`\def\R{\mathbb R}`,r`\newcommand{\R}{\mathbb{R}}`],[r`\begin{eqnarray}`,r`\begin{align*}`],[r`\begin{equation} (no label)`,r`\begin{equation*}`],[r`Theorem~\ref{thm_sec3:6}`,r`\cref{thm_sec3:6}`],[r`\hline`,r`\toprule \midrule \bottomrule`],[r`cleveref loaded before hyperref`,r`cleveref loaded last`],[r`\begin{def}`,r`\begin{defi}`],[r`\label{sec:intro}`,r`\label{sec1}`],[r`$x if y$`,r`$x \text{ if } y$`],[r`(\frac{a}{b})`,r`\left(\frac{a}{b}\right)`]];
-const CK=['The document compiles without errors; Overfull/Underfull warnings were checked.','refs.bib exists next to main.tex, bibtex was run, no "undefined citation" warnings.','Every \\label is cited, and every cited label exists.','Labels follow the convention for the document type (Article or Book/Report).','Only $...$ and $$...$$ are used; no \\( \\) or \\[ \\].','Unlabelled equations use equation*, align* or $$.','Operators, the differential d, and constants e, i are upright.','cleveref is loaded last and \\cref / \\Cref are used for every reference.','Theorem environments use the short names and one shared counter.','Vietnamese documents: the engine matches the preamble and the names are localised.','Paragraphs are single lines (new paragraph = two Enters, used sparingly); $$ sits on its own lines; proof is right under its statement.','Anything numbered uses enumerate: (a) by default, (i) inside theorems.'];
-const CONV=r`- Packages: \usepackage[numbers]{natbib}, \bibliographystyle{ieeetr}, \usepackage[capitalize,nameinlink]{cleveref} loaded LAST. A refs.bib file must exist next to main.tex.
+const CK=['The document compiles without errors; Overfull/Underfull warnings were checked.','Article, Homework, Beamer: the thebibliography block is at the end of the file and the document was compiled twice. Book/Report: refs.bib sits next to main.tex and bibtex was run. No "undefined citation" warnings.','Every \\label is cited, and every cited label exists.','Labels follow the convention for the document type (Article or Book/Report).','Only $...$ and $$...$$ are used; no \\( \\) or \\[ \\].','Unlabelled equations use equation*, align* or $$.','Operators, the differential d, and constants e, i are upright.','cleveref is loaded last and \\cref / \\Cref are used for every reference.','Theorem environments use the short names and one shared counter.','Vietnamese documents: the engine matches the preamble and the names are localised.','Paragraphs are single lines (new paragraph = two Enters, used sparingly); $$ sits on its own lines; proof is right under its statement.','Anything numbered uses enumerate: (a) by default, (i) inside theorems.'];
+const CONV=r`- Packages: \usepackage[capitalize,nameinlink]{cleveref} loaded LAST. Bibliography: Article, Homework and Beamer have no natbib and no refs.bib; write a thebibliography block ({99}) at the end of the file in IEEE style, keys author+year (smith2020), cite with \cite, compile twice. Book/Report uses \usepackage[numbers]{natbib}, \bibliographystyle{ieeetr}, \bibliography{refs} and a refs.bib file next to main.tex (run bibtex).
 - Math: $...$ inline, $$...$$ display. Never \( \) or \[ \].
 - Equations: cited => equation/align with \label. Not cited => equation*/align*/$$ (no label).
-- Theorem environments (one shared counter): thm lem prop cor defi rem ex. Extended (commented out by default): claim conj axiom asm fact nota prob exer ques. Long names (theorem, lemma, definition...) stay commented. Never name an environment def, not or note. Use the proof environment for proofs.
-- Label prefixes: thm lem prop cor defi rem ex eq fig tab claim conj axiom asm fact nota prob exer ques.
-- Article labels: sec7, subsec7.2, <env>_sec<section>:<printed number> (prop_sec3:6), eq_sec3:2.
-- Book/Report labels: chap1, sec2.1, subsec2.1.1, <env>_C<chapter>:<rest of printed number> (prop_C3:6.1), eq_C3:6.2, fig_C3:4, tab_C3:4. Use \numberwithin{thm}{section}.
+- Article: only the full environment names theorem lemma proposition corollary definition example remark proof (shared counter); no abbreviations and no extra environments unless asked. Label prefixes: thm lem prop cor def rem ex eq.
+- Book/Report, Homework, Beamer: short names with one shared counter: thm lem prop cor defi rem ex; extended (commented out by default): claim conj axiom asm fact nota prob exer ques; long names stay commented. Never name an environment def, not or note. Label prefixes: thm lem prop cor defi rem ex eq fig tab (+ the extended names).
+- Article labels: sec7, subsec7.2, <prefix>_sec<section>:<printed number> (prop_sec3:6), eq_sec3:2.
+- Book/Report labels: chap1, sec2.1, subsec2.1.1, <prefix>_C<chapter>:<rest of printed number> (prop_C3:6.1), eq_C3:6.2, fig_C3:4, tab_C3:4. Use \numberwithin{thm}{section}.
 - Homework: own counter for prob; theorems numbered within prob. Labels prob_hw:3, lem_prob2:1, eq_prob2:3. Solutions in the sol environment, toggled by \solutionstrue / \solutionsfalse.
-- Vietnamese: pdfLaTeX = [T5]{fontenc} + [utf8]{inputenc} + babel[vietnamese]; XeLaTeX = fontspec + babel[vietnamese]. Localise every \crefname (Vietnamese templates).
+- If an insertion or deletion changes printed numbers, rename every affected \label and update every \cref / \Cref that points to it.
+- Vietnamese: pdfLaTeX = [T5]{fontenc} + [utf8]{inputenc} + babel[vietnamese]; XeLaTeX = fontspec + babel[vietnamese]. Localise every \crefname and \Crefname with capitalised names (Vietnamese templates).
 - Tables use booktabs; caption above tables, below figures.
 - Text layout: one paragraph = one line; a new paragraph = two Enters, used sparingly; never break lines mid-sentence or around inline math.
 - Display math: $$ opens and closes on their own lines, formula indented two spaces, no blank line around or inside. Same for equation(*) and align(*): \begin and \end on their own lines.
 - Theorems: proof directly under its statement (no blank line); one blank line between all other blocks.
-- Lists: anything numbered uses enumerate (never typed by hand); bullets use itemize. Labels (a),(b) by default, (i),(ii) inside thm lem prop cor defi rem; nested: outer (a), inner (i). Load enumitem and etoolbox.`;
+- Lists: anything numbered uses enumerate (never typed by hand); bullets use itemize. Labels (a),(b) by default, (i),(ii) inside theorem-like environments; nested: outer (a), inner (i). Load enumitem and etoolbox.`;
 const BIB=`@article{smith2020,
   author  = {Smith, John and Nguyen, An},
   title   = {An Example Article},
@@ -926,6 +944,32 @@ function guide(){
   s+='\n## Common mistakes\n'+DD.map(d=>'- DONT '+d[0]+'  =>  DO '+d[1]).join('\n')+'\n\n## Final checklist\n'+CK.map(c=>'- [ ] '+c).join('\n')+'\n';
   return s;
 }
+const G_BODY=r`1. Inline math: $...$. Display math: $$ on its own lines, formula indented 2 spaces, no blank line around or inside. Never \( \) or \[ \].
+2. Number only equations that are cited: \begin{equation}\label{...} or align. Uncited equations use $$ (or equation*/align*) with no label. \begin and \end each on their own line.
+3. Text: one paragraph on one line. A new paragraph is one blank line, used sparingly.
+4. Never break a line mid-sentence or around inline math.
+5. Anything numbered uses enumerate (labels (a), or (i) inside theorem-like environments, set automatically). Bullets use itemize.
+6. Reference with \cref / \Cref, never "Theorem~\ref". Put \label only on things that are cited.
+7. If an insertion or deletion changes printed numbers, rename every affected \label and update every \cref / \Cref that points to it.
+8. Notation: \sin and \operatorname{rank}; \,\mathrm{d}x; \lvert x\rvert, \lVert v\rVert; \langle x,y\rangle; \dots; \text{...} for words in formulas; \mid in sets, \colon in maps; \left\right for stretchy brackets.
+9. Macros with \newcommand, never \def; never redefine an existing command.`;
+const G_ART=r`10. Environments: only the full names theorem, lemma, proposition, corollary, definition, example, remark, proof. No abbreviations; add no other environments unless asked.
+11. proof sits directly under its statement (no blank line). Every other block is separated by exactly one blank line.
+12. Labels: \label{sec3}, \label{subsec3.2}. Environments and equations: <prefix>_sec<section>:<printed number> with prefixes thm lem prop cor def rem ex eq. Proposition 3.6 -> prop_sec3:6; equation (3.2) -> eq_sec3:2.
+13. Bibliography: thebibliography{99} at the end, before \end{document}, IEEE style, keys like smith2020, cite with \cite only (no \citep, \citet, natbib or refs.bib).
+14. Use \section and \subsection only; no \chapter.`;
+const G_BOOK=r`10. Environments (short names, one shared counter): thm, lem, prop, cor, defi, rem, ex, proof. Add no other environments unless asked.
+11. proof sits directly under its statement (no blank line). Every other block is separated by exactly one blank line.
+12. Labels: \label{chap1}, \label{sec2.1}, \label{subsec2.1.1}. Environments and equations: <prefix>_C<chapter>:<rest of printed number> with prefixes thm lem prop cor defi rem ex eq. Proposition 3.6.1 -> prop_C3:6.1; equation (3.6.2) -> eq_C3:6.2. Figures and tables: fig_C3:4, tab_C3:4.
+13. Bibliography: BibTeX with natbib[numbers] and ieeetr; entries live in refs.bib; cite with \cite.
+14. Use \chapter, \section and \subsection.`;
+const gHead=(t,x)=>r`# LaTeX rules (`+t+r`)
+Use the provided template. Never change its preamble; write only what goes between \begin{document} and \end{document}.
+
+`+G_BODY+(x?'\n\n## '+t+'\n'+x:'')+'\n';
+const guideCommon=()=>gHead('common','');
+const guideArticle=()=>gHead('Article',G_ART);
+const guideBook=()=>gHead('Book/Report',G_BOOK);
 
 /* ===== MACROS ===== */
 const KM={'\\R':r`\mathbb{R}`,'\\N':r`\mathbb{N}`,'\\Z':r`\mathbb{Z}`,'\\Q':r`\mathbb{Q}`,'\\C':r`\mathbb{C}`,
@@ -1012,9 +1056,15 @@ const vi=l=>l=='vi';
 
 function body(t,l){
   const A=(a,b)=>T2(l,a,b);
-  const bib=r`%% refs.bib ${A('BẮT BUỘC có trong cùng thư mục. Trích dẫn bằng \\cite{key}.','is REQUIRED in the same folder. Cite with \\cite{key}.')}
+  const bibBook=r`%% refs.bib ${A('BẮT BUỘC có trong cùng thư mục. Trích dẫn bằng \\cite{key}.','is REQUIRED in the same folder. Cite with \\cite{key}.')}
 \bibliographystyle{ieeetr}
 \bibliography{refs}`;
+  const bibIn=r`%% ${A('Tài liệu tham khảo nằm ngay trong file này, không cần refs.bib. Bỏ % khi có tài liệu. Trích dẫn bằng \\cite{key}.','The bibliography lives in this file; no refs.bib needed. Remove the % when you have sources. Cite with \\cite{key}.')}
+%\begin{thebibliography}{99}
+%  \bibitem{smith2020}
+%    J. Smith and A. Nguyen, \textquotedblleft An example article,\textquotedblright\ \emph{Journal of Examples}, vol.~1, no.~2, pp.~1--10, 2020.
+%\end{thebibliography}`;
+  const bib=t=='book'?bibBook:bibIn;
   const head=r`\title{${A('Tiêu đề','Title')}}
 \author{${A('Tác giả','Author')}}
 \date{\today}
@@ -1071,17 +1121,18 @@ ${bib}
 }
 
 function build(t,l,e){
+  if(t=='art')return buildArticle(l,e);
   const v=vi(l),x=e=='xe',bm=t=='bm',hw=t=='hw';
   const cls={art:r`\documentclass[12pt,a4paper]{article}`,book:r`\documentclass[12pt,a4paper]{report}`,hw:r`\documentclass[12pt,a4paper]{article}`,bm:r`\documentclass[aspectratio=169]{beamer}`}[t];
   const eng=x?'xelatex':'pdflatex',lg=v?'vietnamese':'english';
-  let s='% '+T2(l,'Biên dịch','Compile')+': '+eng+' main → bibtex main → '+eng+' ×2\n% '+T2(l,'BẮT BUỘC tạo refs.bib cùng thư mục với main.tex','REQUIRED: create refs.bib next to main.tex')+'\n'+T2(l,'% QUY TẮC: một đoạn = một dòng; đoạn mới = Enter hai lần (hạn chế). $$ riêng dòng; proof sát phát biểu; các khối cách nhau một dòng trống; có đếm số thì dùng enumerate.','% STYLE: one paragraph = one line; new paragraph = two Enters (sparingly). $$ on its own lines; proof right after its statement; one blank line between blocks; numbered things use enumerate.')+'\n'+cls+'\n\n';
+  let s='% '+T2(l,'Biên dịch','Compile')+': '+(t=='book'?eng+' main → bibtex main → '+eng+' ×2\n% '+T2(l,'BẮT BUỘC tạo refs.bib cùng thư mục với main.tex','REQUIRED: create refs.bib next to main.tex'):eng+' main ×2 '+T2(l,'(không cần bibtex, tài liệu tham khảo nằm trong file)','(no bibtex needed, the bibliography is inside the file)'))+'\n'+T2(l,'% QUY TẮC: một đoạn = một dòng; đoạn mới = Enter hai lần (hạn chế). $$ riêng dòng; proof sát phát biểu; các khối cách nhau một dòng trống; có đếm số thì dùng enumerate.','% STYLE: one paragraph = one line; new paragraph = two Enters (sparingly). $$ on its own lines; proof right after its statement; one blank line between blocks; numbered things use enumerate.')+'\n'+cls+'\n\n';
   s+=x?r`\usepackage{fontspec}`+'\n'+r`\setmainfont{${v?'Times New Roman':'Latin Modern Roman'}}`+'\n'+r`\usepackage[${lg}]{babel}`
       :r`\usepackage[${v?'T5':'T1'}]{fontenc}`+'\n'+r`\usepackage[utf8]{inputenc}`+'\n'+r`\usepackage[${lg}]{babel}`;
   s+='\n\n'+r`\usepackage{amsmath,amssymb,mathtools,booktabs,graphicx}`+'\n';
   if(!bm)s+=r`\usepackage{amsthm,enumitem,etoolbox}`+'\n';
   if(hw)s+=r`\usepackage{environ}`+'\n';
   s+=r`%\usepackage{mymath}  % `+T2(l,'tùy chọn: xem tab Macro Pack','optional: see the Macro Pack tab')+'\n';
-  s+=r`\usepackage[numbers]{natbib}`+'\n';
+  if(t=='book')s+=r`\usepackage[numbers]{natbib}`+'\n';
   if(!bm)s+=r`\usepackage{hyperref}`+'\n';
   s+=r`\usepackage[capitalize,nameinlink]{cleveref} % `+T2(l,'nạp CUỐI CÙNG','load LAST')+'\n\n';
   if(bm)s+=r`\usetheme{default}
@@ -1093,6 +1144,50 @@ function build(t,l,e){
   return s+body(t,l);
 }
 
+function buildArticle(l,e){
+  const v=vi(l),x=e=='xe',lg=v?'vietnamese':'english',n=N[l];
+  const E=[['theorem','thm'],['lemma','lem'],['proposition','prop'],['corollary','cor'],['definition','defi'],['example','ex'],['remark','rem']];
+  const cap=t=>t.charAt(0).toUpperCase()+t.slice(1);
+  const pl=w=>v?w:(w.endsWith('y')?w.slice(0,-1)+'ies':w+'s');
+  const nt=i=>i==0?r`\newtheorem{theorem}{${n.thm}}`:r`\newtheorem{${E[i][0]}}[theorem]{${n[E[i][1]]}}`;
+  let s=r`\documentclass[12pt,a4paper]{article}`+'\n';
+  s+=x?r`\usepackage{fontspec}`+'\n'+r`\setmainfont{${v?'Times New Roman':'Latin Modern Roman'}}`+'\n'+r`\usepackage[${lg}]{babel}`
+      :r`\usepackage[${v?'T5':'T1'}]{fontenc}`+'\n'+r`\usepackage[utf8]{inputenc}`+'\n'+r`\usepackage[${lg}]{babel}`;
+  s+='\n'+r`\usepackage{amsmath,amssymb,amsthm,enumitem,etoolbox}`+'\n'+r`\usepackage{hyperref}`+'\n'+r`\usepackage[capitalize,nameinlink]{cleveref} % last`+'\n\n';
+  s+=r`\theoremstyle{plain}`+'\n'+[0,1,2,3].map(nt).join('\n')+'\n'+r`\theoremstyle{definition}`+'\n'+nt(4)+'\n'+nt(5)+'\n'+r`\theoremstyle{remark}`+'\n'+nt(6)+'\n'+r`\numberwithin{theorem}{section}`+'\n'+r`\numberwithin{equation}{section}`+'\n';
+  if(v){
+    const cd=(k,w,p)=>r`\crefname{${k}}{${cap(w)}}{${cap(p)}}\Crefname{${k}}{${cap(w)}}{${cap(p)}}`;
+    s+=E.map(a=>{const w=n[a[1]].toLowerCase();return cd(a[0],w,pl(w))}).join('\n')+'\n'+[['section','mục'],['subsection','mục'],['equation','công thức'],['figure','hình'],['table','bảng']].map(a=>cd(a[0],a[1],a[1])).join('\n')+'\n';
+  }
+  s+='\n'+r`\setlist[enumerate,1]{label=(\alph*)}
+\setlist[enumerate,2]{label=(\roman*)}
+\newcommand{\romanlists}[1]{\AtBeginEnvironment{#1}{\setlist[enumerate,1]{label=(\roman*)}\setlist[enumerate,2]{label=(\alph*)}}}
+\forcsvlist{\romanlists}{theorem,lemma,proposition,corollary,definition,remark}`+'\n\n';
+  s+=r`\title{${T2(l,'Tiêu đề','Title')}}
+\author{${T2(l,'Tác giả','Author')}}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+%\begin{thebibliography}{99}
+%  \bibitem{smith2020}
+%    J. Smith and A. Nguyen, \textquotedblleft An example article,\textquotedblright\ \emph{Journal of Examples}, vol.~1, no.~2, pp.~1--10, 2020.
+%\end{thebibliography}
+\end{document}
+`;
+  return s;
+}
+function genExtra(l){
+  const n=N[l],K=[['claim','claim','plain'],['conjecture','conj','plain'],['axiom','axiom','plain'],['assumption','asm','plain'],['fact','fact','plain'],['notation','nota','definition'],['problem','prob','definition'],['exercise','exer','definition'],['question','ques','definition']];
+  let s='% Article: extra environments. Paste after the \\newtheorem lines of the template.\n% Label prefixes: claim conj axiom asm fact nota prob exer ques\n';
+  let st='';
+  K.forEach(k=>{if(k[2]!=st){st=k[2];s+=r`\theoremstyle{${st}}`+'\n'}s+=r`\newtheorem{${k[0]}}[theorem]{${n[k[1]]}}`+'\n'});
+  if(l=='vi'){const c=t=>t.charAt(0).toUpperCase()+t.slice(1);K.forEach(k=>{const w=c(n[k[1]].toLowerCase());s+=r`\crefname{${k[0]}}{${w}}{${w}}\Crefname{${k[0]}}{${w}}{${w}}`+'\n'})}
+  return s;
+}
+MACROS.push(['Article extras (English)',genExtra('en'),[]]);
+MACROS.push(['Article extras (Vietnamese)',genExtra('vi'),[]]);
 const TYPES=[['art','Article','\\section, labels sec7 / thm_sec3:6'],['book','Book/Report','\\chapter, labels chap1 / prop_C3:6.1'],['bm','Beamer','16:9 slides, overlays'],['hw','Homework','prob / sol with on-off flag']];
 const TPL=[];
 TYPES.forEach(t=>['pdf','xe'].forEach(e=>['vi','en'].forEach(l=>TPL.push({id:t[0]+'-'+e+'-'+l,t:t[0],e,l,title:t[1]+' · '+(e=='xe'?'XeLaTeX':'pdfLaTeX')+' · '+l.toUpperCase(),desc:t[2],code:build(t[0],l,e)}))));
@@ -1344,7 +1439,7 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
     view: 'rules', group: null, rule: null, macro: null,
     tpl: null, file: null, tsub: 'source', sub: 'pitfalls',
     mode: 'any', level: 'all', tt: 'all', te: 'all', tl: 'all',
-    theme: 'dark', done: new Set(), q: '', rail: null
+    ai: 'common', theme: 'dark', done: new Set(), q: '', rail: null
   };
 
   var store = [];
@@ -1608,7 +1703,7 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
     var t = TPL.filter(function (x) { return x.id === state.tpl; })[0];
     if (!t) return;
     var files = t.files.map(function (f) { return { name: f.n, data: f.c }; });
-    if (!t.nobib) files.push({ name: 'refs.bib', data: BIB });
+    if (t.t === 'book') files.push({ name: 'refs.bib', data: BIB });
     saveBlob(t.id + '.zip', zipBlob(files));
   }
 
@@ -1982,9 +2077,11 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
           '<span>' + esc(f.n) + '</span><span class="n">' + f.c.split('\n').length + '</span></a>';
       }).join('') + '</div>' +
       (cur.desc ? '<div class="tpl-note">' + esc(cur.desc) + '</div>' : '');
-    if (!cur.nobib) {
+    if (cur.t === 'book') {
       h += '<div class="tpl-extra"><span class="meta">A refs.bib file is required next to the main file. Cite with \\cite{key}, then run bibtex.</span>' +
         '<div class="acts">' + cpBtn(BIB, 'Copy sample refs.bib') + dlBtn('refs.bib', BIB, 'refs.bib') + '</div></div>';
+    } else if (!cur.nobib) {
+      h += '<div class="tpl-extra"><span class="meta">The bibliography is inside main.tex: remove the % from the thebibliography block and cite with \\cite{key}. No refs.bib, natbib or bibtex needed. Compile twice.</span></div>';
     } else {
       h += '<div class="tpl-extra"><span class="meta">No bibliography needed. Compile ' + esc(cur.files[0].n) + ' with pdfLaTeX.</span></div>';
     }
@@ -2024,7 +2121,7 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
 
   function viewTemplates() {
     var cur = currentTpl();
-    var zipCount = cur ? cur.files.length + (cur.nobib ? 0 : 1) : 0;
+    var zipCount = cur ? cur.files.length + (cur.t === 'book' ? 1 : 0) : 0;
     return '<div class="page-h"><h1>Templates</h1><span class="count" id="tpl-count">' + count(tplList().length, 'template', 'templates') + '</span></div>' +
       '<div class="filters-bar">' +
         seg('tt', 'Type', TTPL, 'grow') +
@@ -2048,7 +2145,7 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
     var cur = currentTpl();
     if (zip && cur) {
       zip.innerHTML = '<i class="ti ti-folder-down" aria-hidden="true"></i>Download .zip (' +
-        (cur.files.length + (cur.nobib ? 0 : 1)) + ' files)';
+        (cur.files.length + (cur.t === 'book' ? 1 : 0)) + ' files)';
     }
     renderRail();
     persist();
@@ -2083,6 +2180,16 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
   function pickSegment(btn) {
     var key = btn.getAttribute('data-seg'), val = btn.getAttribute('data-v');
     if (!key || state[key] === val) return;
+    if (key === 'ai') {
+      state.ai = val;
+      var segA = btn.closest('.seg');
+      Array.prototype.forEach.call(segA.querySelectorAll('.seg-btn'), function (b) { var on = b === btn; b.setAttribute('aria-checked', String(on)); b.tabIndex = on ? 0 : -1; });
+      positionKnob(segA); revealSeg(segA, btn);
+      var bd = document.getElementById('ai-body'); if (bd) bd.innerHTML = aiBodyHtml();
+      var ct = document.getElementById('ai-count'); if (ct) ct.textContent = count(aiText(val).split('\n').length, 'line', 'lines');
+      persist();
+      return;
+    }
     state[key] = val;
     state.tpl = null;
     state.file = null;
@@ -2125,12 +2232,26 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
   }
 
   /* ---------- ai view ---------- */
-  function viewAI() {
-    var g = guide();
-    return '<div class="page-h"><h1>AI prompt</h1><span class="count">' + count(g.split('\n').length, 'line', 'lines') + '</span></div>' +
-      '<p class="hint">Every rule, convention, common mistake and the final checklist as one Markdown text. Paste it into a system prompt or attach the downloaded file.</p>' +
-      '<div class="acts" style="margin:14px 0">' + cpBtn(g, 'Copy all', 'solid') + dlBtn('latex-rules.md', g, 'Download latex-rules.md') + '</div>' +
+  var AI_OPTS = [['common', 'Common'], ['article', 'Article'], ['book', 'Book/Report'], ['full', 'Full']];
+  var AI_FILE = { common: 'latex-rules-common.md', article: 'latex-rules-article.md', book: 'latex-rules-book.md', full: 'latex-rules.md' };
+  var AI_HINT = {
+    common: 'The short set that applies to every template: 9 lines to paste into a system prompt.',
+    article: 'Common plus the Article rules: full environment names, sec/subsec labels, bibliography inside the file.',
+    book: 'Common plus the Book/Report rules: short environment names, chapter labels, refs.bib.',
+    full: 'Every rule with its Don\'t / Do examples, the conventions, common mistakes and the checklist.'
+  };
+  function aiText(k) { return k === 'article' ? guideArticle() : k === 'book' ? guideBook() : k === 'full' ? guide() : guideCommon(); }
+  function aiBodyHtml() {
+    var k = state.ai || 'common', g = aiText(k);
+    return '<p class="hint">' + AI_HINT[k] + '</p>' +
+      '<div class="acts" style="margin:14px 0">' + cpBtn(g, 'Copy', 'solid') + dlBtn(AI_FILE[k], g, 'Download ' + AI_FILE[k]) + '</div>' +
       '<pre class="src" style="border:1px solid var(--line);border-radius:10px;max-height:min(64vh,620px)">' + esc(g) + '</pre>';
+  }
+  function viewAI() {
+    var k = state.ai || 'common';
+    return '<div class="page-h"><h1>AI prompt</h1><span class="count" id="ai-count">' + count(aiText(k).split('\n').length, 'line', 'lines') + '</span></div>' +
+      '<div class="filters-bar">' + seg('ai', 'Rule set', AI_OPTS, 'grow') + '</div>' +
+      '<div id="ai-body">' + aiBodyHtml() + '</div>';
   }
 
   /* ---------- search ---------- */
