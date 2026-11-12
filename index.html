@@ -415,6 +415,15 @@ select:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .seg-btn:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;border-radius:8px}
 .btn.zip{height:32px;padding:0 14px;border-radius:99px;background:var(--seg-knob);border:1px solid var(--line);
   box-shadow:var(--seg-shadow);margin-left:auto}
+.minsw{display:flex;flex-direction:column;gap:5px}
+.minsw .sw{display:inline-flex;align-items:center;gap:9px;height:32px;padding:0;background:none;border:0;color:var(--ink);font:inherit;font-size:13px;cursor:pointer}
+.minsw .trk{position:relative;width:42px;height:24px;border-radius:99px;background:var(--seg-track,var(--line));border:1px solid var(--line);transition:background .2s}
+.minsw .trk::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:var(--seg-knob,#fff);box-shadow:0 1px 3px rgba(0,0,0,.35);transition:transform .2s}
+.minsw .sw[aria-checked="true"] .trk{background:var(--accent);border-color:var(--accent)}
+.minsw .sw[aria-checked="true"] .trk::after{transform:translateX(18px);background:#fff}
+.minsw.off{opacity:.45}
+.minsw.off .sw{cursor:not-allowed}
+@media (prefers-reduced-motion:reduce){.minsw .trk,.minsw .trk::after{transition:none}}
 .btn.zip:hover{background:var(--tint);border-color:var(--line-2)}
 .btn.zip i{color:var(--accent)}
 .btn.zip:active{transform:scale(.98)}
@@ -670,7 +679,7 @@ const RULES=[
 \end{equation}  % never cited`,r`\begin{equation*}
   a=b
 \end{equation*}`,''],
-['LAB-06','R','all','Use \\cref','Never type the name by hand.',r`Theorem~\ref{thm_sec3:6}`,r`\cref{thm_sec3:6}   % mid-sentence
+['LAB-06','R','all','Use \\cref','Never type the name by hand. Equations follow EQ-06 (\\eqref).',r`Theorem~\ref{thm_sec3:6}`,r`\cref{thm_sec3:6}   % mid-sentence
 \Cref{thm_sec3:6}   % sentence start`,''],
 ['LAB-08','R','all','Homework labels','Problem counter is "prob"; theorems are numbered per problem.',r`\label{lem1}`,r`\label{prob_hw:3}
 \label{lem_prob2:1}
@@ -854,6 +863,12 @@ $$
   a=b,
 $$
 trong đó $b>0$.`,r`a=b,`],
+['EQ-06','R','all','Cite equations with \\eqref','Cite equations with \\eqref, which prints (3.2). Exception: use \\cref / \\Cref when the word "Equation" must appear, for example at the start of a sentence. Two equations: \\eqref{a} and \\eqref{b} (Vietnamese: và). More than two: separate with commas, or use \\cref{a,b,c}.',r`Theo \cref{eq_sec3:2}, ta có ...
+Equation~\ref{eq_sec3:2} cho thấy ...`,r`Theo \eqref{eq_sec3:2}, ta có ...
+Từ \eqref{eq_sec3:1} và \eqref{eq_sec3:2} suy ra ...
+Từ \eqref{eq_sec3:1}, \eqref{eq_sec3:2}, \eqref{eq_sec3:3} suy ra ...
+Từ \cref{eq_sec3:1,eq_sec3:2,eq_sec3:3} suy ra ...
+\Cref{eq_sec3:2} cho thấy ...   % exception: sentence starts with the word`,''],
 ['EQ-05','R','all','Layout of equation and align','\\begin and \\end each on their own line, no blank line before or after the block.',r`Ta có \begin{equation*} a=b \end{equation*}
 
 trong đó $b>0$.`,r`Ta có
@@ -903,11 +918,11 @@ trong đó $b>0$.`,''],
 
 ];
 const SORTED=[...RULES].sort((a,b)=>Object.keys(GR).indexOf(a[0].split('-')[0])-Object.keys(GR).indexOf(b[0].split('-')[0]));
-const DD=[[r`\(x\)`,r`$x$`],[r`\[ x \]`,r`$$ x $$`],[r`sin x`,r`\sin x`],[r`\int f(x)dx`,r`\int f(x)\,\mathrm{d}x`],[r`|x|`,r`\lvert x\rvert`],[r`<x,y>`,r`\langle x,y\rangle`],[r`\{x | x>0\}`,r`\{x \mid x>0\}`],[r`f: A\to B`,r`f\colon A\to B`],[r`1,2,...,n`,r`1,2,\dots,n`],[r`a*b, 3 x 4`,r`a\cdot b, 3\times 4`],[r`\def\R{\mathbb R}`,r`\newcommand{\R}{\mathbb{R}}`],[r`\begin{eqnarray}`,r`\begin{align*}`],[r`\begin{equation} (no label)`,r`\begin{equation*}`],[r`Theorem~\ref{thm_sec3:6}`,r`\cref{thm_sec3:6}`],[r`\hline`,r`\toprule \midrule \bottomrule`],[r`cleveref loaded before hyperref`,r`cleveref loaded last`],[r`\begin{def}`,r`\begin{defi}`],[r`\label{sec:intro}`,r`\label{sec1}`],[r`$x if y$`,r`$x \text{ if } y$`],[r`(\frac{a}{b})`,r`\left(\frac{a}{b}\right)`]];
-const CK=['The document compiles without errors; Overfull/Underfull warnings were checked.','Article, Homework, Beamer: the thebibliography block is at the end of the file and the document was compiled twice. Book/Report: refs.bib sits next to main.tex and bibtex was run. No "undefined citation" warnings.','Every \\label is cited, and every cited label exists.','Labels follow the convention for the document type (Article or Book/Report).','Only $...$ and $$...$$ are used; no \\( \\) or \\[ \\].','Unlabelled equations use equation*, align* or $$.','Operators, the differential d, and constants e, i are upright.','cleveref is loaded last and \\cref / \\Cref are used for every reference.','Theorem environments use the short names and one shared counter.','Vietnamese documents: the engine matches the preamble and the names are localised.','Paragraphs are single lines (new paragraph = two Enters, used sparingly); $$ sits on its own lines; proof is right under its statement.','Anything numbered uses enumerate: (a) by default, (i) inside theorems.'];
+const DD=[[r`\(x\)`,r`$x$`],[r`\[ x \]`,r`$$ x $$`],[r`sin x`,r`\sin x`],[r`\int f(x)dx`,r`\int f(x)\,\mathrm{d}x`],[r`|x|`,r`\lvert x\rvert`],[r`<x,y>`,r`\langle x,y\rangle`],[r`\{x | x>0\}`,r`\{x \mid x>0\}`],[r`f: A\to B`,r`f\colon A\to B`],[r`1,2,...,n`,r`1,2,\dots,n`],[r`a*b, 3 x 4`,r`a\cdot b, 3\times 4`],[r`\def\R{\mathbb R}`,r`\newcommand{\R}{\mathbb{R}}`],[r`\begin{eqnarray}`,r`\begin{align*}`],[r`\begin{equation} (no label)`,r`\begin{equation*}`],[r`Theorem~\ref{thm_sec3:6}`,r`\cref{thm_sec3:6}`],[r`\hline`,r`\toprule \midrule \bottomrule`],[r`cleveref loaded before hyperref`,r`cleveref loaded last`],[r`\begin{def}`,r`\begin{defi}`],[r`\label{sec:intro}`,r`\label{sec1}`],[r`$x if y$`,r`$x \text{ if } y$`],[r`(\frac{a}{b})`,r`\left(\frac{a}{b}\right)`],[r`\cref{eq_sec3:2}`,r`\eqref{eq_sec3:2}`]];
+const CK=['The document compiles without errors; Overfull/Underfull warnings were checked.','Article, Homework, Beamer: the thebibliography block is at the end of the file and the document was compiled twice. Book/Report: refs.bib sits next to main.tex and bibtex was run. No "undefined citation" warnings.','Every \\label is cited, and every cited label exists.','Labels follow the convention for the document type (Article or Book/Report).','Only $...$ and $$...$$ are used; no \\( \\) or \\[ \\].','Unlabelled equations use equation*, align* or $$.','Operators, the differential d, and constants e, i are upright.','cleveref is loaded last; equations are cited with \\eqref, everything else with \\cref / \\Cref.','Theorem environments use the short names and one shared counter.','Vietnamese documents: the engine matches the preamble and the names are localised.','Paragraphs are single lines (new paragraph = two Enters, used sparingly); $$ sits on its own lines; proof is right under its statement.','Anything numbered uses enumerate: (a) by default, (i) inside theorems.'];
 const CONV=r`- Packages: \usepackage[capitalize,nameinlink]{cleveref} loaded LAST. Bibliography: Article, Homework and Beamer have no natbib and no refs.bib; write a thebibliography block ({99}) at the end of the file in IEEE style, keys author+year (smith2020), cite with \cite, compile twice. Book/Report uses \usepackage[numbers]{natbib}, \bibliographystyle{ieeetr}, \bibliography{refs} and a refs.bib file next to main.tex (run bibtex).
 - Math: $...$ inline, $$...$$ display. Never \( \) or \[ \].
-- Equations: cited => equation/align with \label. Not cited => equation*/align*/$$ (no label).
+- Equations: cited => equation/align with \label. Not cited => equation*/align*/$$ (no label). Cite equations with \eqref (two: \eqref{a} and \eqref{b}; more than two: commas, or \cref{a,b,c}); use \cref/\Cref for an equation only when the word "Equation" must appear, e.g. at the start of a sentence.
 - Article: only the full environment names theorem lemma proposition corollary definition example remark proof (shared counter); no abbreviations and no extra environments unless asked. Label prefixes: thm lem prop cor def rem ex eq.
 - Book/Report, Homework, Beamer: short names with one shared counter: thm lem prop cor defi rem ex; extended (commented out by default): claim conj axiom asm fact nota prob exer ques; long names stay commented. Never name an environment def, not or note. Label prefixes: thm lem prop cor defi rem ex eq fig tab (+ the extended names).
 - Article labels: sec7, subsec7.2, <prefix>_sec<section>:<printed number> (prop_sec3:6), eq_sec3:2.
@@ -949,7 +964,7 @@ const G_BODY=r`1. Inline math: $...$. Display math: $$ on its own lines, formula
 3. Text: one paragraph on one line. A new paragraph is one blank line, used sparingly.
 4. Never break a line mid-sentence or around inline math.
 5. Anything numbered uses enumerate (labels (a), or (i) inside theorem-like environments, set automatically). Bullets use itemize.
-6. Reference with \cref / \Cref, never "Theorem~\ref". Put \label only on things that are cited.
+6. Reference equations with \eqref (two: "\eqref{a} and \eqref{b}"; more than two: separated by commas, or \cref{a,b,c}). Use \cref / \Cref for an equation only when the word "Equation" must appear, e.g. at the start of a sentence. Reference everything else with \cref / \Cref, never "Theorem~\ref". Put \label only on things that are cited.
 7. If an insertion or deletion changes printed numbers, rename every affected \label and update every \cref / \Cref that points to it.
 8. Notation: \sin and \operatorname{rank}; \,\mathrm{d}x; \lvert x\rvert, \lVert v\rVert; \langle x,y\rangle; \dots; \text{...} for words in formulas; \mid in sets, \colon in maps; \left\right for stretchy brackets.
 9. Macros with \newcommand, never \def; never redefine an existing command.`;
@@ -1408,6 +1423,87 @@ const EXAM_EX=r`\phan{PHẦN I.}{Thí sinh trả lời từ câu 1 đến câu 1
   {$y=x^2$}{$y=x^3$}{$y=\sqrt{x}$}{$y=\lvert x\rvert$}{hinh1.png}
 `;
 const CUSTOM_BOOK={id:'book-xe-vi',t:'book',e:'xe',l:'vi',title:'Book/Report · XeLaTeX · VI',desc:'Your layout: coloured headings, fancyhdr, TikZ/quiver, listings. Files: main.tex + setup.tex. Fonts are commented out.',files:[{n:'main.tex',c:bookMain()},{n:'setup.tex',c:bookSetup()}],guide:['Put <code>main.tex</code>, <code>setup.tex</code>, <code>refs.bib</code> and your <code>chapter1.tex</code>, <code>chapter2.tex</code>… in one folder; compile <code>main.tex</code> with XeLaTeX.','Edit the four <code>\\Doc…</code> macros at the top of <code>setup.tex</code> (title, subtitle, author, institution). Change the three colours <code>customRed</code>, <code>customGreen</code>, <code>customDarkRed</code> to re-theme everything.','To use a custom font, remove the <code>%</code> from the font block in <code>main.tex</code> (needs the Mali and Euler Math fonts installed).','Theorem environments follow the style guide: <code>thm lem prop cor defi rem ex</code> plus <code>pty</code> (Tính chất). Print numbers are chapter.section.n, labels look like <code>prop_C3:6.1</code>.']};
+const bookMainMin=()=>r`% !TEX program = xelatex
+% !TEX bibProgram = bibtex
+% Files: main.tex, setup.tex, refs.bib (REQUIRED), chapter1.tex, chapter2.tex, ...
+% QUY TẮC: một đoạn = một dòng; đoạn mới = Enter hai lần (hạn chế). $$ riêng dòng; proof sát phát biểu; các khối cách nhau một dòng trống; có đếm số thì dùng enumerate.
+\documentclass[12pt,a4paper,notitlepage,openany]{book}
+\input{setup}
+
+% --- Font tùy chọn (XeLaTeX): bỏ dấu % ở đầu mỗi dòng bên dưới để dùng ---
+%\usepackage{fontspec}
+%\setmainfont{Mali}
+%\usepackage{unicode-math}
+%\setmathfont{Euler Math}
+%\setmathfont[range={cal,bfcal}, Scale=MatchUppercase]{TeX Gyre Pagella Math}
+%\setmathfont[range=up/{latin,Latin}]{Euler Math}
+%\setoperatorfont\symup
+
+\title{Tiêu đề tài liệu}
+\author{Tên tác giả}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+% Tạo các file chapter1.tex, chapter2.tex, ... rồi bỏ % ở đầu dòng tương ứng
+\input{chapter1}
+%\input{chapter2}
+%\input{chapter3}
+
+% Tài liệu tham khảo (cần file refs.bib cùng thư mục)
+\addcontentsline{toc}{chapter}{Tài liệu tham khảo}
+\nocite{*}
+\bibliography{refs}
+\end{document}
+`;
+const bookSetupMin=()=>r`% ============================================================
+%  setup.tex (Minimal) — chỉ gói chức năng, không trang trí
+% ============================================================
+
+% ---------- 1. NGÔN NGỮ, TOÁN, BỐ CỤC ----------
+\usepackage[vietnamese]{babel}
+\usepackage{amsmath, amsthm, amssymb, mathtools}
+\usepackage{enumitem, etoolbox, float, indentfirst}
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=1.5cm]{geometry}
+
+% ---------- 2. HÌNH ẢNH, BẢNG ----------
+\usepackage{graphicx, caption, subcaption, multirow, tabularx, booktabs}
+
+% ---------- 3. TIKZ ----------
+\usepackage{tikz, tkz-tab, tikz-cd}
+\usetikzlibrary{calc, arrows.meta}
+
+% ---------- 4. LISTINGS ----------
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily\small, breaklines=true, showstringspaces=false}
+
+% ---------- 5. TÀI LIỆU THAM KHẢO ----------
+\usepackage[numbers]{natbib}
+\bibliographystyle{ieeetr}
+
+% ---------- 6. LIÊN KẾT ----------
+\usepackage[unicode]{hyperref}
+
+% ---------- 7. LỆNH RIÊNG ----------
+\newcommand{\suyra}{\Rightarrow}
+\newcommand{\td}{\Leftrightarrow}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\im}{im}
+
+% ---------- 8. CLEVEREF (nạp CUỐI CÙNG) + MÔI TRƯỜNG ----------
+\usepackage[capitalize,nameinlink]{cleveref}
+
+${thms('vi','book').replace(/(Đ|đ)ịnh lý/g,'$1ịnh lí')}
+% --- Môi trường riêng ---
+\theoremstyle{plain}
+\newtheorem{pty}[thm]{Tính chất}
+\crefname{pty}{Tính chất}{Tính chất}\Crefname{pty}{Tính chất}{Tính chất}
+${listcfg('vi')}\romanlists{pty}
+`;
+const CUSTOM_BOOK_MIN=Object.assign({},CUSTOM_BOOK,{title:'Book/Report · XeLaTeX · VI · Minimal',desc:'Minimal: functional packages only (math, lists, figures and tables, TikZ, listings, natbib, hyperref, cleveref). Files: main.tex + setup.tex.',files:[{n:'main.tex',c:bookMainMin()},{n:'setup.tex',c:bookSetupMin()}],guide:['Same files as the Standard version: <code>main.tex</code>, <code>setup.tex</code>, <code>refs.bib</code> and your chapters; compile <code>main.tex</code> with XeLaTeX.','Colours, custom headers and titles, quiver and tcolorbox are removed. Only functional packages remain; links use the plain <code>hyperref</code> defaults.','Theorem environments follow the style guide: <code>thm lem prop cor defi rem ex</code> plus <code>pty</code> (Tính chất). Labels look like <code>prop_C3:6.1</code>.']});
 const CUSTOM_EXAM={id:'exam-pdf-vi',t:'exam',e:'pdf',l:'vi',title:'Exam (Đề kiểm tra) · pdfLaTeX · VI',desc:'Multiple-choice exam with \\cau, \\cauh, \\cauhoibenhinh. 3 files: main + setup + header.',nobib:true,files:[{n:'Template_De_Kiem_Tra.tex',c:EX_MAIN},{n:'Setup_DeKiemTra.tex',c:EX_SETUP},{n:'Header1st.tex',c:EX_HEADER}],guide:EXAM_GUIDE,example:EXAM_EX};
 TPL.splice(TPL.findIndex(x=>x.id=='book-xe-vi'),1,CUSTOM_BOOK);
 TPL.push(CUSTOM_EXAM);
@@ -1439,7 +1535,7 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
     view: 'rules', group: null, rule: null, macro: null,
     tpl: null, file: null, tsub: 'source', sub: 'pitfalls',
     mode: 'any', level: 'all', tt: 'all', te: 'all', tl: 'all',
-    ai: 'common', theme: 'dark', done: new Set(), q: '', rail: null
+    ai: 'common', min: false, theme: 'dark', done: new Set(), q: '', rail: null
   };
 
   var store = [];
@@ -1459,7 +1555,7 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
     try {
       localStorage.setItem(KEY, JSON.stringify({
         theme: state.theme, done: Array.from(state.done), rail: state.rail,
-        mode: state.mode, level: state.level, tt: state.tt, te: state.te, tl: state.tl,
+        mode: state.mode, level: state.level, tt: state.tt, te: state.te, tl: state.tl, min: state.min,
         route: { view: state.view, group: state.group, macro: state.macro, tpl: state.tpl, sub: state.sub }
       }));
     } catch (_) {}
@@ -1470,6 +1566,7 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
       if (v.theme === 'light' || v.theme === 'dark') state.theme = v.theme;
       if (Array.isArray(v.done)) state.done = new Set(v.done);
       ['mode', 'level', 'tt', 'te', 'tl', 'sub'].forEach(function (k) { if (typeof v[k] === 'string') state[k] = v[k]; });
+      if (typeof v.min === 'boolean') state.min = v.min;
       if (typeof v.rail === 'number' && isFinite(v.rail)) state.rail = v.rail;
       if (v.route && v.route.view) state.resume = v.route;
     } catch (_) {}
@@ -1746,6 +1843,31 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
            (state.tl === 'all' || x.l === state.tl);
   }
   function tplList() { return TPL.filter(tplPass); }
+  /* Minimal switch: swaps the custom Book/Report entry in place (same id), nothing else changes. */
+  function applyMin() {
+    var i = TPL.findIndex(function (x) { return x.id === 'book-xe-vi'; });
+    if (i >= 0) TPL[i] = state.min ? CUSTOM_BOOK_MIN : CUSTOM_BOOK;
+  }
+  function minOff() { return state.tt !== 'all' && state.tt !== 'book'; }
+  function minSwitchHtml() {
+    var off = minOff();
+    return '<div class="minsw' + (off ? ' off' : '') + '" id="minsw"><span class="seg-label" aria-hidden="true">Minimal</span>' +
+      '<button class="sw" role="switch" aria-checked="' + state.min + '" data-act="toggle-min"' + (off ? ' disabled' : '') +
+      ' title="' + (off ? 'Applies to Book/Report only' : 'Strip decoration packages from Book/Report') + '">' +
+      '<span class="trk" aria-hidden="true"></span><span>' + (state.min ? 'On' : 'Off') + '</span></button></div>';
+  }
+  function updateMinSwitch() {
+    var box = $('minsw');
+    if (box) box.outerHTML = minSwitchHtml();
+  }
+  function toggleMin() {
+    if (minOff()) return;
+    state.min = !state.min;
+    applyMin();
+    persist();
+    renderTplBody();
+    updateMinSwitch();
+  }
 
   /* ---------- routing ---------- */
   function parseHash() {
@@ -2127,6 +2249,7 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
         seg('tt', 'Type', TTPL, 'grow') +
         seg('te', 'Engine', TEN) +
         seg('tl', 'Language', TLANG) +
+        minSwitchHtml() +
         '<button class="btn zip" data-act="dl-zip" title="All files of this template in one archive">' +
           '<i class="ti ti-folder-down" aria-hidden="true"></i>Download .zip' + (cur ? ' (' + zipCount + ' files)' : '') +
         '</button>' +
@@ -2138,6 +2261,7 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
   function renderTplBody() {
     var box = $('tpl-body');
     if (!box) return;
+    updateMinSwitch();
     box.innerHTML = tplBodyHtml();
     var c = $('tpl-count');
     if (c) c.textContent = count(tplList().length, 'template', 'templates');
@@ -2505,6 +2629,7 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
       else if (d.act === 'copy-guide') { copy(guide(), b); }
       else if (d.act === 'dl-guide') { download('latex-rules.md', guide()); }
       else if (d.act === 'dl-zip') { downloadTemplateZip(); }
+      else if (d.act === 'toggle-min') { toggleMin(); }
       else if (d.act === 'print') { window.print(); }
       else if (d.act === 'reset-checks') { state.done.clear(); persist(); render(); }
       else if (d.act === 'copy-example') { copy(b.dataset.text || '', b); }
@@ -2602,6 +2727,7 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
 
   /* ---------- init ---------- */
   restore();
+  applyMin();
   document.documentElement.classList.toggle('dark', state.theme === 'dark');
   if (state.rail) setRail(state.rail, false); else paintRail();
   syncThemeBtn();

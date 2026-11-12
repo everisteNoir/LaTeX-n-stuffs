@@ -2,10 +2,11 @@
 
 A single-page reference for LaTeX writing rules, with a macro pack and ready-to-compile document templates.
 
-- **87 rules** in 18 groups, each with a Required / Recommended / Optional level, a document mode, and an aligned Don't / Do source comparison plus a rendered KaTeX preview where it helps.
+- **88 rules** in 18 groups, each with a Required / Recommended / Optional level, a document mode, and an aligned Don't / Do source comparison plus a rendered KaTeX preview where it helps.
 - **Macro Pack**: five groups of definitions (`\R`, `\abs`, `\E`, `\dd`, …) with rendered previews and the full `mymath.sty` to copy or download.
 - **Templates**: Article, Book/Report, Beamer and Homework × pdfLaTeX / XeLaTeX × Vietnamese / English, plus a custom Book/Report setup and a three-file Vietnamese exam template. Each file is shown in a source pane with its own copy and download, and `Download .zip` fetches the whole template as a single archive (plus the sample `refs.bib` for Book/Report only: Article, Homework and Beamer keep the bibliography inside `main.tex` in a `thebibliography` block).
-- **Review**: a 20-row pitfalls table and a 12-item submission checklist that remembers what you ticked.
+- **Minimal switch** (Templates filter bar, off by default, remembered): swaps the custom Book/Report (XeLaTeX · Vietnamese) for a version with functional packages only. It is dimmed for Article, Beamer, Homework and Exam; Article is always the lean version.
+- **Review**: a 21-row pitfalls table and a 12-item submission checklist that remembers what you ticked.
 - **AI prompt**: a segmented control with four rule sets, each with its own copy and download: **Common** (9 lines for any template), **Article**, **Book/Report**, and **Full** (every rule, convention, common mistake and the checklist, `latex-rules.md`).
 
 ## Use
@@ -55,7 +56,7 @@ Everything lives in `index.html`:
 | Pitfalls and checklist | `const DD`, `const CK` |
 | Macros | `const MACROS`, `const KM` (preview macros), `const STY` (the generated `.sty`) |
 | Template generator | `buildArticle()` (minimal Article, full environment names), `build()`, `thms()`, `body()`, `listcfg()`; extra Article environments come from `genExtra()` in the Macro Pack |
-| Custom templates | `bookMain()`, `bookSetup()`, `EX_MAIN` / `EX_SETUP` / `EX_HEADER`, `CUSTOM_BOOK`, `CUSTOM_EXAM` |
+| Custom templates | `bookMain()`, `bookSetup()`, `bookMainMin()`, `bookSetupMin()`, `CUSTOM_BOOK_MIN` (swapped in by `applyMin()`), `EX_MAIN` / `EX_SETUP` / `EX_HEADER`, `CUSTOM_BOOK`, `CUSTOM_EXAM` |
 | AI Markdown export | `guide()` (Full), `G_BODY` / `G_ART` / `G_BOOK` with `guideCommon()`, `guideArticle()`, `guideBook()` (short sets) |
 | Colours and spacing | the token block at the top of `<style>` — `:root` for light, `.dark` for dark |
 | Type | `Inter` (UI), `Newsreader` (titles), `JetBrains Mono` (code, IDs) |
