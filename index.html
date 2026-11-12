@@ -669,7 +669,7 @@ const RULES=[
 \label{subsec2.1.1}
 \label{prop_C3:6.1}  % Proposition 3.6.1
 \label{eq_C3:6.2}    % equation (3.6.2)`,''],
-['LAB-03','R','all','Label prefixes','Prefix equals the environment name. Article: thm lem prop cor def rem ex eq. Other templates: thm lem prop cor defi rem ex eq fig tab. Extended (not in Article): claim conj axiom asm fact nota prob exer ques.',r`\label{theorem_main}
+['LAB-03','R','all','Label prefixes','Prefix equals the short environment name in every template: thm lem prop cor defi rem ex eq (Book/Report also fig, tab). Extended (not in Article): claim conj axiom asm fact nota prob exer ques.',r`\label{theorem_main}
 \label{def_sec3:2}`,r`\label{thm_sec3:6}
 \label{defi_sec3:2}`,''],
 ['LAB-04','R','book','Figures and tables per chapter','In Book/Report, figures and tables are numbered by chapter.',r`\label{fig:plot}`,r`\label{fig_C3:4}
@@ -724,8 +724,9 @@ $$`,''],
 ['SYM-02','R','all','Upright differential','Thin space before d, upright d.',r`\int f(x)dx`,r`\int f(x)\,\mathrm{d}x`,r`\int f(x)\,\mathrm{d}x`],
 ['SYM-03','Y','all','Upright constants','e and i as constants are upright.',r`e^{ix}`,r`\mathrm{e}^{\mathrm{i}x}`,r`\mathrm{e}^{\mathrm{i}x}`],
 ['SYM-06','R','all','Words use \\text','Words inside formulas are text.',r`x_{max}, if x>0`,r`x_{\max},\quad \text{if } x>0`,r`x_{\max},\quad \text{if } x>0`],
+['SYM-08','R','all','\\le and \\ge','Use \\le and \\ge, never \\leq or \\geq. \\leqslant, \\geqslant, \\nleq and \\ngeq are allowed (no shorter form exists).',r`$x \leq y$,  $a \geq 0$`,r`$x \le y$,  $a \ge 0$`,r`x \le y,\ a \ge 0`],
 ['DEL-01','R','all','Stretchy delimiters','\\left\\right for stretchy, \\bigl\\bigr for fixed size.',r`(\frac{a}{b})`,r`\left(\frac{a}{b}\right)`,r`\left(\frac{a}{b}\right)`],
-['DEL-02','R','all','Absolute value and norm','Use \\lvert \\rvert and \\lVert \\rVert.',r`|x|, ||v||`,r`\lvert x\rvert,\ \lVert v\rVert`,r`\lvert x\rvert,\ \lVert v\rVert`],
+['DEL-02','R','all','Absolute value and norm','Use \\lvert \\rvert for absolute values and \\| for norms. Never | or ||, and never \\Vert, \\lVert or \\rVert.',r`|x|, ||v||, \Vert v\Vert, \lVert v\rVert`,r`\lvert x\rvert,\ \|v\|`,r`\lvert x\rvert,\ \|v\|`],
 ['DEL-03','R','all','Angle brackets','Use \\langle \\rangle, not < >.',r`<x,y>`,r`\langle x,y\rangle`,r`\langle x,y\rangle`],
 ['DEL-04','Y','all','\\mid and \\colon','\\mid in sets, \\colon in maps.',r`\{x | x>0\}, f: A\to B`,r`\{x \mid x>0\},\ f\colon A\to B`,r`\{x \mid x>0\},\ f\colon A\to B`],
 ['SPC-03','R','all','Dots','Use \\dots, \\cdots, \\vdots, \\ddots.',r`1,2,...,n`,r`1,2,\dots,n`,r`1,2,\dots,n,\quad 1+\cdots+n`],
@@ -830,7 +831,7 @@ where $b>0$.`,r`a=b,`],
 ['LAB-09','R','all','Renumbering updates labels','When an insertion or deletion changes printed numbers, rename every affected \\label and update every \\cref / \\Cref that points to it.',r`% a lemma was inserted before Proposition 3.6 (now 3.7)
 \label{prop_sec3:6}   % stale`,r`\label{prop_sec3:7}     % renamed
 % and every \cref{prop_sec3:6} changed to \cref{prop_sec3:7}`,''],
-['THM-12','R','art','Article: full environment names only','Article uses only theorem, lemma, proposition, corollary, definition, example, remark and proof. No abbreviations, and no extra environments unless asked. Label prefixes stay short (thm lem prop cor def rem ex).',r`\begin{thm}\label{thm_sec3:6}
+['THM-12','R','art','Article: full environment names only','Article uses only theorem, lemma, proposition, corollary, definition, example, remark and proof. No abbreviations, and no extra environments unless asked. Label prefixes stay short (thm lem prop cor defi rem ex).',r`\begin{thm}\label{thm_sec3:6}
   ...
 \end{thm}`,r`\begin{theorem}\label{thm_sec3:6}
   ...
@@ -918,12 +919,12 @@ trong đó $b>0$.`,''],
 
 ];
 const SORTED=[...RULES].sort((a,b)=>Object.keys(GR).indexOf(a[0].split('-')[0])-Object.keys(GR).indexOf(b[0].split('-')[0]));
-const DD=[[r`\(x\)`,r`$x$`],[r`\[ x \]`,r`$$ x $$`],[r`sin x`,r`\sin x`],[r`\int f(x)dx`,r`\int f(x)\,\mathrm{d}x`],[r`|x|`,r`\lvert x\rvert`],[r`<x,y>`,r`\langle x,y\rangle`],[r`\{x | x>0\}`,r`\{x \mid x>0\}`],[r`f: A\to B`,r`f\colon A\to B`],[r`1,2,...,n`,r`1,2,\dots,n`],[r`a*b, 3 x 4`,r`a\cdot b, 3\times 4`],[r`\def\R{\mathbb R}`,r`\newcommand{\R}{\mathbb{R}}`],[r`\begin{eqnarray}`,r`\begin{align*}`],[r`\begin{equation} (no label)`,r`\begin{equation*}`],[r`Theorem~\ref{thm_sec3:6}`,r`\cref{thm_sec3:6}`],[r`\hline`,r`\toprule \midrule \bottomrule`],[r`cleveref loaded before hyperref`,r`cleveref loaded last`],[r`\begin{def}`,r`\begin{defi}`],[r`\label{sec:intro}`,r`\label{sec1}`],[r`$x if y$`,r`$x \text{ if } y$`],[r`(\frac{a}{b})`,r`\left(\frac{a}{b}\right)`],[r`\cref{eq_sec3:2}`,r`\eqref{eq_sec3:2}`]];
+const DD=[[r`\(x\)`,r`$x$`],[r`\[ x \]`,r`$$ x $$`],[r`sin x`,r`\sin x`],[r`\int f(x)dx`,r`\int f(x)\,\mathrm{d}x`],[r`|x|`,r`\lvert x\rvert`],[r`<x,y>`,r`\langle x,y\rangle`],[r`\{x | x>0\}`,r`\{x \mid x>0\}`],[r`f: A\to B`,r`f\colon A\to B`],[r`1,2,...,n`,r`1,2,\dots,n`],[r`a*b, 3 x 4`,r`a\cdot b, 3\times 4`],[r`\def\R{\mathbb R}`,r`\newcommand{\R}{\mathbb{R}}`],[r`\begin{eqnarray}`,r`\begin{align*}`],[r`\begin{equation} (no label)`,r`\begin{equation*}`],[r`Theorem~\ref{thm_sec3:6}`,r`\cref{thm_sec3:6}`],[r`\hline`,r`\toprule \midrule \bottomrule`],[r`cleveref loaded before hyperref`,r`cleveref loaded last`],[r`\begin{def}`,r`\begin{defi}`],[r`\label{sec:intro}`,r`\label{sec1}`],[r`$x if y$`,r`$x \text{ if } y$`],[r`(\frac{a}{b})`,r`\left(\frac{a}{b}\right)`],[r`\cref{eq_sec3:2}`,r`\eqref{eq_sec3:2}`],[r`\leq, \geq`,r`\le, \ge`],[r`\Vert v\Vert`,r`\|v\|`]];
 const CK=['The document compiles without errors; Overfull/Underfull warnings were checked.','Article, Homework, Beamer: the thebibliography block is at the end of the file and the document was compiled twice. Book/Report: refs.bib sits next to main.tex and bibtex was run. No "undefined citation" warnings.','Every \\label is cited, and every cited label exists.','Labels follow the convention for the document type (Article or Book/Report).','Only $...$ and $$...$$ are used; no \\( \\) or \\[ \\].','Unlabelled equations use equation*, align* or $$.','Operators, the differential d, and constants e, i are upright.','cleveref is loaded last; equations are cited with \\eqref, everything else with \\cref / \\Cref.','Theorem environments use the short names and one shared counter.','Vietnamese documents: the engine matches the preamble and the names are localised.','Paragraphs are single lines (new paragraph = two Enters, used sparingly); $$ sits on its own lines; proof is right under its statement.','Anything numbered uses enumerate: (a) by default, (i) inside theorems.'];
 const CONV=r`- Packages: \usepackage[capitalize,nameinlink]{cleveref} loaded LAST. Bibliography: Article, Homework and Beamer have no natbib and no refs.bib; write a thebibliography block ({99}) at the end of the file in IEEE style, keys author+year (smith2020), cite with \cite, compile twice. Book/Report uses \usepackage[numbers]{natbib}, \bibliographystyle{ieeetr}, \bibliography{refs} and a refs.bib file next to main.tex (run bibtex).
 - Math: $...$ inline, $$...$$ display. Never \( \) or \[ \].
 - Equations: cited => equation/align with \label. Not cited => equation*/align*/$$ (no label). Cite equations with \eqref (two: \eqref{a} and \eqref{b}; more than two: commas, or \cref{a,b,c}); use \cref/\Cref for an equation only when the word "Equation" must appear, e.g. at the start of a sentence.
-- Article: only the full environment names theorem lemma proposition corollary definition example remark proof (shared counter); no abbreviations and no extra environments unless asked. Label prefixes: thm lem prop cor def rem ex eq.
+- Article: only the full environment names theorem lemma proposition corollary definition example remark proof (shared counter); no abbreviations and no extra environments unless asked. Label prefixes: thm lem prop cor defi rem ex eq.
 - Book/Report, Homework, Beamer: short names with one shared counter: thm lem prop cor defi rem ex; extended (commented out by default): claim conj axiom asm fact nota prob exer ques; long names stay commented. Never name an environment def, not or note. Label prefixes: thm lem prop cor defi rem ex eq fig tab (+ the extended names).
 - Article labels: sec7, subsec7.2, <prefix>_sec<section>:<printed number> (prop_sec3:6), eq_sec3:2.
 - Book/Report labels: chap1, sec2.1, subsec2.1.1, <prefix>_C<chapter>:<rest of printed number> (prop_C3:6.1), eq_C3:6.2, fig_C3:4, tab_C3:4. Use \numberwithin{thm}{section}.
@@ -934,7 +935,8 @@ const CONV=r`- Packages: \usepackage[capitalize,nameinlink]{cleveref} loaded LAS
 - Text layout: one paragraph = one line; a new paragraph = two Enters, used sparingly; never break lines mid-sentence or around inline math.
 - Display math: $$ opens and closes on their own lines, formula indented two spaces, no blank line around or inside. Same for equation(*) and align(*): \begin and \end on their own lines.
 - Theorems: proof directly under its statement (no blank line); one blank line between all other blocks.
-- Lists: anything numbered uses enumerate (never typed by hand); bullets use itemize. Labels (a),(b) by default, (i),(ii) inside theorem-like environments; nested: outer (a), inner (i). Load enumitem and etoolbox.`;
+- Lists: anything numbered uses enumerate (never typed by hand); bullets use itemize. Labels (a),(b) by default, (i),(ii) inside theorem-like environments; nested: outer (a), inner (i). Load enumitem and etoolbox.
+- Symbols: \le and \ge (never \leq, \geq; \leqslant, \geqslant, \nleq, \ngeq are allowed). Absolute values: \lvert x\rvert. Norms: \|v\| (never |, ||, \Vert, \lVert, \rVert).`;
 const BIB=`@article{smith2020,
   author  = {Smith, John and Nguyen, An},
   title   = {An Example Article},
@@ -966,11 +968,11 @@ const G_BODY=r`1. Inline math: $...$. Display math: $$ on its own lines, formula
 5. Anything numbered uses enumerate (labels (a), or (i) inside theorem-like environments, set automatically). Bullets use itemize.
 6. Reference equations with \eqref (two: "\eqref{a} and \eqref{b}"; more than two: separated by commas, or \cref{a,b,c}). Use \cref / \Cref for an equation only when the word "Equation" must appear, e.g. at the start of a sentence. Reference everything else with \cref / \Cref, never "Theorem~\ref". Put \label only on things that are cited.
 7. If an insertion or deletion changes printed numbers, rename every affected \label and update every \cref / \Cref that points to it.
-8. Notation: \sin and \operatorname{rank}; \,\mathrm{d}x; \lvert x\rvert, \lVert v\rVert; \langle x,y\rangle; \dots; \text{...} for words in formulas; \mid in sets, \colon in maps; \left\right for stretchy brackets.
+8. Notation: \sin and \operatorname{rank}; \,\mathrm{d}x; \lvert x\rvert, \|v\|; \langle x,y\rangle; \dots; \text{...} for words in formulas; \le and \ge (never \leq, \geq); \mid in sets, \colon in maps; \left\right for stretchy brackets. Never | or || (and never \Vert, \lVert, \rVert) for absolute values and norms.
 9. Macros with \newcommand, never \def; never redefine an existing command.`;
 const G_ART=r`10. Environments: only the full names theorem, lemma, proposition, corollary, definition, example, remark, proof. No abbreviations; add no other environments unless asked.
 11. proof sits directly under its statement (no blank line). Every other block is separated by exactly one blank line.
-12. Labels: \label{sec3}, \label{subsec3.2}. Environments and equations: <prefix>_sec<section>:<printed number> with prefixes thm lem prop cor def rem ex eq. Proposition 3.6 -> prop_sec3:6; equation (3.2) -> eq_sec3:2.
+12. Labels: \label{sec3}, \label{subsec3.2}. Environments and equations: <prefix>_sec<section>:<printed number> with prefixes thm lem prop cor defi rem ex eq. Proposition 3.6 -> prop_sec3:6; equation (3.2) -> eq_sec3:2.
 13. Bibliography: thebibliography{99} at the end, before \end{document}, IEEE style, keys like smith2020, cite with \cite only (no \citep, \citet, natbib or refs.bib).
 14. Use \section and \subsection only; no \chapter.`;
 const G_BOOK=r`10. Environments (short names, one shared counter): thm, lem, prop, cor, defi, rem, ex, proof. Add no other environments unless asked.
@@ -988,7 +990,7 @@ const guideBook=()=>gHead('Book/Report',G_BOOK);
 
 /* ===== MACROS ===== */
 const KM={'\\R':r`\mathbb{R}`,'\\N':r`\mathbb{N}`,'\\Z':r`\mathbb{Z}`,'\\Q':r`\mathbb{Q}`,'\\C':r`\mathbb{C}`,
-'\\abs':r`\left\lvert#1\right\rvert`,'\\norm':r`\left\lVert#1\right\rVert`,'\\floor':r`\left\lfloor#1\right\rfloor`,'\\ceil':r`\left\lceil#1\right\rceil`,'\\set':r`\left\{#1\right\}`,'\\inner':r`\left\langle#1,#2\right\rangle`,
+'\\abs':r`\left\lvert#1\right\rvert`,'\\norm':r`\left\|#1\right\|`,'\\floor':r`\left\lfloor#1\right\rfloor`,'\\ceil':r`\left\lceil#1\right\rceil`,'\\set':r`\left\{#1\right\}`,'\\inner':r`\left\langle#1,#2\right\rangle`,
 '\\Var':r`\operatorname{Var}`,'\\Cov':r`\operatorname{Cov}`,'\\tr':r`\operatorname{tr}`,'\\rank':r`\operatorname{rank}`,'\\diag':r`\operatorname{diag}`,'\\argmin':r`\operatorname*{arg\,min}`,'\\argmax':r`\operatorname*{arg\,max}`,'\\E':r`\mathbb{E}`,
 '\\dd':r`\mathop{}\!\mathrm{d}`,'\\dv':r`\frac{\mathrm{d}#1}{\mathrm{d}#2}`,'\\pdv':r`\frac{\partial #1}{\partial #2}`,
 '\\eps':r`\varepsilon`,'\\vphi':r`\varphi`,'\\iid':r`\stackrel{\mathrm{iid}}{\sim}`,'\\as':r`\text{ a.s.}`};
@@ -999,7 +1001,7 @@ const MACROS=[
 \newcommand{\Q}{\mathbb{Q}}
 \newcommand{\C}{\mathbb{C}}`,[r`\R^n,\ \N,\ \Z,\ \Q,\ \C`]],
 ['Delimiters (needs mathtools)',r`\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
-\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\norm}{\|}{\|}
 \DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
 \DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
 \DeclarePairedDelimiter{\set}{\lbrace}{\rbrace}
