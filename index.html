@@ -815,6 +815,12 @@ where $b>0$.`,r`a=b,`],
 ['SPC-04','Y','all','Products','\\cdot for multiplication, \\times for sizes and cross products.',r`a*b, 3 x 4`,r`a\cdot b,\ 3\times 4`,r`a\cdot b,\ 3\times 4`],
 ['SPC-05','Y','all','Minus signs','A minus in running text is still math.',r`the value -1`,r`the value $-1$`,''],
 ['SPC-06','G','all','Primes','Use ^{\\prime} only for stacked cases; f\' and f\'\' otherwise.',r`f^{'}`,r`f',\ f''`,r`f',\ f''`],
+['FLD-07','R','all','Greatest common divisor','Write the greatest common divisor as \\gcd(a,b), also \\gcd(a,b,c), never (a,b). An open interval or an ordered pair is still written (a,b), but say so first ("the interval (a,b)", "the ordered pair (a,b)") so the reader knows.',r`$(a,b)=1$,  $d=(12,18)$`,r`$\gcd(a,b)=1$,  $d=\gcd(12,18)$,  $\gcd(a,b,c)$
+% allowed when announced first:
+Let $(a,b)$ be an open interval.
+Let $(a,b)$ be an ordered pair.`,r`\gcd(a,b)=1,\ d=\gcd(12,18),\ \gcd(a,b,c)`],
+['FLD-08','R','all','Least common multiple','Write the least common multiple as \\operatorname{lcm}(a,b), never [a,b]. With \\DeclareMathOperator{\\lcm}{lcm} from the Macro Pack you can write \\lcm(a,b).',r`$[a,b]=12$`,r`$\operatorname{lcm}(a,b)=12$
+$\lcm(a,b)=12$   % after \DeclareMathOperator{\lcm}{lcm}`,r`\operatorname{lcm}(a,b)=12`],
 ['FLD-01','Y','all','Calculus','Limits, sums and integrals with explicit bounds.',r`lim n->inf sum 1/k^2`,r`\lim_{n\to\infty}\sum_{k=1}^{n}\frac{1}{k^2}`,r`\lim_{n\to\infty}\sum_{k=1}^{n}\frac{1}{k^2}=\frac{\pi^2}{6}`],
 ['FLD-02','Y','all','Linear algebra','pmatrix for matrices, \\det, transpose as ^{\\top}.',r`\begin{array}{cc}a&b\\c&d\end{array}, A^T`,r`\begin{pmatrix} a & b \\ c & d \end{pmatrix},\ \det A,\ A^{\top}`,r`\begin{pmatrix}a&b\\c&d\end{pmatrix},\ \det A,\ A^{\top}`],
 ['FLD-03','Y','all','Probability and statistics','\\Pr, \\mathbb{E}, \\operatorname{Var}.',r`P(X>0), E[X], Var X`,r`\Pr(X>0),\ \mathbb{E}[X],\ \operatorname{Var}(X)`,r`\Pr(X>0),\ \mathbb{E}[X],\ \operatorname{Var}(X)`],
@@ -919,7 +925,7 @@ trong đó $b>0$.`,''],
 
 ];
 const SORTED=[...RULES].sort((a,b)=>Object.keys(GR).indexOf(a[0].split('-')[0])-Object.keys(GR).indexOf(b[0].split('-')[0]));
-const DD=[[r`\(x\)`,r`$x$`],[r`\[ x \]`,r`$$ x $$`],[r`sin x`,r`\sin x`],[r`\int f(x)dx`,r`\int f(x)\,\mathrm{d}x`],[r`|x|`,r`\lvert x\rvert`],[r`<x,y>`,r`\langle x,y\rangle`],[r`\{x | x>0\}`,r`\{x \mid x>0\}`],[r`f: A\to B`,r`f\colon A\to B`],[r`1,2,...,n`,r`1,2,\dots,n`],[r`a*b, 3 x 4`,r`a\cdot b, 3\times 4`],[r`\def\R{\mathbb R}`,r`\newcommand{\R}{\mathbb{R}}`],[r`\begin{eqnarray}`,r`\begin{align*}`],[r`\begin{equation} (no label)`,r`\begin{equation*}`],[r`Theorem~\ref{thm_sec3:6}`,r`\cref{thm_sec3:6}`],[r`\hline`,r`\toprule \midrule \bottomrule`],[r`cleveref loaded before hyperref`,r`cleveref loaded last`],[r`\begin{def}`,r`\begin{defi}`],[r`\label{sec:intro}`,r`\label{sec1}`],[r`$x if y$`,r`$x \text{ if } y$`],[r`(\frac{a}{b})`,r`\left(\frac{a}{b}\right)`],[r`\cref{eq_sec3:2}`,r`\eqref{eq_sec3:2}`],[r`\leq, \geq`,r`\le, \ge`],[r`\Vert v\Vert`,r`\|v\|`]];
+const DD=[[r`\(x\)`,r`$x$`],[r`\[ x \]`,r`$$ x $$`],[r`sin x`,r`\sin x`],[r`\int f(x)dx`,r`\int f(x)\,\mathrm{d}x`],[r`|x|`,r`\lvert x\rvert`],[r`<x,y>`,r`\langle x,y\rangle`],[r`\{x | x>0\}`,r`\{x \mid x>0\}`],[r`f: A\to B`,r`f\colon A\to B`],[r`1,2,...,n`,r`1,2,\dots,n`],[r`a*b, 3 x 4`,r`a\cdot b, 3\times 4`],[r`\def\R{\mathbb R}`,r`\newcommand{\R}{\mathbb{R}}`],[r`\begin{eqnarray}`,r`\begin{align*}`],[r`\begin{equation} (no label)`,r`\begin{equation*}`],[r`Theorem~\ref{thm_sec3:6}`,r`\cref{thm_sec3:6}`],[r`\hline`,r`\toprule \midrule \bottomrule`],[r`cleveref loaded before hyperref`,r`cleveref loaded last`],[r`\begin{def}`,r`\begin{defi}`],[r`\label{sec:intro}`,r`\label{sec1}`],[r`$x if y$`,r`$x \text{ if } y$`],[r`(\frac{a}{b})`,r`\left(\frac{a}{b}\right)`],[r`\cref{eq_sec3:2}`,r`\eqref{eq_sec3:2}`],[r`\leq, \geq`,r`\le, \ge`],[r`\Vert v\Vert`,r`\|v\|`],[r`(a,b)=1`,r`\gcd(a,b)=1`],[r`[a,b]=12`,r`\operatorname{lcm}(a,b)=12`]];
 const CK=['The document compiles without errors; Overfull/Underfull warnings were checked.','Article, Homework, Beamer: the thebibliography block is at the end of the file and the document was compiled twice. Book/Report: refs.bib sits next to main.tex and bibtex was run. No "undefined citation" warnings.','Every \\label is cited, and every cited label exists.','Labels follow the convention for the document type (Article or Book/Report).','Only $...$ and $$...$$ are used; no \\( \\) or \\[ \\].','Unlabelled equations use equation*, align* or $$.','Operators, the differential d, and constants e, i are upright.','cleveref is loaded last; equations are cited with \\eqref, everything else with \\cref / \\Cref.','Theorem environments use the short names and one shared counter.','Vietnamese documents: the engine matches the preamble and the names are localised.','Paragraphs are single lines (new paragraph = two Enters, used sparingly); $$ sits on its own lines; proof is right under its statement.','Anything numbered uses enumerate: (a) by default, (i) inside theorems.'];
 const CONV=r`- Packages: \usepackage[capitalize,nameinlink]{cleveref} loaded LAST. Bibliography: Article, Homework and Beamer have no natbib and no refs.bib; write a thebibliography block ({99}) at the end of the file in IEEE style, keys author+year (smith2020), cite with \cite, compile twice. Book/Report uses \usepackage[numbers]{natbib}, \bibliographystyle{ieeetr}, \bibliography{refs} and a refs.bib file next to main.tex (run bibtex).
 - Math: $...$ inline, $$...$$ display. Never \( \) or \[ \].
@@ -936,7 +942,7 @@ const CONV=r`- Packages: \usepackage[capitalize,nameinlink]{cleveref} loaded LAS
 - Display math: $$ opens and closes on their own lines, formula indented two spaces, no blank line around or inside. Same for equation(*) and align(*): \begin and \end on their own lines.
 - Theorems: proof directly under its statement (no blank line); one blank line between all other blocks.
 - Lists: anything numbered uses enumerate (never typed by hand); bullets use itemize. Labels (a),(b) by default, (i),(ii) inside theorem-like environments; nested: outer (a), inner (i). Load enumitem and etoolbox.
-- Symbols: \le and \ge (never \leq, \geq; \leqslant, \geqslant, \nleq, \ngeq are allowed). Absolute values: \lvert x\rvert. Norms: \|v\| (never |, ||, \Vert, \lVert, \rVert).`;
+- Symbols: \le and \ge (never \leq, \geq; \leqslant, \geqslant, \nleq, \ngeq are allowed). Absolute values: \lvert x\rvert. Norms: \|v\| (never |, ||, \Vert, \lVert, \rVert). Greatest common divisor \gcd(a,b) and least common multiple \operatorname{lcm}(a,b), never (a,b) or [a,b] for them; an open interval or an ordered pair stays (a,b) when announced first ("the interval (a,b)").`;
 const BIB=`@article{smith2020,
   author  = {Smith, John and Nguyen, An},
   title   = {An Example Article},
@@ -968,7 +974,7 @@ const G_BODY=r`1. Inline math: $...$. Display math: $$ on its own lines, formula
 5. Anything numbered uses enumerate (labels (a), or (i) inside theorem-like environments, set automatically). Bullets use itemize.
 6. Reference equations with \eqref (two: "\eqref{a} and \eqref{b}"; more than two: separated by commas, or \cref{a,b,c}). Use \cref / \Cref for an equation only when the word "Equation" must appear, e.g. at the start of a sentence. Reference everything else with \cref / \Cref, never "Theorem~\ref". Put \label only on things that are cited.
 7. If an insertion or deletion changes printed numbers, rename every affected \label and update every \cref / \Cref that points to it.
-8. Notation: \sin and \operatorname{rank}; \,\mathrm{d}x; \lvert x\rvert, \|v\|; \langle x,y\rangle; \dots; \text{...} for words in formulas; \le and \ge (never \leq, \geq); \mid in sets, \colon in maps; \left\right for stretchy brackets. Never | or || (and never \Vert, \lVert, \rVert) for absolute values and norms.
+8. Notation: \sin and \operatorname{rank}; \,\mathrm{d}x; \lvert x\rvert, \|v\|; \langle x,y\rangle; \dots; \text{...} for words in formulas; \le and \ge (never \leq, \geq); \gcd(a,b) and \operatorname{lcm}(a,b), never (a,b) or [a,b] for them (an open interval or ordered pair stays (a,b) if announced first); \mid in sets, \colon in maps; \left\right for stretchy brackets. Never | or || (and never \Vert, \lVert, \rVert) for absolute values and norms.
 9. Macros with \newcommand, never \def; never redefine an existing command.`;
 const G_ART=r`10. Environments: only the full names theorem, lemma, proposition, corollary, definition, example, remark, proof. No abbreviations; add no other environments unless asked.
 11. proof sits directly under its statement (no blank line). Every other block is separated by exactly one blank line.
@@ -991,7 +997,7 @@ const guideBook=()=>gHead('Book/Report',G_BOOK);
 /* ===== MACROS ===== */
 const KM={'\\R':r`\mathbb{R}`,'\\N':r`\mathbb{N}`,'\\Z':r`\mathbb{Z}`,'\\Q':r`\mathbb{Q}`,'\\C':r`\mathbb{C}`,
 '\\abs':r`\left\lvert#1\right\rvert`,'\\norm':r`\left\|#1\right\|`,'\\floor':r`\left\lfloor#1\right\rfloor`,'\\ceil':r`\left\lceil#1\right\rceil`,'\\set':r`\left\{#1\right\}`,'\\inner':r`\left\langle#1,#2\right\rangle`,
-'\\Var':r`\operatorname{Var}`,'\\Cov':r`\operatorname{Cov}`,'\\tr':r`\operatorname{tr}`,'\\rank':r`\operatorname{rank}`,'\\diag':r`\operatorname{diag}`,'\\argmin':r`\operatorname*{arg\,min}`,'\\argmax':r`\operatorname*{arg\,max}`,'\\E':r`\mathbb{E}`,
+'\\Var':r`\operatorname{Var}`,'\\Cov':r`\operatorname{Cov}`,'\\tr':r`\operatorname{tr}`,'\\rank':r`\operatorname{rank}`,'\\diag':r`\operatorname{diag}`,'\\argmin':r`\operatorname*{arg\,min}`,'\\argmax':r`\operatorname*{arg\,max}`,'\\E':r`\mathbb{E}`,'\\lcm':r`\operatorname{lcm}`,
 '\\dd':r`\mathop{}\!\mathrm{d}`,'\\dv':r`\frac{\mathrm{d}#1}{\mathrm{d}#2}`,'\\pdv':r`\frac{\partial #1}{\partial #2}`,
 '\\eps':r`\varepsilon`,'\\vphi':r`\varphi`,'\\iid':r`\stackrel{\mathrm{iid}}{\sim}`,'\\as':r`\text{ a.s.}`};
 const MACROS=[
@@ -1012,8 +1018,9 @@ const MACROS=[
 \DeclareMathOperator{\tr}{tr}
 \DeclareMathOperator{\rank}{rank}
 \DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\lcm}{lcm}
 \DeclareMathOperator*{\argmin}{arg\,min}
-\DeclareMathOperator*{\argmax}{arg\,max}`,[r`\E[X],\ \Var(X),\ \Cov(X,Y),\ \tr A,\ \rank A,\ \argmin_x f(x)`]],
+\DeclareMathOperator*{\argmax}{arg\,max}`,[r`\E[X],\ \Var(X),\ \Cov(X,Y),\ \tr A,\ \rank A,\ \lcm(a,b),\ \argmin_x f(x)`]],
 ['Calculus',r`\newcommand{\dd}{\mathop{}\!\mathrm{d}}
 \newcommand{\dv}[2]{\frac{\mathrm{d}#1}{\mathrm{d}#2}}
 \newcommand{\pdv}[2]{\frac{\partial #1}{\partial #2}}`,[r`\int_0^1 f(x)\dd x,\ \dv{f}{x},\ \pdv{f}{x}`]],
