@@ -724,6 +724,39 @@ $$`,''],
 ['SYM-02','R','all','Upright differential','Thin space before d, upright d.',r`\int f(x)dx`,r`\int f(x)\,\mathrm{d}x`,r`\int f(x)\,\mathrm{d}x`],
 ['SYM-03','Y','all','Upright constants','e and i as constants are upright.',r`e^{ix}`,r`\mathrm{e}^{\mathrm{i}x}`,r`\mathrm{e}^{\mathrm{i}x}`],
 ['SYM-06','R','all','Words use \\text','Words inside formulas are text.',r`x_{max}, if x>0`,r`x_{\max},\quad \text{if } x>0`,r`x_{\max},\quad \text{if } x>0`],
+['LAB-10','R','all','Labels by name for famous results','A famous theorem, lemma, proposition or corollary with a standard name may be labelled by name: <prefix>_<name>, lower case, ASCII, English, words joined by hyphens. Equations, definitions, examples and remarks always use the numbered form. Each name is used once per document (variants: thm_hahn-banach-weak). Name labels never change when numbers shift (LAB-09).',r`\begin{theorem}[Pythagoras]\label{thm_sec3:6}   % famous: use the name
+\label{thm_main-result}                         % not a famous name: use the number`,r`\begin{theorem}[Pythagoras]\label{thm_pythagoras}
+\begin{lemma}[Zorn]\label{lem_zorn}
+\begin{theorem}[Cauchy--Schwarz]\label{thm_cauchy-schwarz}
+\begin{proposition}\label{prop_sec3:6}   % result of this document: number`,''],
+['LST-04','R','all','\\mbox{ } before a list that opens an environment','When enumerate or itemize starts a proof, a theorem-like environment or sol with no lead-in sentence, write \\mbox{ } (with the space) right after \\begin{...}, then one blank line, then the list. That blank line is an intended exception to TXT-01. With a lead-in sentence no \\mbox{ } is needed.',r`\begin{proof}
+  \begin{enumerate}
+    \item ...
+  \end{enumerate}
+\end{proof}`,r`\begin{proof} \mbox{ }
+
+  \begin{enumerate}
+    \item ...
+    \item ...
+  \end{enumerate}
+\end{proof}
+
+\begin{theorem}
+  The following are equivalent:
+  \begin{enumerate}
+    \item ...
+  \end{enumerate}
+\end{theorem}`,''],
+['LST-05','R','all','Two-direction proofs','Write each direction of an if-and-only-if proof as its own paragraph starting with ($\\implies$) or ($\\impliedby$). Do not use itemize or enumerate for them.',r`\begin{proof}
+  \begin{itemize}
+    \item[($\implies$)] ...
+  \end{itemize}
+\end{proof}`,r`\begin{proof}
+  ($\implies$) Assume ...
+
+  ($\impliedby$) Assume ...
+\end{proof}`,r`(\implies),\ (\impliedby)`],
+['SYM-09','Y','all','Logic arrows','Prefer \\implies, \\impliedby and \\iff to \\Rightarrow, \\Leftarrow and \\Leftrightarrow: they are longer and add spacing. Short arrows are fine only where space is tight (subscripts, tables, cases).',r`$A \Rightarrow B$,  $A \Leftrightarrow B$,  $A \Leftarrow B$`,r`$A \implies B$,  $A \iff B$,  $A \impliedby B$`,r`A \implies B,\ A \iff B,\ A \impliedby B`],
 ['SYM-08','R','all','\\le and \\ge','Use \\le and \\ge, never \\leq or \\geq. \\leqslant, \\geqslant, \\nleq and \\ngeq are allowed (no shorter form exists).',r`$x \leq y$,  $a \geq 0$`,r`$x \le y$,  $a \ge 0$`,r`x \le y,\ a \ge 0`],
 ['DEL-01','R','all','Stretchy delimiters','\\left\\right for stretchy, \\bigl\\bigr for fixed size.',r`(\frac{a}{b})`,r`\left(\frac{a}{b}\right)`,r`\left(\frac{a}{b}\right)`],
 ['DEL-02','R','all','Absolute value and norm','Use \\lvert \\rvert for absolute values and \\| for norms. Never | or ||, and never \\Vert, \\lVert or \\rVert.',r`|x|, ||v||, \Vert v\Vert, \lVert v\rVert`,r`\lvert x\rvert,\ \|v\|`,r`\lvert x\rvert,\ \|v\|`],
@@ -834,7 +867,7 @@ $\lcm(a,b)=12$   % after \DeclareMathOperator{\lcm}{lcm}`,r`\operatorname{lcm}(a
 ['THM-02','R','book','Name equals label prefix','Book/Report, Homework and Beamer: the label prefix is the environment name (defi, not def).',r`\begin{defi}\label{def_sec3:2}`,r`\begin{defi}\label{defi_sec3:2}`,''],
 ['THM-04','R','book','Shared counter','All theorem-like environments count together (Book/Report, Homework, Beamer). Article does the same with [theorem].',r`\newtheorem{lem}{Lemma}`,r`\newtheorem{lem}[thm]{Lemma}`,''],
 ['THM-06','R','all','Localise \\crefname (Vietnamese)','Every environment gets \\crefname and \\Crefname with a capitalised name, so \\cref prints Example 3.6, not example 3.6. English Article needs none: cleveref already knows the full names.',r`% \cref prints "Theorem" in a Vietnamese text`,r`\crefname{thm}{Định lý}{Định lý}\Crefname{thm}{Định lý}{Định lý}  % capitalised, so \cref prints Định lý 3.6`,''],
-['LAB-09','R','all','Renumbering updates labels','When an insertion or deletion changes printed numbers, rename every affected \\label and update every \\cref / \\Cref that points to it.',r`% a lemma was inserted before Proposition 3.6 (now 3.7)
+['LAB-09','R','all','Renumbering updates labels','When an insertion or deletion changes printed numbers, rename every affected \\label and update every \\cref / \\Cref / \\eqref that points to it. Labels by name (LAB-10) are exempt.',r`% a lemma was inserted before Proposition 3.6 (now 3.7)
 \label{prop_sec3:6}   % stale`,r`\label{prop_sec3:7}     % renamed
 % and every \cref{prop_sec3:6} changed to \cref{prop_sec3:7}`,''],
 ['THM-12','R','art','Article: full environment names only','Article uses only theorem, lemma, proposition, corollary, definition, example, remark and proof. No abbreviations, and no extra environments unless asked. Label prefixes stay short (thm lem prop cor defi rem ex).',r`\begin{thm}\label{thm_sec3:6}
@@ -854,7 +887,7 @@ $\lcm(a,b)=12$   % after \DeclareMathOperator{\lcm}{lcm}`,r`\operatorname{lcm}(a
 ['FIG-01','Y','all','Diagrams','tikz or pgfplots for plots instead of screenshots.',r`\includegraphics{plot-screenshot.png}`,r`\usepackage{tikz,pgfplots}
 \pgfplotsset{compat=1.18}`,''],
 ['ALG-01','G','all','Algorithms','algorithm2e, not verbatim.',r`\begin{verbatim} for i in range(n) \end{verbatim}`,r`\usepackage[ruled,vlined]{algorithm2e}`,''],
-['TXT-01','R','all','No arbitrary line breaks','Write a paragraph as one line. A new indented paragraph is two Enters; use it only when the idea changes. Never break a line mid-sentence or around inline math. Applies to Article, Book/Report, Homework and Beamer.',r`Cho $abc$
+['TXT-01','R','all','No arbitrary line breaks','Write a paragraph as one line. A new indented paragraph is two Enters; use it only when the idea changes. Never break a line mid-sentence or around inline math. Applies to Article, Book/Report, Homework and Beamer. The blank line after \\mbox{ } (LST-04) is an intended exception.',r`Cho $abc$
 là
 một hình tam giác`,r`Cho $abc$ là một hình tam giác.`,''],
 ['TXT-02','R','all','Display math on its own lines','$$ opens and closes on separate lines, the formula is indented two spaces, and there is no blank line around or inside. Text before and after stays in the same paragraph.',r`Ta có $$ a=b, $$ trong đó $b>0$.
@@ -925,7 +958,7 @@ trong đó $b>0$.`,''],
 
 ];
 const SORTED=[...RULES].sort((a,b)=>Object.keys(GR).indexOf(a[0].split('-')[0])-Object.keys(GR).indexOf(b[0].split('-')[0]));
-const DD=[[r`\(x\)`,r`$x$`],[r`\[ x \]`,r`$$ x $$`],[r`sin x`,r`\sin x`],[r`\int f(x)dx`,r`\int f(x)\,\mathrm{d}x`],[r`|x|`,r`\lvert x\rvert`],[r`<x,y>`,r`\langle x,y\rangle`],[r`\{x | x>0\}`,r`\{x \mid x>0\}`],[r`f: A\to B`,r`f\colon A\to B`],[r`1,2,...,n`,r`1,2,\dots,n`],[r`a*b, 3 x 4`,r`a\cdot b, 3\times 4`],[r`\def\R{\mathbb R}`,r`\newcommand{\R}{\mathbb{R}}`],[r`\begin{eqnarray}`,r`\begin{align*}`],[r`\begin{equation} (no label)`,r`\begin{equation*}`],[r`Theorem~\ref{thm_sec3:6}`,r`\cref{thm_sec3:6}`],[r`\hline`,r`\toprule \midrule \bottomrule`],[r`cleveref loaded before hyperref`,r`cleveref loaded last`],[r`\begin{def}`,r`\begin{defi}`],[r`\label{sec:intro}`,r`\label{sec1}`],[r`$x if y$`,r`$x \text{ if } y$`],[r`(\frac{a}{b})`,r`\left(\frac{a}{b}\right)`],[r`\cref{eq_sec3:2}`,r`\eqref{eq_sec3:2}`],[r`\leq, \geq`,r`\le, \ge`],[r`\Vert v\Vert`,r`\|v\|`],[r`(a,b)=1`,r`\gcd(a,b)=1`],[r`[a,b]=12`,r`\operatorname{lcm}(a,b)=12`]];
+const DD=[[r`\(x\)`,r`$x$`],[r`\[ x \]`,r`$$ x $$`],[r`sin x`,r`\sin x`],[r`\int f(x)dx`,r`\int f(x)\,\mathrm{d}x`],[r`|x|`,r`\lvert x\rvert`],[r`<x,y>`,r`\langle x,y\rangle`],[r`\{x | x>0\}`,r`\{x \mid x>0\}`],[r`f: A\to B`,r`f\colon A\to B`],[r`1,2,...,n`,r`1,2,\dots,n`],[r`a*b, 3 x 4`,r`a\cdot b, 3\times 4`],[r`\def\R{\mathbb R}`,r`\newcommand{\R}{\mathbb{R}}`],[r`\begin{eqnarray}`,r`\begin{align*}`],[r`\begin{equation} (no label)`,r`\begin{equation*}`],[r`Theorem~\ref{thm_sec3:6}`,r`\cref{thm_sec3:6}`],[r`\hline`,r`\toprule \midrule \bottomrule`],[r`cleveref loaded before hyperref`,r`cleveref loaded last`],[r`\begin{def}`,r`\begin{defi}`],[r`\label{sec:intro}`,r`\label{sec1}`],[r`$x if y$`,r`$x \text{ if } y$`],[r`(\frac{a}{b})`,r`\left(\frac{a}{b}\right)`],[r`\cref{eq_sec3:2}`,r`\eqref{eq_sec3:2}`],[r`\leq, \geq`,r`\le, \ge`],[r`\Vert v\Vert`,r`\|v\|`],[r`(a,b)=1`,r`\gcd(a,b)=1`],[r`[a,b]=12`,r`\operatorname{lcm}(a,b)=12`],[r`A \Rightarrow B`,r`A \implies B`],[r`A \Leftrightarrow B`,r`A \iff B`],[r`\begin{proof} \begin{enumerate}`,r`\begin{proof} \mbox{ } (blank line) \begin{enumerate}`]];
 const CK=['The document compiles without errors; Overfull/Underfull warnings were checked.','Article, Homework, Beamer: the thebibliography block is at the end of the file and the document was compiled twice. Book/Report: refs.bib sits next to main.tex and bibtex was run. No "undefined citation" warnings.','Every \\label is cited, and every cited label exists.','Labels follow the convention for the document type (Article or Book/Report).','Only $...$ and $$...$$ are used; no \\( \\) or \\[ \\].','Unlabelled equations use equation*, align* or $$.','Operators, the differential d, and constants e, i are upright.','cleveref is loaded last; equations are cited with \\eqref, everything else with \\cref / \\Cref.','Theorem environments use the short names and one shared counter.','Vietnamese documents: the engine matches the preamble and the names are localised.','Paragraphs are single lines (new paragraph = two Enters, used sparingly); $$ sits on its own lines; proof is right under its statement.','Anything numbered uses enumerate: (a) by default, (i) inside theorems.'];
 const CONV=r`- Packages: \usepackage[capitalize,nameinlink]{cleveref} loaded LAST. Bibliography: Article, Homework and Beamer have no natbib and no refs.bib; write a thebibliography block ({99}) at the end of the file in IEEE style, keys author+year (smith2020), cite with \cite, compile twice. Book/Report uses \usepackage[numbers]{natbib}, \bibliographystyle{ieeetr}, \bibliography{refs} and a refs.bib file next to main.tex (run bibtex).
 - Math: $...$ inline, $$...$$ display. Never \( \) or \[ \].
@@ -935,14 +968,15 @@ const CONV=r`- Packages: \usepackage[capitalize,nameinlink]{cleveref} loaded LAS
 - Article labels: sec7, subsec7.2, <prefix>_sec<section>:<printed number> (prop_sec3:6), eq_sec3:2.
 - Book/Report labels: chap1, sec2.1, subsec2.1.1, <prefix>_C<chapter>:<rest of printed number> (prop_C3:6.1), eq_C3:6.2, fig_C3:4, tab_C3:4. Use \numberwithin{thm}{section}.
 - Homework: own counter for prob; theorems numbered within prob. Labels prob_hw:3, lem_prob2:1, eq_prob2:3. Solutions in the sol environment, toggled by \solutionstrue / \solutionsfalse.
-- If an insertion or deletion changes printed numbers, rename every affected \label and update every \cref / \Cref that points to it.
+- Labels by name: a famous theorem, lemma, proposition or corollary with a standard name may use <prefix>_<name> (thm_pythagoras, lem_zorn, thm_cauchy-schwarz): lower case, ASCII, hyphens, once per document. Equations, definitions, examples and remarks stay numbered.
+- If an insertion or deletion changes printed numbers, rename every affected \label and update every \cref / \Cref / \eqref that points to it. Labels by name never change.
 - Vietnamese: pdfLaTeX = [T5]{fontenc} + [utf8]{inputenc} + babel[vietnamese]; XeLaTeX = fontspec + babel[vietnamese]. Localise every \crefname and \Crefname with capitalised names (Vietnamese templates).
 - Tables use booktabs; caption above tables, below figures.
 - Text layout: one paragraph = one line; a new paragraph = two Enters, used sparingly; never break lines mid-sentence or around inline math.
 - Display math: $$ opens and closes on their own lines, formula indented two spaces, no blank line around or inside. Same for equation(*) and align(*): \begin and \end on their own lines.
 - Theorems: proof directly under its statement (no blank line); one blank line between all other blocks.
-- Lists: anything numbered uses enumerate (never typed by hand); bullets use itemize. Labels (a),(b) by default, (i),(ii) inside theorem-like environments; nested: outer (a), inner (i). Load enumitem and etoolbox.
-- Symbols: \le and \ge (never \leq, \geq; \leqslant, \geqslant, \nleq, \ngeq are allowed). Absolute values: \lvert x\rvert. Norms: \|v\| (never |, ||, \Vert, \lVert, \rVert). Greatest common divisor \gcd(a,b) and least common multiple \operatorname{lcm}(a,b), never (a,b) or [a,b] for them; an open interval or an ordered pair stays (a,b) when announced first ("the interval (a,b)").`;
+- Lists: anything numbered uses enumerate (never typed by hand); bullets use itemize. Labels (a),(b) by default, (i),(ii) inside theorem-like environments; nested: outer (a), inner (i). Load enumitem and etoolbox. If a list opens a proof, a theorem-like environment or sol with no lead-in sentence, write \mbox{ } (with the space) after \begin{...}, then a blank line (keep it), then the list. Write the directions of an if-and-only-if proof as paragraphs starting with ($\implies$) and ($\impliedby$), not as a list.
+- Symbols: \le and \ge (never \leq, \geq; \leqslant, \geqslant, \nleq, \ngeq are allowed). Absolute values: \lvert x\rvert. Norms: \|v\| (never |, ||, \Vert, \lVert, \rVert). Greatest common divisor \gcd(a,b) and least common multiple \operatorname{lcm}(a,b), never (a,b) or [a,b] for them; an open interval or an ordered pair stays (a,b) when announced first ("the interval (a,b)"). Logic arrows: \implies, \impliedby, \iff (never \Rightarrow, \Leftarrow, \Leftrightarrow) except where space is tight.`;
 const BIB=`@article{smith2020,
   author  = {Smith, John and Nguyen, An},
   title   = {An Example Article},
@@ -971,19 +1005,19 @@ const G_BODY=r`1. Inline math: $...$. Display math: $$ on its own lines, formula
 2. Number only equations that are cited: \begin{equation}\label{...} or align. Uncited equations use $$ (or equation*/align*) with no label. \begin and \end each on their own line.
 3. Text: one paragraph on one line. A new paragraph is one blank line, used sparingly.
 4. Never break a line mid-sentence or around inline math.
-5. Anything numbered uses enumerate (labels (a), or (i) inside theorem-like environments, set automatically). Bullets use itemize.
+5. Anything numbered uses enumerate (labels (a), or (i) inside theorem-like environments, set automatically). Bullets use itemize. If a list opens a proof, a theorem-like environment or sol with no lead-in sentence, write \mbox{ } (with the space) after \begin{...}, then a blank line (keep it), then the list. Write the directions of an if-and-only-if proof as plain paragraphs starting with ($\implies$) and ($\impliedby$), never as a list.
 6. Reference equations with \eqref (two: "\eqref{a} and \eqref{b}"; more than two: separated by commas, or \cref{a,b,c}). Use \cref / \Cref for an equation only when the word "Equation" must appear, e.g. at the start of a sentence. Reference everything else with \cref / \Cref, never "Theorem~\ref". Put \label only on things that are cited.
-7. If an insertion or deletion changes printed numbers, rename every affected \label and update every \cref / \Cref that points to it.
-8. Notation: \sin and \operatorname{rank}; \,\mathrm{d}x; \lvert x\rvert, \|v\|; \langle x,y\rangle; \dots; \text{...} for words in formulas; \le and \ge (never \leq, \geq); \gcd(a,b) and \operatorname{lcm}(a,b), never (a,b) or [a,b] for them (an open interval or ordered pair stays (a,b) if announced first); \mid in sets, \colon in maps; \left\right for stretchy brackets. Never | or || (and never \Vert, \lVert, \rVert) for absolute values and norms.
+7. If an insertion or deletion changes printed numbers, rename every affected \label and update every \cref / \Cref / \eqref that points to it. Labels by name never change.
+8. Notation: \sin and \operatorname{rank}; \,\mathrm{d}x; \lvert x\rvert, \|v\|; \langle x,y\rangle; \dots; \text{...} for words in formulas; \le and \ge (never \leq, \geq); \implies, \impliedby, \iff (never \Rightarrow, \Leftarrow, \Leftrightarrow); \gcd(a,b) and \operatorname{lcm}(a,b), never (a,b) or [a,b] for them (an open interval or ordered pair stays (a,b) if announced first); \mid in sets, \colon in maps; \left\right for stretchy brackets. Never | or || (and never \Vert, \lVert, \rVert) for absolute values and norms.
 9. Macros with \newcommand, never \def; never redefine an existing command.`;
 const G_ART=r`10. Environments: only the full names theorem, lemma, proposition, corollary, definition, example, remark, proof. No abbreviations; add no other environments unless asked.
 11. proof sits directly under its statement (no blank line). Every other block is separated by exactly one blank line.
-12. Labels: \label{sec3}, \label{subsec3.2}. Environments and equations: <prefix>_sec<section>:<printed number> with prefixes thm lem prop cor defi rem ex eq. Proposition 3.6 -> prop_sec3:6; equation (3.2) -> eq_sec3:2.
+12. Labels: \label{sec3}, \label{subsec3.2}. Environments and equations: <prefix>_sec<section>:<printed number> with prefixes thm lem prop cor defi rem ex eq. Proposition 3.6 -> prop_sec3:6; equation (3.2) -> eq_sec3:2. Famous named theorems, lemmas, propositions and corollaries may be labelled by name instead: thm_pythagoras, lem_zorn, thm_cauchy-schwarz (lower case, ASCII, hyphens, once per document); equations are always numbered.
 13. Bibliography: thebibliography{99} at the end, before \end{document}, IEEE style, keys like smith2020, cite with \cite only (no \citep, \citet, natbib or refs.bib).
 14. Use \section and \subsection only; no \chapter.`;
 const G_BOOK=r`10. Environments (short names, one shared counter): thm, lem, prop, cor, defi, rem, ex, proof. Add no other environments unless asked.
 11. proof sits directly under its statement (no blank line). Every other block is separated by exactly one blank line.
-12. Labels: \label{chap1}, \label{sec2.1}, \label{subsec2.1.1}. Environments and equations: <prefix>_C<chapter>:<rest of printed number> with prefixes thm lem prop cor defi rem ex eq. Proposition 3.6.1 -> prop_C3:6.1; equation (3.6.2) -> eq_C3:6.2. Figures and tables: fig_C3:4, tab_C3:4.
+12. Labels: \label{chap1}, \label{sec2.1}, \label{subsec2.1.1}. Environments and equations: <prefix>_C<chapter>:<rest of printed number> with prefixes thm lem prop cor defi rem ex eq. Proposition 3.6.1 -> prop_C3:6.1; equation (3.6.2) -> eq_C3:6.2. Figures and tables: fig_C3:4, tab_C3:4. Famous named theorems, lemmas, propositions and corollaries may be labelled by name instead: thm_pythagoras, lem_zorn, thm_cauchy-schwarz (lower case, ASCII, hyphens, once per document); equations are always numbered.
 13. Bibliography: BibTeX with natbib[numbers] and ieeetr; entries live in refs.bib; cite with \cite.
 14. Use \chapter, \section and \subsection.`;
 const gHead=(t,x)=>r`# LaTeX rules (`+t+r`)
@@ -1394,8 +1428,6 @@ const bookSetup=()=>r`% ========================================================
 \makeatother
 
 % ---------- 11. LỆNH RIÊNG ----------
-\newcommand{\suyra}{\Rightarrow}
-\newcommand{\td}{\Leftrightarrow}
 \DeclareMathOperator{\sgn}{sgn}
 \DeclareMathOperator{\id}{id}
 \DeclareMathOperator{\im}{im}
@@ -1496,8 +1528,6 @@ const bookSetupMin=()=>r`% =====================================================
 \usepackage[unicode]{hyperref}
 
 % ---------- 7. LỆNH RIÊNG ----------
-\newcommand{\suyra}{\Rightarrow}
-\newcommand{\td}{\Leftrightarrow}
 \DeclareMathOperator{\sgn}{sgn}
 \DeclareMathOperator{\id}{id}
 \DeclareMathOperator{\im}{im}
