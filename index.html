@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>LaTeX Style Guide — rules, macros, templates</title>
-<meta name="description" content="82 LaTeX writing rules with Don't/Do comparisons, a mymath macro pack and 17 document templates. Searchable, with per-file copy and download.">
+<meta name="description" content="97 LaTeX writing rules with Don't/Do comparisons, a mymath macro pack and 17 document templates. Searchable, with per-file copy and download.">
 <meta name="color-scheme" content="dark light">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2308090B'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='19' fill='%23E4B36B' text-anchor='middle'%3ET%3C/text%3E%3C/svg%3E">
 <script>
@@ -424,6 +424,7 @@ select:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .minsw.off{opacity:.45}
 .minsw.off .sw{cursor:not-allowed}
 @media (prefers-reduced-motion:reduce){.minsw .trk,.minsw .trk::after{transition:none}}
+.seg-btn[disabled]{opacity:.4;cursor:not-allowed}
 .btn.zip:hover{background:var(--tint);border-color:var(--line-2)}
 .btn.zip i{color:var(--accent)}
 .btn.zip:active{transform:scale(.98)}
@@ -720,7 +721,7 @@ $$`,''],
 \begin{equation*}
   a=b
 \end{equation*}`,''],
-['SYM-01','R','all','Upright operators','Named functions are upright.',r`$sin x$, $rank A$`,r`$\sin x$, $\operatorname{rank}A$`,r`\sin x,\ \operatorname{rank}A`],
+['SYM-01','R','all','Upright operators','Named functions are upright; unfamiliar names follow MAC-06.',r`$sin x$, $rank A$`,r`$\sin x$, $\rank A$   % \DeclareMathOperator{\rank}{rank} once`,r`\sin x,\ \operatorname{rank}A`],
 ['SYM-02','R','all','Upright differential','Thin space before d, upright d.',r`\int f(x)dx`,r`\int f(x)\,\mathrm{d}x`,r`\int f(x)\,\mathrm{d}x`],
 ['SYM-03','Y','all','Upright constants','e and i as constants are upright.',r`e^{ix}`,r`\mathrm{e}^{\mathrm{i}x}`,r`\mathrm{e}^{\mathrm{i}x}`],
 ['SYM-06','R','all','Words use \\text','Words inside formulas are text.',r`x_{max}, if x>0`,r`x_{\max},\quad \text{if } x>0`,r`x_{\max},\quad \text{if } x>0`],
@@ -775,6 +776,17 @@ $$`,''],
     a=b. \qedhere
   \end{equation*}
 \end{proof}`,''],
+['MAC-06','R','all','Declare unfamiliar names once','A symbol or function name that is not in LaTeX (PSL, PGL, Hom, ...) and is used 2 or more times is declared once in the Custom names block: \\newcommand{\\PSL}{\\mathrm{PSL}}. A name that takes an argument uses \\DeclareMathOperator{\\Hom}{Hom}, only when needed. Used once: write \\mathrm{PSL} in place. Never redeclare an existing command.',r`$\mathrm{PSL}_2(\mathbb{R})$ ... $\operatorname{PGL}_2$ ... $\mathrm{PSL}(2,q)$`,r`% --- Custom names (add \newcommand lines here only) ---
+\newcommand{\PSL}{\mathrm{PSL}}
+\newcommand{\PGL}{\mathrm{PGL}}
+\DeclareMathOperator{\Hom}{Hom}
+% then
+$\PSL_2(\mathbb{R})$ ... $\PGL_2$ ... $\PSL(2,q)$`,r`\mathrm{PSL}_2(\mathbb{R}),\ \mathrm{PGL}_2`],
+['MAC-07','R','all','Templates have no macros','Templates ship with no macros. Never use a macro (\\R, \\abs, \\norm, \\E, \\dd, ...) that is not declared. A frequent symbol is declared exactly as in the Macro Pack (same command name, same definition). With a template that follows the rules, add lines only to the Custom names block; with no template, or one that breaks the rules, rewrite the whole preamble.',r`$x\in\R^n$   % \R was never declared`,r`% --- Custom names (add \newcommand lines here only) ---
+\newcommand{\R}{\mathbb{R}}
+% then
+$x\in\R^n$`,''],
+['PRE-09','R','all','hyperref without hidelinks','Load hyperref plainly (Book/Report: [unicode]); never with hidelinks.',r`\usepackage[hidelinks]{hyperref}`,r`\usepackage{hyperref}`,''],
 ['MAC-01','R','all','Macros','\\newcommand or \\DeclareMathOperator, never \\def.',r`\def\R{\mathbb R}`,r`\newcommand{\R}{\mathbb{R}}`,r`\mathbb{R}`],
 ['MAC-02','R','all','Do not override commands','Pick a new name instead of redefining.',r`\newcommand{\vec}[1]{\mathbf{#1}}`,r`\newcommand{\vect}[1]{\mathbf{#1}}`,''],
 ['VN-01','R','all','pdfLaTeX Vietnamese','T5 fontenc and babel vietnamese.',r`\usepackage[T1]{fontenc}`,r`\usepackage[T5]{fontenc}
@@ -807,7 +819,6 @@ $$`,''],
 }`,r`\newcommand{\hi}{%
   Hello%
 }`,''],
-['PRE-07','G','all','Collect macros in mymath.sty','Keep the preamble short; share one macro file across documents.',r`\newcommand{\R}{\mathbb{R}}  % 60 more lines in main.tex`,r`\usepackage{mymath}`,''],
 ['PRE-08','R','book','refs.bib for Book/Report','Book/Report: natbib + \\bibliography{refs} needs refs.bib next to main.tex; run bibtex between LaTeX runs. Article, Homework and Beamer do not use refs.bib.',r`\bibliography{refs}   % but no refs.bib file`,r`% refs.bib
 @article{smith2020,
   author  = {Smith, John},
@@ -852,11 +863,11 @@ where $b>0$.`,r`a=b,`],
 % allowed when announced first:
 Let $(a,b)$ be an open interval.
 Let $(a,b)$ be an ordered pair.`,r`\gcd(a,b)=1,\ d=\gcd(12,18),\ \gcd(a,b,c)`],
-['FLD-08','R','all','Least common multiple','Write the least common multiple as \\operatorname{lcm}(a,b), never [a,b]. With \\DeclareMathOperator{\\lcm}{lcm} from the Macro Pack you can write \\lcm(a,b).',r`$[a,b]=12$`,r`$\operatorname{lcm}(a,b)=12$
-$\lcm(a,b)=12$   % after \DeclareMathOperator{\lcm}{lcm}`,r`\operatorname{lcm}(a,b)=12`],
+['FLD-08','R','all','Least common multiple','Write the least common multiple as \\lcm(a,b), never [a,b]. Declare \\DeclareMathOperator{\\lcm}{lcm} once (MAC-06); if it is used only once, \\operatorname{lcm}(a,b) is fine.',r`$[a,b]=12$`,r`$\lcm(a,b)=12$   % \DeclareMathOperator{\lcm}{lcm}
+$\operatorname{lcm}(a,b)=12$   % used only once`,r`\lcm(a,b)=12`],
 ['FLD-01','Y','all','Calculus','Limits, sums and integrals with explicit bounds.',r`lim n->inf sum 1/k^2`,r`\lim_{n\to\infty}\sum_{k=1}^{n}\frac{1}{k^2}`,r`\lim_{n\to\infty}\sum_{k=1}^{n}\frac{1}{k^2}=\frac{\pi^2}{6}`],
 ['FLD-02','Y','all','Linear algebra','pmatrix for matrices, \\det, transpose as ^{\\top}.',r`\begin{array}{cc}a&b\\c&d\end{array}, A^T`,r`\begin{pmatrix} a & b \\ c & d \end{pmatrix},\ \det A,\ A^{\top}`,r`\begin{pmatrix}a&b\\c&d\end{pmatrix},\ \det A,\ A^{\top}`],
-['FLD-03','Y','all','Probability and statistics','\\Pr, \\mathbb{E}, \\operatorname{Var}.',r`P(X>0), E[X], Var X`,r`\Pr(X>0),\ \mathbb{E}[X],\ \operatorname{Var}(X)`,r`\Pr(X>0),\ \mathbb{E}[X],\ \operatorname{Var}(X)`],
+['FLD-03','Y','all','Probability and statistics','\\Pr is built in. Frequent \\mathbb{E} and \\operatorname{Var} are declared once (MAC-06): \\newcommand{\\E}{\\mathbb{E}}, \\DeclareMathOperator{\\Var}{Var}.',r`P(X>0), E[X], Var X`,r`\Pr(X>0),\ \E[X],\ \Var(X)`,r`\Pr(X>0),\ \E[X],\ \Var(X)`],
 ['FLD-04','Y','all','Sets and logic','Symbols, not words.',r`A c B, for all x exists y`,r`A\subseteq B,\ \forall x\ \exists y,\ P\implies Q`,r`A\subseteq B,\ \forall x\ \exists y,\ P\implies Q`],
 ['FLD-05','Y','all','Binomials','\\binom, not a hand-built fraction.',r`\frac{n!}{k!(n-k)!}`,r`\binom{n}{k}`,r`\binom{n}{k}`],
 ['FLD-06','G','all','Floor and ceiling','Dedicated delimiters.',r`[x]`,r`\lfloor x\rfloor,\ \lceil x\rceil`,r`\lfloor x\rfloor,\ \lceil x\rceil`],
@@ -881,7 +892,8 @@ $\lcm(a,b)=12$   % after \DeclareMathOperator{\lcm}{lcm}`,r`\operatorname{lcm}(a
 \newtheorem{thm}{Theorem}[prob]`,''],
 ['MAC-03','Y','all','Meaningful names','Short but readable macro names.',r`\newcommand{\a}{\mathbb{R}}`,r`\newcommand{\R}{\mathbb{R}}`,r`\mathbb{R}`],
 ['MAC-04','Y','all','Macros with arguments','Use DeclarePairedDelimiter instead of hand-made \\left\\right macros.',r`\newcommand{\abs}[1]{\left|#1\right|}`,r`\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}`,''],
-['MAC-05','G','all','Group into mymath.sty','One file, reused everywhere. See the Macro Pack tab.',r`% same 30 macros pasted into every project`,r`\usepackage{mymath}`,''],
+['MAC-05','G','all','mymath.sty is optional','Macros reused across many documents may be gathered into mymath.sty (Macro Pack tab), but templates never load it.',r`\usepackage{mymath}   % loaded by the template`,r`% --- Custom names (add \newcommand lines here only) ---
+\newcommand{\PSL}{\mathrm{PSL}}`,''],
 ['VN-03','Y','all','Vietnamese names','Theorem names are Vietnamese in Vietnamese documents.',r`\newtheorem{thm}{Theorem}`,r`\newtheorem{thm}{Định lý}`,''],
 ['VN-04','Y','all','Dates and foreign names','Keep accents of foreign names; use \\today with babel.',r`Poincare, 8/11/2026`,r`Poincar\'e, \today`,''],
 ['FIG-01','Y','all','Diagrams','tikz or pgfplots for plots instead of screenshots.',r`\includegraphics{plot-screenshot.png}`,r`\usepackage{tikz,pgfplots}
@@ -958,9 +970,10 @@ trong đó $b>0$.`,''],
 
 ];
 const SORTED=[...RULES].sort((a,b)=>Object.keys(GR).indexOf(a[0].split('-')[0])-Object.keys(GR).indexOf(b[0].split('-')[0]));
-const DD=[[r`\(x\)`,r`$x$`],[r`\[ x \]`,r`$$ x $$`],[r`sin x`,r`\sin x`],[r`\int f(x)dx`,r`\int f(x)\,\mathrm{d}x`],[r`|x|`,r`\lvert x\rvert`],[r`<x,y>`,r`\langle x,y\rangle`],[r`\{x | x>0\}`,r`\{x \mid x>0\}`],[r`f: A\to B`,r`f\colon A\to B`],[r`1,2,...,n`,r`1,2,\dots,n`],[r`a*b, 3 x 4`,r`a\cdot b, 3\times 4`],[r`\def\R{\mathbb R}`,r`\newcommand{\R}{\mathbb{R}}`],[r`\begin{eqnarray}`,r`\begin{align*}`],[r`\begin{equation} (no label)`,r`\begin{equation*}`],[r`Theorem~\ref{thm_sec3:6}`,r`\cref{thm_sec3:6}`],[r`\hline`,r`\toprule \midrule \bottomrule`],[r`cleveref loaded before hyperref`,r`cleveref loaded last`],[r`\begin{def}`,r`\begin{defi}`],[r`\label{sec:intro}`,r`\label{sec1}`],[r`$x if y$`,r`$x \text{ if } y$`],[r`(\frac{a}{b})`,r`\left(\frac{a}{b}\right)`],[r`\cref{eq_sec3:2}`,r`\eqref{eq_sec3:2}`],[r`\leq, \geq`,r`\le, \ge`],[r`\Vert v\Vert`,r`\|v\|`],[r`(a,b)=1`,r`\gcd(a,b)=1`],[r`[a,b]=12`,r`\operatorname{lcm}(a,b)=12`],[r`A \Rightarrow B`,r`A \implies B`],[r`A \Leftrightarrow B`,r`A \iff B`],[r`\begin{proof} \begin{enumerate}`,r`\begin{proof} \mbox{ } (blank line) \begin{enumerate}`]];
+const DD=[[r`\(x\)`,r`$x$`],[r`\[ x \]`,r`$$ x $$`],[r`sin x`,r`\sin x`],[r`\int f(x)dx`,r`\int f(x)\,\mathrm{d}x`],[r`|x|`,r`\lvert x\rvert`],[r`<x,y>`,r`\langle x,y\rangle`],[r`\{x | x>0\}`,r`\{x \mid x>0\}`],[r`f: A\to B`,r`f\colon A\to B`],[r`1,2,...,n`,r`1,2,\dots,n`],[r`a*b, 3 x 4`,r`a\cdot b, 3\times 4`],[r`\def\R{\mathbb R}`,r`\newcommand{\R}{\mathbb{R}}`],[r`\begin{eqnarray}`,r`\begin{align*}`],[r`\begin{equation} (no label)`,r`\begin{equation*}`],[r`Theorem~\ref{thm_sec3:6}`,r`\cref{thm_sec3:6}`],[r`\hline`,r`\toprule \midrule \bottomrule`],[r`cleveref loaded before hyperref`,r`cleveref loaded last`],[r`\begin{def}`,r`\begin{defi}`],[r`\label{sec:intro}`,r`\label{sec1}`],[r`$x if y$`,r`$x \text{ if } y$`],[r`(\frac{a}{b})`,r`\left(\frac{a}{b}\right)`],[r`\cref{eq_sec3:2}`,r`\eqref{eq_sec3:2}`],[r`\leq, \geq`,r`\le, \ge`],[r`\Vert v\Vert`,r`\|v\|`],[r`(a,b)=1`,r`\gcd(a,b)=1`],[r`[a,b]=12`,r`\lcm(a,b)=12`],[r`A \Rightarrow B`,r`A \implies B`],[r`A \Leftrightarrow B`,r`A \iff B`],[r`\begin{proof} \begin{enumerate}`,r`\begin{proof} \mbox{ } (blank line) \begin{enumerate}`],[r`\mathrm{PSL}_2(\mathbb{R})`,r`\PSL_2(\mathbb{R})`],[r`\usepackage[hidelinks]{hyperref}`,r`\usepackage{hyperref}`]];
 const CK=['The document compiles without errors; Overfull/Underfull warnings were checked.','Article, Homework, Beamer: the thebibliography block is at the end of the file and the document was compiled twice. Book/Report: refs.bib sits next to main.tex and bibtex was run. No "undefined citation" warnings.','Every \\label is cited, and every cited label exists.','Labels follow the convention for the document type (Article or Book/Report).','Only $...$ and $$...$$ are used; no \\( \\) or \\[ \\].','Unlabelled equations use equation*, align* or $$.','Operators, the differential d, and constants e, i are upright.','cleveref is loaded last; equations are cited with \\eqref, everything else with \\cref / \\Cref.','Theorem environments use the short names and one shared counter.','Vietnamese documents: the engine matches the preamble and the names are localised.','Paragraphs are single lines (new paragraph = two Enters, used sparingly); $$ sits on its own lines; proof is right under its statement.','Anything numbered uses enumerate: (a) by default, (i) inside theorems.'];
-const CONV=r`- Packages: \usepackage[capitalize,nameinlink]{cleveref} loaded LAST. Bibliography: Article, Homework and Beamer have no natbib and no refs.bib; write a thebibliography block ({99}) at the end of the file in IEEE style, keys author+year (smith2020), cite with \cite, compile twice. Book/Report uses \usepackage[numbers]{natbib}, \bibliographystyle{ieeetr}, \bibliography{refs} and a refs.bib file next to main.tex (run bibtex).
+const CONV=r`- Packages: \usepackage{hyperref} (never hidelinks); \usepackage[capitalize,nameinlink]{cleveref} loaded LAST. Bibliography: Article, Homework and Beamer have no natbib and no refs.bib; write a thebibliography block ({99}) at the end of the file in IEEE style, keys author+year (smith2020), cite with \cite, compile twice. Book/Report uses \usepackage[numbers]{natbib}, \bibliographystyle{ieeetr}, \bibliography{refs} and a refs.bib file next to main.tex (run bibtex).
+- Custom names: every template has an empty block % --- Custom names (add \newcommand lines here only) ---. Templates ship with no macros. A symbol or unfamiliar name (PSL, Hom, ...) used 2+ times is declared once there: \newcommand{\PSL}{\mathrm{PSL}}, or \DeclareMathOperator{\Hom}{Hom} for names taking an argument. Frequent symbols are declared exactly as in the Macro Pack. With a template that follows the rules, only add lines to that block; otherwise rewrite the whole preamble.
 - Math: $...$ inline, $$...$$ display. Never \( \) or \[ \].
 - Equations: cited => equation/align with \label. Not cited => equation*/align*/$$ (no label). Cite equations with \eqref (two: \eqref{a} and \eqref{b}; more than two: commas, or \cref{a,b,c}); use \cref/\Cref for an equation only when the word "Equation" must appear, e.g. at the start of a sentence.
 - Article: only the full environment names theorem lemma proposition corollary definition example remark proof (shared counter); no abbreviations and no extra environments unless asked. Label prefixes: thm lem prop cor defi rem ex eq.
@@ -976,7 +989,7 @@ const CONV=r`- Packages: \usepackage[capitalize,nameinlink]{cleveref} loaded LAS
 - Display math: $$ opens and closes on their own lines, formula indented two spaces, no blank line around or inside. Same for equation(*) and align(*): \begin and \end on their own lines.
 - Theorems: proof directly under its statement (no blank line); one blank line between all other blocks.
 - Lists: anything numbered uses enumerate (never typed by hand); bullets use itemize. Labels (a),(b) by default, (i),(ii) inside theorem-like environments; nested: outer (a), inner (i). Load enumitem and etoolbox. If a list opens a proof, a theorem-like environment or sol with no lead-in sentence, write \mbox{ } (with the space) after \begin{...}, then a blank line (keep it), then the list. Write the directions of an if-and-only-if proof as paragraphs starting with ($\implies$) and ($\impliedby$), not as a list.
-- Symbols: \le and \ge (never \leq, \geq; \leqslant, \geqslant, \nleq, \ngeq are allowed). Absolute values: \lvert x\rvert. Norms: \|v\| (never |, ||, \Vert, \lVert, \rVert). Greatest common divisor \gcd(a,b) and least common multiple \operatorname{lcm}(a,b), never (a,b) or [a,b] for them; an open interval or an ordered pair stays (a,b) when announced first ("the interval (a,b)"). Logic arrows: \implies, \impliedby, \iff (never \Rightarrow, \Leftarrow, \Leftrightarrow) except where space is tight.`;
+- Symbols: \le and \ge (never \leq, \geq; \leqslant, \geqslant, \nleq, \ngeq are allowed). Absolute values: \lvert x\rvert. Norms: \|v\| (never |, ||, \Vert, \lVert, \rVert). Greatest common divisor \gcd(a,b) and least common multiple \lcm(a,b), never (a,b) or [a,b] for them; an open interval or an ordered pair stays (a,b) when announced first ("the interval (a,b)"). Logic arrows: \implies, \impliedby, \iff (never \Rightarrow, \Leftarrow, \Leftrightarrow) except where space is tight.`;
 const BIB=`@article{smith2020,
   author  = {Smith, John and Nguyen, An},
   title   = {An Example Article},
@@ -1008,20 +1021,20 @@ const G_BODY=r`1. Inline math: $...$. Display math: $$ on its own lines, formula
 5. Anything numbered uses enumerate (labels (a), or (i) inside theorem-like environments, set automatically). Bullets use itemize. If a list opens a proof, a theorem-like environment or sol with no lead-in sentence, write \mbox{ } (with the space) after \begin{...}, then a blank line (keep it), then the list. Write the directions of an if-and-only-if proof as plain paragraphs starting with ($\implies$) and ($\impliedby$), never as a list.
 6. Reference equations with \eqref (two: "\eqref{a} and \eqref{b}"; more than two: separated by commas, or \cref{a,b,c}). Use \cref / \Cref for an equation only when the word "Equation" must appear, e.g. at the start of a sentence. Reference everything else with \cref / \Cref, never "Theorem~\ref". Put \label only on things that are cited.
 7. If an insertion or deletion changes printed numbers, rename every affected \label and update every \cref / \Cref / \eqref that points to it. Labels by name never change.
-8. Notation: \sin and \operatorname{rank}; \,\mathrm{d}x; \lvert x\rvert, \|v\|; \langle x,y\rangle; \dots; \text{...} for words in formulas; \le and \ge (never \leq, \geq); \implies, \impliedby, \iff (never \Rightarrow, \Leftarrow, \Leftrightarrow); \gcd(a,b) and \operatorname{lcm}(a,b), never (a,b) or [a,b] for them (an open interval or ordered pair stays (a,b) if announced first); \mid in sets, \colon in maps; \left\right for stretchy brackets. Never | or || (and never \Vert, \lVert, \rVert) for absolute values and norms.
-9. Macros with \newcommand, never \def; never redefine an existing command.`;
+8. Notation: \sin and \operatorname{rank}; \,\mathrm{d}x; \lvert x\rvert, \|v\|; \langle x,y\rangle; \dots; \text{...} for words in formulas; \le and \ge (never \leq, \geq); \implies, \impliedby, \iff (never \Rightarrow, \Leftarrow, \Leftrightarrow); \gcd(a,b) and \lcm(a,b) (with \DeclareMathOperator{\lcm}{lcm}), never (a,b) or [a,b] for them (an open interval or ordered pair stays (a,b) if announced first); \mid in sets, \colon in maps; \left\right for stretchy brackets. Never | or || (and never \Vert, \lVert, \rVert) for absolute values and norms.
+9. A symbol or unfamiliar name (PSL, Hom, ...) used 2+ times is declared once in the Custom names block with \newcommand (or \DeclareMathOperator when it takes an argument); never \def, never redefine an existing command. Templates have no macros: never use an undeclared macro such as \R, \abs or \E.`;
 const G_ART=r`10. Environments: only the full names theorem, lemma, proposition, corollary, definition, example, remark, proof. No abbreviations; add no other environments unless asked.
 11. proof sits directly under its statement (no blank line). Every other block is separated by exactly one blank line.
 12. Labels: \label{sec3}, \label{subsec3.2}. Environments and equations: <prefix>_sec<section>:<printed number> with prefixes thm lem prop cor defi rem ex eq. Proposition 3.6 -> prop_sec3:6; equation (3.2) -> eq_sec3:2. Famous named theorems, lemmas, propositions and corollaries may be labelled by name instead: thm_pythagoras, lem_zorn, thm_cauchy-schwarz (lower case, ASCII, hyphens, once per document); equations are always numbered.
 13. Bibliography: thebibliography{99} at the end, before \end{document}, IEEE style, keys like smith2020, cite with \cite only (no \citep, \citet, natbib or refs.bib).
-14. Use \section and \subsection only; no \chapter.`;
+14. Use \section and \subsection only; no \chapter. Load hyperref as \usepackage{hyperref}, never with hidelinks.`;
 const G_BOOK=r`10. Environments (short names, one shared counter): thm, lem, prop, cor, defi, rem, ex, proof. Add no other environments unless asked.
 11. proof sits directly under its statement (no blank line). Every other block is separated by exactly one blank line.
 12. Labels: \label{chap1}, \label{sec2.1}, \label{subsec2.1.1}. Environments and equations: <prefix>_C<chapter>:<rest of printed number> with prefixes thm lem prop cor defi rem ex eq. Proposition 3.6.1 -> prop_C3:6.1; equation (3.6.2) -> eq_C3:6.2. Figures and tables: fig_C3:4, tab_C3:4. Famous named theorems, lemmas, propositions and corollaries may be labelled by name instead: thm_pythagoras, lem_zorn, thm_cauchy-schwarz (lower case, ASCII, hyphens, once per document); equations are always numbered.
 13. Bibliography: BibTeX with natbib[numbers] and ieeetr; entries live in refs.bib; cite with \cite.
-14. Use \chapter, \section and \subsection.`;
+14. Use \chapter, \section and \subsection. Load hyperref as \usepackage[unicode]{hyperref}, never with hidelinks.`;
 const gHead=(t,x)=>r`# LaTeX rules (`+t+r`)
-Use the provided template. Never change its preamble; write only what goes between \begin{document} and \end{document}.
+Use the provided template. Change its preamble only by adding lines to the block % --- Custom names (add \newcommand lines here only) ---; write the rest between \begin{document} and \end{document}. If no template is provided, or it breaks these rules, rewrite the whole preamble.
 
 `+G_BODY+(x?'\n\n## '+t+'\n'+x:'')+'\n';
 const guideCommon=()=>gHead('common','');
@@ -1123,7 +1136,9 @@ function body(t,l){
 %    J. Smith and A. Nguyen, \textquotedblleft An example article,\textquotedblright\ \emph{Journal of Examples}, vol.~1, no.~2, pp.~1--10, 2020.
 %\end{thebibliography}`;
   const bib=t=='book'?bibBook:bibIn;
-  const head=r`\title{${A('Tiêu đề','Title')}}
+  const head=r`% --- Custom names (add \newcommand lines here only) ---
+
+\title{${A('Tiêu đề','Title')}}
 \author{${A('Tác giả','Author')}}
 \date{\today}
 `;
@@ -1155,6 +1170,8 @@ ${bib}
 \end{document}
 `;
   return r`
+% --- Custom names (add \newcommand lines here only) ---
+
 % ${A('Thông tin sinh viên','Student info')}
 \newcommand{\StudentName}{${A('Họ và tên','Full name')}}
 \newcommand{\StudentID}{${A('MSSV','Student ID')}}
@@ -1189,7 +1206,6 @@ function build(t,l,e){
   s+='\n\n'+r`\usepackage{amsmath,amssymb,mathtools,booktabs,graphicx}`+'\n';
   if(!bm)s+=r`\usepackage{amsthm,enumitem,etoolbox}`+'\n';
   if(hw)s+=r`\usepackage{environ}`+'\n';
-  s+=r`%\usepackage{mymath}  % `+T2(l,'tùy chọn: xem tab Macro Pack','optional: see the Macro Pack tab')+'\n';
   if(t=='book')s+=r`\usepackage[numbers]{natbib}`+'\n';
   if(!bm)s+=r`\usepackage{hyperref}`+'\n';
   s+=r`\usepackage[capitalize,nameinlink]{cleveref} % `+T2(l,'nạp CUỐI CÙNG','load LAST')+'\n\n';
@@ -1221,7 +1237,9 @@ function buildArticle(l,e){
 \setlist[enumerate,2]{label=(\roman*)}
 \newcommand{\romanlists}[1]{\AtBeginEnvironment{#1}{\setlist[enumerate,1]{label=(\roman*)}\setlist[enumerate,2]{label=(\alph*)}}}
 \forcsvlist{\romanlists}{theorem,lemma,proposition,corollary,definition,remark}`+'\n\n';
-  s+=r`\title{${T2(l,'Tiêu đề','Title')}}
+  s+=r`% --- Custom names (add \newcommand lines here only) ---
+
+\title{${T2(l,'Tiêu đề','Title')}}
 \author{${T2(l,'Tác giả','Author')}}
 \date{\today}
 
@@ -1246,6 +1264,21 @@ function genExtra(l){
 }
 MACROS.push(['Article extras (English)',genExtra('en'),[]]);
 MACROS.push(['Article extras (Vietnamese)',genExtra('vi'),[]]);
+Object.assign(KM,{'\\GL':r`\mathrm{GL}`,'\\SL':r`\mathrm{SL}`,'\\PGL':r`\mathrm{PGL}`,'\\PSL':r`\mathrm{PSL}`,'\\SO':r`\mathrm{SO}`,'\\SU':r`\mathrm{SU}`,'\\Sp':r`\mathrm{Sp}`,'\\Aut':r`\operatorname{Aut}`,'\\Hom':r`\operatorname{Hom}`,'\\End':r`\operatorname{End}`,'\\Gal':r`\operatorname{Gal}`,'\\Spec':r`\operatorname{Spec}`,'\\Stab':r`\operatorname{Stab}`});
+MACROS.push(['Group and algebra names',r`\newcommand{\GL}{\mathrm{GL}}
+\newcommand{\SL}{\mathrm{SL}}
+\newcommand{\PGL}{\mathrm{PGL}}
+\newcommand{\PSL}{\mathrm{PSL}}
+\newcommand{\SO}{\mathrm{SO}}
+\newcommand{\SU}{\mathrm{SU}}
+\newcommand{\Sp}{\mathrm{Sp}}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\Stab}{Stab}`,[r`\PSL_2(\R),\ \GL_n,\ \Hom(A,B),\ \Aut G`]]);
+const guideMacros=()=>'# LaTeX macros (declare only what you use)\nTemplates ship with no macros. Declare a macro only when the symbol appears 2 or more times in the document, inside the Custom names block (% --- Custom names (add \\newcommand lines here only) ---), exactly as below (same command name, same definition). Symbols used once are written in place.\n\n'+MACROS.filter(m=>!/^Article extras/.test(m[0])).map(m=>'## '+m[0]+'\n'+m[1]).join('\n\n')+'\n';
 const TYPES=[['art','Article','\\section, labels sec7 / thm_sec3:6'],['book','Book/Report','\\chapter, labels chap1 / prop_C3:6.1'],['bm','Beamer','16:9 slides, overlays'],['hw','Homework','prob / sol with on-off flag']];
 const TPL=[];
 TYPES.forEach(t=>['pdf','xe'].forEach(e=>['vi','en'].forEach(l=>TPL.push({id:t[0]+'-'+e+'-'+l,t:t[0],e,l,title:t[1]+' · '+(e=='xe'?'XeLaTeX':'pdfLaTeX')+' · '+l.toUpperCase(),desc:t[2],code:build(t[0],l,e)}))));
@@ -1307,7 +1340,7 @@ const bookSetup=()=>r`% ========================================================
 %  setup.tex — cấu hình cho Book/Report (XeLaTeX, tiếng Việt)
 %  Mục: 0 Thông tin  1 Gói cơ bản  2 Màu  3 Hình/bảng  4 TikZ
 %       5 Listings  6 Tài liệu tham khảo  7 Hyperref
-%       8 Header/Footer  9 Tiêu đề  10 TOC  11 Lệnh riêng
+%       8 Header/Footer  9 Tiêu đề  10 TOC  11 Custom names
 %       12 cleveref (nạp cuối) + môi trường định lý
 % ============================================================
 
@@ -1427,11 +1460,8 @@ const bookSetup=()=>r`% ========================================================
 \renewcommand{\tableofcontents}{\@starttoc{toc}}
 \makeatother
 
-% ---------- 11. LỆNH RIÊNG ----------
-\DeclareMathOperator{\sgn}{sgn}
-\DeclareMathOperator{\id}{id}
-\DeclareMathOperator{\im}{im}
-% \usepackage{mymath}   % hoặc gom các lệnh trên vào mymath.sty (xem tab Macro Pack)
+% ---------- 11. CUSTOM NAMES ----------
+% --- Custom names (add \newcommand lines here only) ---
 
 % ---------- 12. CLEVEREF (nạp CUỐI CÙNG) + MÔI TRƯỜNG ----------
 \usepackage[capitalize,nameinlink]{cleveref}
@@ -1527,10 +1557,8 @@ const bookSetupMin=()=>r`% =====================================================
 % ---------- 6. LIÊN KẾT ----------
 \usepackage[unicode]{hyperref}
 
-% ---------- 7. LỆNH RIÊNG ----------
-\DeclareMathOperator{\sgn}{sgn}
-\DeclareMathOperator{\id}{id}
-\DeclareMathOperator{\im}{im}
+% ---------- 7. CUSTOM NAMES ----------
+% --- Custom names (add \newcommand lines here only) ---
 
 % ---------- 8. CLEVEREF (nạp CUỐI CÙNG) + MÔI TRƯỜNG ----------
 \usepackage[capitalize,nameinlink]{cleveref}
@@ -1543,8 +1571,61 @@ ${thms('vi','book').replace(/(Đ|đ)ịnh lý/g,'$1ịnh lí')}
 ${listcfg('vi')}\romanlists{pty}
 `;
 const CUSTOM_BOOK_MIN=Object.assign({},CUSTOM_BOOK,{title:'Book/Report · XeLaTeX · VI · Minimal',desc:'Minimal: functional packages only (math, lists, figures and tables, TikZ, listings, natbib, hyperref, cleveref). Files: main.tex + setup.tex.',files:[{n:'main.tex',c:bookMainMin()},{n:'setup.tex',c:bookSetupMin()}],guide:['Same files as the Standard version: <code>main.tex</code>, <code>setup.tex</code>, <code>refs.bib</code> and your chapters; compile <code>main.tex</code> with XeLaTeX.','Colours, custom headers and titles, quiver and tcolorbox are removed. Only functional packages remain; links use the plain <code>hyperref</code> defaults.','Theorem environments follow the style guide: <code>thm lem prop cor defi rem ex</code> plus <code>pty</code> (Tính chất). Labels look like <code>prop_C3:6.1</code>.']});
+const BK_EN=[
+[r`% QUY TẮC: một đoạn = một dòng; đoạn mới = Enter hai lần (hạn chế). $$ riêng dòng; proof sát phát biểu; các khối cách nhau một dòng trống; có đếm số thì dùng enumerate.`,r`% STYLE: one paragraph = one line; new paragraph = two Enters (sparingly). $$ on its own lines; proof right after its statement; one blank line between blocks; numbered things use enumerate.`],
+[r`% --- Font tùy chọn (XeLaTeX): bỏ dấu % ở đầu mỗi dòng bên dưới để dùng ---`,r`% --- Optional font (XeLaTeX): remove the % at the start of the lines below to use it ---`],
+[r`% Tiêu đề chính: màu chủ đạo, đậm`,r`% Main title: main colour, bold`],
+[r`% Đường kẻ trang trí: pha nhạt 60%`,r`% Decorative rule: 60% tint`],
+[r`% Tác giả, đơn vị: pha thêm đen để chữ trầm hơn`,r`% Author, institution: mixed with black for a calmer tone`],
+[r`% Ngày tháng: màu phụ`,r`% Date: secondary colour`],
+[r`% Tạo các file chapter1.tex, chapter2.tex, ... rồi bỏ % ở đầu dòng tương ứng`,r`% Create chapter1.tex, chapter2.tex, ... then remove the % at the start of the matching line`],
+[r`% Tài liệu tham khảo (cần file refs.bib cùng thư mục)`,r`% Bibliography (needs refs.bib in the same folder)`],
+[r`{chapter}{Tài liệu tham khảo}`,r`{chapter}{References}`],
+[r`%  setup.tex — cấu hình cho Book/Report (XeLaTeX, tiếng Việt)`,r`%  setup.tex: configuration for Book/Report (XeLaTeX, English)`],
+[r`%  Mục: 0 Thông tin  1 Gói cơ bản  2 Màu  3 Hình/bảng  4 TikZ`,r`%  Sections: 0 Info  1 Basic packages  2 Colours  3 Figures/tables  4 TikZ`],
+[r`%       5 Listings  6 Tài liệu tham khảo  7 Hyperref`,r`%       5 Listings  6 Bibliography  7 Hyperref`],
+[r`%       8 Header/Footer  9 Tiêu đề  10 TOC  11 Custom names`,r`%       8 Header/Footer  9 Headings  10 TOC  11 Custom names`],
+[r`%       12 cleveref (nạp cuối) + môi trường định lý`,r`%       12 cleveref (loaded last) + theorem environments`],
+[r`% ---------- 0. THÔNG TIN TÀI LIỆU (SỬA Ở ĐÂY) ----------`,r`% ---------- 0. DOCUMENT INFO (EDIT HERE) ----------`],
+[r`{Tiêu đề tài liệu}`,r`{Document title}`],[r`{Phụ đề hoặc khẩu hiệu}`,r`{Subtitle or tagline}`],[r`{Tên tác giả}`,r`{Author name}`],[r`{Đơn vị}`,r`{Institution}`],
+[r`% ---------- 1. GÓI CƠ BẢN ----------`,r`% ---------- 1. BASIC PACKAGES ----------`],
+[r`% lề theo quy chuẩn khóa luận`,r`% margins for a thesis`],
+[r`% ---------- 2. MÀU SẮC ----------`,r`% ---------- 2. COLOURS ----------`],
+[r`% màu chủ đạo: chương, mục, header`,r`% main colour: chapters, sections, header`],[r`% trích dẫn, ngày tháng`,r`% citations, date`],[r`% liên kết URL`,r`% URL links`],[r`% liên kết nội bộ`,r`% internal links`],
+[r`% ---------- 3. HÌNH ẢNH, BẢNG ----------`,r`% ---------- 3. FIGURES, TABLES ----------`],
+[r`% ---------- 4. TIKZ & SƠ ĐỒ ----------`,r`% ---------- 4. TIKZ & DIAGRAMS ----------`],
+[r`% quiver (https://q.uiver.app): sơ đồ giao hoán. Tác giả:`,r`% quiver (https://q.uiver.app): commutative diagrams. Authors:`],
+[r`% ---------- 5. LISTINGS (mã nguồn) ----------`,r`% ---------- 5. LISTINGS (source code) ----------`],
+[r`% ---------- 6. TÀI LIỆU THAM KHẢO ----------`,r`% ---------- 6. BIBLIOGRAPHY ----------`],
+[r`% góc trái, trang lẻ`,r`% left corner, odd pages`],[r`% góc phải, trang chẵn`,r`% right corner, even pages`],
+[r`% Trang mở đầu chương: chỉ có số trang`,r`% Chapter opening pages: page number only`],
+[r`% ---------- 9. TIÊU ĐỀ CHƯƠNG / MỤC ----------`,r`% ---------- 9. CHAPTER / SECTION HEADINGS ----------`],
+[r`{CHƯƠNG}`,r`{CHAPTER}`],
+[r`% ---------- 10. MỤC LỤC KHÔNG TIÊU ĐỀ ----------`,r`% ---------- 10. TABLE OF CONTENTS WITHOUT HEADING ----------`],
+[r`% ---------- 12. CLEVEREF (nạp CUỐI CÙNG) + MÔI TRƯỜNG ----------`,r`% ---------- 12. CLEVEREF (load LAST) + ENVIRONMENTS ----------`],
+[r`% --- Môi trường riêng ---`,r`% --- Custom environments ---`],
+[r`\newtheorem{pty}[thm]{Tính chất}`,r`\newtheorem{pty}[thm]{Property}`],
+[r`\crefname{pty}{Tính chất}{Tính chất}\Crefname{pty}{Tính chất}{Tính chất}`,r`\crefname{pty}{Property}{Properties}\Crefname{pty}{Property}{Properties}`],
+[r`%  setup.tex (Minimal) — chỉ gói chức năng, không trang trí`,r`%  setup.tex (Minimal): functional packages only, no decoration`],
+[r`% ---------- 1. NGÔN NGỮ, TOÁN, BỐ CỤC ----------`,r`% ---------- 1. LANGUAGE, MATH, LAYOUT ----------`],
+[r`% ---------- 2. HÌNH ẢNH, BẢNG ----------`,r`% ---------- 2. FIGURES, TABLES ----------`],
+[r`% ---------- 5. TÀI LIỆU THAM KHẢO ----------`,r`% ---------- 5. BIBLIOGRAPHY ----------`],
+[r`% ---------- 6. LIÊN KẾT ----------`,r`% ---------- 6. LINKS ----------`],
+[r`% ---------- 8. CLEVEREF (nạp CUỐI CÙNG) + MÔI TRƯỜNG ----------`,r`% ---------- 8. CLEVEREF (load LAST) + ENVIRONMENTS ----------`],
+[r`\usepackage[vietnamese]{babel}`,r`\usepackage[english]{babel}`]
+];
+const bookEn=t=>{
+  const a=thms('vi','book').replace(/(Đ|đ)ịnh lý/g,'$1ịnh lí');
+  t=t.split(a).join(thms('en','book'));
+  t=t.split(listcfg('vi')).join(listcfg('en'));
+  BK_EN.forEach(p=>{t=t.split(p[0]).join(p[1])});
+  return t;
+};
+const CUSTOM_BOOK_EN=Object.assign({},CUSTOM_BOOK,{id:'book-xe-en',l:'en',title:'Book/Report · XeLaTeX · EN',files:[{n:'main.tex',c:bookEn(bookMain())},{n:'setup.tex',c:bookEn(bookSetup())}]});
+const CUSTOM_BOOK_EN_MIN=Object.assign({},CUSTOM_BOOK_MIN,{id:'book-xe-en',l:'en',title:'Book/Report · XeLaTeX · EN · Minimal',files:[{n:'main.tex',c:bookEn(bookMainMin())},{n:'setup.tex',c:bookEn(bookSetupMin())}]});
 const CUSTOM_EXAM={id:'exam-pdf-vi',t:'exam',e:'pdf',l:'vi',title:'Exam (Đề kiểm tra) · pdfLaTeX · VI',desc:'Multiple-choice exam with \\cau, \\cauh, \\cauhoibenhinh. 3 files: main + setup + header.',nobib:true,files:[{n:'Template_De_Kiem_Tra.tex',c:EX_MAIN},{n:'Setup_DeKiemTra.tex',c:EX_SETUP},{n:'Header1st.tex',c:EX_HEADER}],guide:EXAM_GUIDE,example:EXAM_EX};
 TPL.splice(TPL.findIndex(x=>x.id=='book-xe-vi'),1,CUSTOM_BOOK);
+TPL.splice(TPL.findIndex(x=>x.id=='book-xe-en'),1,CUSTOM_BOOK_EN);
 TPL.push(CUSTOM_EXAM);
 TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map(f=>f.c).join('\n')});
 </script>
@@ -1565,15 +1646,15 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
   ];
   var MODES  = [['any', 'All'], ['art', 'Article'], ['book', 'Book/Report'], ['all', 'Common']];
   var LEVELS = [['all', 'All'], ['R', 'Required'], ['Y', 'Recommended'], ['G', 'Optional']];
-  var TTPL   = [['all', 'All']].concat(TYPES.map(function (t) { return [t[0], t[1]]; })).concat([['exam', 'Exam']]);
-  var TEN    = [['all', 'All'], ['pdf', 'pdfLaTeX'], ['xe', 'XeLaTeX']];
-  var TLANG  = [['all', 'All'], ['vi', 'Vietnamese'], ['en', 'English']];
+  var TTPL   = TYPES.map(function (t) { return [t[0], t[1]]; }).concat([['exam', 'Exam']]);
+  var TEN    = [['pdf', 'pdfLaTeX'], ['xe', 'XeLaTeX']];
+  var TLANG  = [['vi', 'Vietnamese'], ['en', 'English']];
   var KIND_ORDER = ['Rule', 'Macro', 'Template', 'File', 'Pitfall', 'Check'];
 
   var state = {
     view: 'rules', group: null, rule: null, macro: null,
     tpl: null, file: null, tsub: 'source', sub: 'pitfalls',
-    mode: 'any', level: 'all', tt: 'all', te: 'all', tl: 'all',
+    mode: 'any', level: 'all', tt: 'art', te: 'pdf', tl: 'en',
     ai: 'common', min: false, theme: 'dark', done: new Set(), q: '', rail: null
   };
 
@@ -1606,6 +1687,10 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
       if (Array.isArray(v.done)) state.done = new Set(v.done);
       ['mode', 'level', 'tt', 'te', 'tl', 'sub'].forEach(function (k) { if (typeof v[k] === 'string') state[k] = v[k]; });
       if (typeof v.min === 'boolean') state.min = v.min;
+      if (!TTPL.some(function (o) { return o[0] === state.tt; })) state.tt = 'art';
+      if (!TEN.some(function (o) { return o[0] === state.te; })) state.te = 'pdf';
+      if (!TLANG.some(function (o) { return o[0] === state.tl; })) state.tl = 'en';
+      if (state.tt === 'exam') { state.te = 'pdf'; state.tl = 'vi'; }
       if (typeof v.rail === 'number' && isFinite(v.rail)) state.rail = v.rail;
       if (v.route && v.route.view) state.resume = v.route;
     } catch (_) {}
@@ -1877,17 +1962,17 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
     return state.mode !== 'any' || state.level !== 'all';
   }
   function tplPass(x) {
-    return (state.tt === 'all' || x.t === state.tt) &&
-           (state.te === 'all' || x.e === state.te) &&
-           (state.tl === 'all' || x.l === state.tl);
+    return x.t === state.tt && x.e === state.te && x.l === state.tl;
   }
   function tplList() { return TPL.filter(tplPass); }
   /* Minimal switch: swaps the custom Book/Report entry in place (same id), nothing else changes. */
   function applyMin() {
-    var i = TPL.findIndex(function (x) { return x.id === 'book-xe-vi'; });
-    if (i >= 0) TPL[i] = state.min ? CUSTOM_BOOK_MIN : CUSTOM_BOOK;
+    [['book-xe-vi', CUSTOM_BOOK, CUSTOM_BOOK_MIN], ['book-xe-en', CUSTOM_BOOK_EN, CUSTOM_BOOK_EN_MIN]].forEach(function (a) {
+      var i = TPL.findIndex(function (x) { return x.id === a[0]; });
+      if (i >= 0) TPL[i] = state.min ? a[2] : a[1];
+    });
   }
-  function minOff() { return state.tt !== 'all' && state.tt !== 'book'; }
+  function minOff() { return state.tt !== 'book'; }
   function minSwitchHtml() {
     var off = minOff();
     return '<div class="minsw' + (off ? ' off' : '') + '" id="minsw"><span class="seg-label" aria-hidden="true">Minimal</span>' +
@@ -1962,6 +2047,10 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
     }
     if (r.view === 'macros') state.macro = r.macro || state.macro;
     if (r.view === 'templates') {
+      if (r.tpl) {
+        var tx = TPL.filter(function (x) { return x.id === r.tpl; })[0];
+        if (tx) { state.tt = tx.t; state.te = tx.e; state.tl = tx.l; }
+      }
       if (r.tpl && r.tpl !== state.tpl) { state.tsub = 'source'; }
       state.tpl = r.tpl || state.tpl;
       state.file = r.file || null;
@@ -2078,11 +2167,13 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
         }).join('') + '</div>';
     }
     if (state.view === 'templates') {
-      return '<hr class="rail-sep"><div class="rail-h"><b>Templates</b><span>' + TPL.length + '</span></div>' +
-        '<div class="idx" role="list">' + TPL.map(function (x) {
-          return '<a class="grp sm" role="listitem" href="#' + routeHash({ view: 'templates', tpl: x.id }) + '" data-tpl="' + x.id + '"' +
-            (state.tpl === x.id ? ' aria-current="true"' : '') + '>' +
-            '<span>' + esc(x.title) + '</span><span class="n">' + x.files.length + '</span></a>';
+      var tplCur = currentTpl();
+      var fl = tplCur ? tplCur.files : [];
+      return '<hr class="rail-sep"><div class="rail-h"><b>Files</b><span>' + fl.length + '</span></div>' +
+        '<div class="idx" role="list">' + fl.map(function (f) {
+          return '<a class="grp sm" role="listitem" href="#' + routeHash({ view: 'templates', tpl: tplCur.id, file: f.n }) + '"' +
+            (state.file === f.n ? ' aria-current="true"' : '') + '>' +
+            '<span>' + esc(f.n) + '</span><span class="n">' + f.c.split('\n').length + '</span></a>';
         }).join('') + '</div>';
     }
     if (state.view === 'review') {
@@ -2203,6 +2294,7 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
   /* One segmented control, macOS/iOS style: a track, a sliding knob and radio semantics. */
   function seg(key, label, options, cls) {
     var cur = state[key];
+    var dis = state.tt === 'exam' && (key === 'te' || key === 'tl');
     return '<div class="seg-field' + (cls ? ' ' + cls : '') + '">' +
       '<span class="seg-label" aria-hidden="true">' + label + '</span>' +
       '<div class="seg" role="radiogroup" aria-label="' + label + '" data-segkey="' + key + '">' +
@@ -2210,7 +2302,7 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
         options.map(function (o) {
           var on = cur === o[0];
           return '<button class="seg-btn" role="radio" aria-checked="' + on + '" tabindex="' + (on ? '0' : '-1') +
-            '" data-seg="' + key + '" data-v="' + o[0] + '" title="' + esc(o[1]) + '">' + esc(o[1]) + '</button>';
+            '" data-seg="' + key + '" data-v="' + o[0] + '" title="' + esc(o[1]) + '"' + (dis ? ' disabled' : '') + '>' + esc(o[1]) + '</button>';
         }).join('') +
       '</div></div>';
   }
@@ -2342,7 +2434,7 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
   }
   function pickSegment(btn) {
     var key = btn.getAttribute('data-seg'), val = btn.getAttribute('data-v');
-    if (!key || state[key] === val) return;
+    if (!key || state[key] === val || btn.disabled) return;
     if (key === 'ai') {
       state.ai = val;
       var segA = btn.closest('.seg');
@@ -2364,7 +2456,22 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
     });
     positionKnob(segEl);
     revealSeg(segEl, btn);
+    if (key === 'tt' && val === 'exam') { state.te = 'pdf'; state.tl = 'vi'; }
+    syncFilters();
     renderTplBody();
+  }
+  function syncFilters() {
+    [['te', TEN], ['tl', TLANG]].forEach(function (p) {
+      var segEl = document.querySelector('.seg[data-segkey="' + p[0] + '"]');
+      if (!segEl) return;
+      Array.prototype.forEach.call(segEl.querySelectorAll('.seg-btn'), function (b) {
+        var on = b.getAttribute('data-v') === state[p[0]];
+        b.setAttribute('aria-checked', String(on));
+        b.tabIndex = on ? 0 : -1;
+        b.disabled = state.tt === 'exam';
+      });
+      positionKnob(segEl);
+    });
   }
 
   /* ---------- review view ---------- */
@@ -2395,15 +2502,16 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
   }
 
   /* ---------- ai view ---------- */
-  var AI_OPTS = [['common', 'Common'], ['article', 'Article'], ['book', 'Book/Report'], ['full', 'Full']];
-  var AI_FILE = { common: 'latex-rules-common.md', article: 'latex-rules-article.md', book: 'latex-rules-book.md', full: 'latex-rules.md' };
+  var AI_OPTS = [['common', 'Common'], ['article', 'Article'], ['book', 'Book/Report'], ['full', 'Full'], ['macros', 'Macros']];
+  var AI_FILE = { common: 'latex-rules-common.md', article: 'latex-rules-article.md', book: 'latex-rules-book.md', full: 'latex-rules.md', macros: 'latex-macros.md' };
   var AI_HINT = {
     common: 'The short set that applies to every template: 9 lines to paste into a system prompt.',
     article: 'Common plus the Article rules: full environment names, sec/subsec labels, bibliography inside the file.',
     book: 'Common plus the Book/Report rules: short environment names, chapter labels, refs.bib.',
-    full: 'Every rule with its Don\'t / Do examples, the conventions, common mistakes and the checklist.'
+    full: 'Every rule with its Don\'t / Do examples, the conventions, common mistakes and the checklist.',
+    macros: 'Standard definitions from the Macro Pack. Paste next to Common: the AI declares only what it uses, in the Custom names block.'
   };
-  function aiText(k) { return k === 'article' ? guideArticle() : k === 'book' ? guideBook() : k === 'full' ? guide() : guideCommon(); }
+  function aiText(k) { return k === 'article' ? guideArticle() : k === 'book' ? guideBook() : k === 'full' ? guide() : k === 'macros' ? guideMacros() : guideCommon(); }
   function aiBodyHtml() {
     var k = state.ai || 'common', g = aiText(k);
     return '<p class="hint">' + AI_HINT[k] + '</p>' +
@@ -2664,7 +2772,7 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
     }
     if (d.act) {
       if (d.act === 'clear') { state.mode = 'any'; state.level = 'all'; state.group = firstGroup(); render(); }
-      else if (d.act === 'clear-tpl') { state.tt = 'all'; state.te = 'all'; state.tl = 'all'; state.tpl = null; state.file = null; render(); }
+      else if (d.act === 'clear-tpl') { state.tt = 'art'; state.te = 'pdf'; state.tl = 'en'; state.tpl = null; state.file = null; render(); }
       else if (d.act === 'copy-guide') { copy(guide(), b); }
       else if (d.act === 'dl-guide') { download('latex-rules.md', guide()); }
       else if (d.act === 'dl-zip') { downloadTemplateZip(); }
