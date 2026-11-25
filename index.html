@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>LaTeX Style Guide — rules, macros, templates</title>
-<meta name="description" content="97 LaTeX writing rules with Don't/Do comparisons, a mymath macro pack and 17 document templates. Searchable, with per-file copy and download.">
+<meta name="description" content="LaTeX writing rules with Don't/Do comparisons, a mymath macro pack and 17 document templates. Searchable, with per-file copy and download.">
 <meta name="color-scheme" content="dark light">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2308090B'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='19' fill='%23E4B36B' text-anchor='middle'%3ET%3C/text%3E%3C/svg%3E">
 <script>
@@ -425,6 +425,36 @@ select:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .minsw.off .sw{cursor:not-allowed}
 @media (prefers-reduced-motion:reduce){.minsw .trk,.minsw .trk::after{transition:none}}
 .seg-btn[disabled]{opacity:.4;cursor:not-allowed}
+@media (max-width:899px){main{box-sizing:border-box}}
+.how{margin:0 0 30px;max-width:78ch;scroll-margin-top:72px}
+.how h2{font-family:Newsreader,Georgia,serif;font-weight:400;font-size:23px;margin:0 0 10px;color:var(--fg)}
+.how p,.how li{font-size:14px;line-height:1.7;color:var(--mut)}
+.how li{margin:3px 0}.how ol,.how ul{padding-left:20px;margin:8px 0}
+.how b{color:var(--fg);font-weight:600}
+.how code{font:12.5px 'JetBrains Mono',monospace;color:var(--fg);background:var(--tint);padding:1px 5px;border-radius:5px}
+.how kbd{font:500 11px/1 'JetBrains Mono',monospace;color:var(--mut);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:2px 5px;background:var(--bg-2)}
+.how .tw{margin:6px 0 12px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--bg-2)}
+.how table{width:100%;border-collapse:collapse;font-size:13px;table-layout:auto}
+.how th,.how td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere;color:var(--mut)}
+.how th{color:var(--fg);font-weight:600;background:var(--tint)}.how tr:last-child td{border-bottom:0}
+.st{margin:12px 12px 0;border:1px solid var(--line);border-radius:10px;background:var(--bg-2);overflow:hidden}
+.st-h{display:flex;align-items:center;gap:8px;height:36px;padding:0 8px 0 12px;border-bottom:1px solid var(--line);font-size:12px;color:var(--mut)}
+.st-h i{font-size:15px;color:var(--faint)}.st-h b{color:var(--fg);font-weight:600;letter-spacing:.02em}
+.st-h .n{font:11px 'JetBrains Mono',monospace;color:var(--faint)}.st-h .acts{margin-left:auto}
+.st-body{padding:8px 6px;font:12.5px/1.8 'JetBrains Mono',ui-monospace,monospace}
+.st-row{display:flex;align-items:baseline;flex-wrap:wrap;padding:0 8px;border-radius:6px;min-width:0;color:var(--mut)}
+a.st-row:hover{background:var(--tint);color:var(--fg)}
+.st-row.on{background:var(--tint)}.st-row.on .st-n{color:var(--accent);font-weight:600}.st-row.on .st-ic{color:var(--accent)}
+.st-g{white-space:pre;color:var(--faint);opacity:.55}
+.st-ic{font-size:14px;margin:0 7px 0 0;align-self:center;color:var(--faint)}
+.st-n{color:var(--fg);white-space:nowrap}.st-dir .st-n{color:var(--mut)}.st-root .st-n{font-weight:600}
+.st-c{margin-left:auto;padding-left:18px;color:var(--faint);font-size:11.5px;text-align:right}
+.st-foot{padding:8px 14px 10px;border-top:1px solid var(--line);font-size:12px;color:var(--mut)}
+.st-foot code,.st-one code{font:12px 'JetBrains Mono',monospace;color:var(--fg)}
+.st-one{margin:12px 12px 0;display:flex;align-items:center;gap:9px;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg-2);font-size:12.5px;color:var(--mut)}
+.st-one i{font-size:15px;color:var(--faint)}
+@media (max-width:700px){.st-c{margin-left:0;padding:0 0 4px 22px;flex-basis:100%;text-align:left}}
+@media print{.st .acts{display:none}}
 .btn.zip:hover{background:var(--tint);border-color:var(--line-2)}
 .btn.zip i{color:var(--accent)}
 .btn.zip:active{transform:scale(.98)}
@@ -617,7 +647,7 @@ select:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
   <a class="brand" href="#/rules" aria-label="LaTeX Style Guide, home"><b>LaTeX</b><span>/ Style Guide</span></a>
   <div class="search" role="search">
     <i class="ti ti-search" aria-hidden="true"></i>
-    <input id="q" type="search" placeholder="Search 82 rules, macros and templates" aria-label="Search the guide" autocomplete="off" autocapitalize="off" spellcheck="false" aria-controls="search-panel" aria-expanded="false">
+    <input id="q" type="search" placeholder="Search rules, macros and templates" aria-label="Search the guide" autocomplete="off" autocapitalize="off" spellcheck="false" aria-controls="search-panel" aria-expanded="false">
     <kbd id="kbd">Ctrl K</kbd>
   </div>
   <div class="bar-end">
@@ -1626,7 +1656,7 @@ const CUSTOM_BOOK_EN_MIN=Object.assign({},CUSTOM_BOOK_MIN,{id:'book-xe-en',l:'en
 const CUSTOM_EXAM={id:'exam-pdf-vi',t:'exam',e:'pdf',l:'vi',title:'Exam (Đề kiểm tra) · pdfLaTeX · VI',desc:'Multiple-choice exam with \\cau, \\cauh, \\cauhoibenhinh. 3 files: main + setup + header.',nobib:true,files:[{n:'Template_De_Kiem_Tra.tex',c:EX_MAIN},{n:'Setup_DeKiemTra.tex',c:EX_SETUP},{n:'Header1st.tex',c:EX_HEADER}],guide:EXAM_GUIDE,example:EXAM_EX};
 TPL.splice(TPL.findIndex(x=>x.id=='book-xe-vi'),1,CUSTOM_BOOK);
 TPL.splice(TPL.findIndex(x=>x.id=='book-xe-en'),1,CUSTOM_BOOK_EN);
-const CUSTOM_WS={id:'ws-xe-vi',t:'ws',e:'xe',l:'vi',title:'Notes workspace · XeLaTeX · VI',desc:'Multi-document notes repo: shared preamble, fonts and macros; one root file plus one folder per document.',note:'Each document needs its own folder with refs.bib. Compile the root file (XeLaTeX, BibTeX, XeLaTeX twice); .vscode/settings.json does this in VS Code.',files:[{n:"my-notes.tex",c:"% !TEX program = xelatex\n% !TEX bibProgram = bibtex\n% Gốc của một tài liệu: đặt tên file này = tên PDF; thư mục chứa nội dung cùng tên (my-notes/).\n\\documentclass[12pt,a4paper,notitlepage,openany]{book}\n\n% --- Document info (edit here) ---\n\\newcommand{\\DocTitle}{Tiêu đề tài liệu}\n\\newcommand{\\DocSubtitle}{Phụ đề (để trống nếu không cần)}\n\\newcommand{\\DocAuthor}{Tên tác giả}\n\\newcommand{\\DocInstitution}{Đơn vị}\n\n\\input{shared/preamble}\n\n% --- Màu riêng của tài liệu ---\n\\definecolor{docMain}{RGB}{178,34,34}\n\n% --- Font tùy chọn (XeLaTeX): bỏ dấu % ở đầu dòng để dùng (cần Mali, Euler Math) ---\n%\\input{shared/fonts}\n\n% --- Custom names (add \\newcommand lines here only) ---\n\n\\begin{document}\n\\DocTitlePage\n\\tableofcontents\n\n% Tạo my-notes/chapter2.tex, ... rồi thêm \\input tương ứng\n\\input{my-notes/chapter1}\n%\\input{my-notes/chapter2}\n\n% Tài liệu tham khảo (cần my-notes/refs.bib)\n\\addcontentsline{toc}{chapter}{Tài liệu tham khảo}\n\\nocite{*}\n\\bibliography{my-notes/refs}\n\\end{document}\n"},{n:"my-notes/chapter1.tex",c:"% !TEX root = ../my-notes.tex\n\n\\chapter{Chương đầu tiên}\n"},{n:"my-notes/refs.bib",c:BIB},{n:"shared/preamble.tex",c:"% ============================================================\n%  shared/preamble.tex: setup dùng chung cho mọi tài liệu\n%  File gốc phải định nghĩa TRƯỚC khi \\input: \\DocTitle, \\DocSubtitle,\n%  \\DocAuthor, \\DocInstitution. Màu docMain đặt lại SAU khi \\input.\n%  Mục: 1 Gói cơ bản  2 Màu  3 Hình/bảng  4 TikZ  5 Listings\n%       6 Tài liệu tham khảo  7 Hyperref  8 Header/Footer  9 Tiêu đề\n%       10 Mục lục  11 cleveref (nạp cuối) + môi trường  12 Macros\n% ============================================================\n\n% ---------- 1. GÓI CƠ BẢN ----------\n\\usepackage[vietnamese]{babel}\n\\usepackage{amsmath, amsthm, amssymb, amsfonts, amscd, latexsym, mathtools}\n\\usepackage{enumerate, enumitem, etoolbox, titlesec, titletoc, float, indentfirst}\n\\usepackage[titletoc]{appendix}\n\\usepackage[top=2cm, bottom=2cm, left=2cm, right=1.5cm]{geometry} % lề theo quy chuẩn khóa luận\n\\usepackage{silence}\n\\WarningFilter{hyperref}{Token not allowed in a PDF string}\n\n% ---------- 2. MÀU SẮC ----------\n\\usepackage[dvipsnames]{xcolor}\n\\definecolor{docMain}{RGB}{178,34,34}     % màu chủ đạo: chương, mục, header\n\\definecolor{docAccent}{RGB}{0,102,51}    % trích dẫn, ngày tháng\n\\definecolor{docLink}{RGB}{153,0,0}   % liên kết URL\n\\colorlet{docInternal}{orange}             % liên kết nội bộ\n\n% ---------- 3. HÌNH ẢNH, BẢNG ----------\n\\usepackage{graphicx, wrapfig, multirow, tabularx, fancybox, url}\n\\usepackage{caption, subcaption}\n\\captionsetup[subfigure]{labelformat=empty}\n\\captionsetup[figure]{labelsep=space}\n\n% ---------- 4. TIKZ & SƠ ĐỒ ----------\n\\usepackage{tikz, tkz-tab, tikz-cd, tcolorbox}\n\\usetikzlibrary{calc, patterns, shadings, angles, intersections, quotes, arrows.meta, decorations.pathreplacing}\n\\usepackage[all]{xy}\n\n% quiver (https://q.uiver.app): sơ đồ giao hoán. Tác giả: varkor, AndréC, Andrew Stacey (v1.6.0)\n\\usetikzlibrary{decorations.pathmorphing, spath3}\n\\tikzset{curve/.style={settings={#1},to path={(\\tikztostart)\n          .. controls ($(\\tikztostart)!\\pv{pos}!(\\tikztotarget)!\\pv{height}!270:(\\tikztotarget)$)\n          and ($(\\tikztostart)!1-\\pv{pos}!(\\tikztotarget)!\\pv{height}!270:(\\tikztotarget)$)\n          .. (\\tikztotarget)\\tikztonodes}},\n  settings/.code={\\tikzset{quiver/.cd,#1}\n      \\def\\pv##1{\\pgfkeysvalueof{/tikz/quiver/##1}}},\n  quiver/.cd,pos/.initial=0.35,height/.initial=0}\n\\tikzset{between/.style n args={2}{/tikz/execute at end to={\n          \\tikzset{spath/split at keep middle={current}{#1}{#2}}\n        }}}\n\\tikzset{tail reversed/.code={\\pgfsetarrowsstart{tikzcd to}}}\n\\tikzset{2tail/.code={\\pgfsetarrowsstart{Implies[reversed]}}}\n\\tikzset{2tail reversed/.code={\\pgfsetarrowsstart{Implies}}}\n\\tikzset{no body/.style={/tikz/dash pattern=on 0 off 1mm}}\n\n% ---------- 5. LISTINGS (mã nguồn) ----------\n\\usepackage{listings}\n\\lstset{\n  language=Python,\n  backgroundcolor=\\color{gray!10},\n  basicstyle=\\ttfamily\\small,\n  keywordstyle=\\color{blue}\\bfseries,\n  commentstyle=\\color{green!60!black},\n  stringstyle=\\color{red},\n  showstringspaces=false,\n  breaklines=true,\n  frame=single\n}\n\n% ---------- 6. TÀI LIỆU THAM KHẢO ----------\n\\usepackage[numbers]{natbib}\n\\bibliographystyle{ieeetr}\n\n% ---------- 7. HYPERREF ----------\n\\usepackage[unicode]{hyperref}\n\\hypersetup{\n  unicode    = true,\n  colorlinks = true,\n  linkcolor  = docInternal,\n  citecolor  = docAccent,\n  urlcolor   = docLink,\n  filecolor  = docLink,\n  pdftitle   = {\\DocTitle},\n  pdfauthor  = {\\DocAuthor}\n}\n\n% ---------- 8. HEADER & FOOTER ----------\n\\usepackage{fancyhdr}\n\\setlength{\\headheight}{16pt}\n\\pagestyle{fancy}\n\\fancyhf{}\n\\fancyhead[LO]{\\color{docMain}\\bfseries \\DocAuthor}        % góc trái, trang lẻ\n\\fancyhead[RE]{\\color{docMain}\\bfseries \\DocInstitution}   % góc phải, trang chẵn\n\\fancyfoot[C]{\\thepage}\n\\renewcommand{\\headrulewidth}{0.5pt}\n\\renewcommand{\\footrulewidth}{0pt}\n% Trang mở đầu chương: chỉ có số trang\n\\fancypagestyle{plain}{\n  \\fancyhf{}\n  \\fancyfoot[C]{\\thepage}\n  \\renewcommand{\\headrulewidth}{0pt}\n  \\renewcommand{\\footrulewidth}{0pt}\n}\n\n% ---------- 9. TIÊU ĐỀ CHƯƠNG / MỤC ----------\n\\providecommand{\\chaptertitlename}{}\n\\renewcommand{\\chaptertitlename}{\\fontsize{14pt}{14pt}\\selectfont{CHƯƠNG}}\n\\titleformat{\\chapter}[display]\n  {\\vspace{-2cm}\\normalfont\\Large\\filcenter\\bfseries\\color{docMain}}\n  {{\\chaptertitlename\\,}\\thechapter}{0pc}{\\color{docMain}\\MakeUppercase}\n  [\\vspace{2mm}{\\color{docMain}\\titlerule[1pt]}\\vspace{4mm}]\n\\titleformat{\\section}\n  {\\normalfont\\Large\\bfseries\\color{docMain}}{\\thesection}{1em}{}\n\\titleformat{\\subsection}\n  {\\normalfont\\large\\bfseries\\color{docMain!75!black}}{\\thesubsection}{1em}{}\n\n% ---------- 10. MỤC LỤC KHÔNG TIÊU ĐỀ ----------\n\\makeatletter\n\\renewcommand{\\tableofcontents}{\\@starttoc{toc}}\n\\makeatother\n\n% ---------- 11. CLEVEREF (nạp CUỐI CÙNG) + MÔI TRƯỜNG ----------\n\\usepackage[capitalize,nameinlink]{cleveref}\n\n% --- Theorem-like environments (one shared counter) ---\n\\theoremstyle{plain}\n\\newtheorem{thm}{Định lí}\n\\newtheorem{lem}[thm]{Bổ đề}\n\\newtheorem{prop}[thm]{Mệnh đề}\n\\newtheorem{cor}[thm]{Hệ quả}\n\\theoremstyle{definition}\n\\newtheorem{defi}[thm]{Định nghĩa}\n\\newtheorem{ex}[thm]{Ví dụ}\n\\theoremstyle{remark}\n\\newtheorem{rem}[thm]{Nhận xét}\n\\numberwithin{thm}{section}\n\\numberwithin{equation}{section}\n\n% --- Reference names ---\n\\crefname{thm}{Định lí}{Định lí}\\Crefname{thm}{Định lí}{Định lí}\n\\crefname{lem}{Bổ đề}{Bổ đề}\\Crefname{lem}{Bổ đề}{Bổ đề}\n\\crefname{prop}{Mệnh đề}{Mệnh đề}\\Crefname{prop}{Mệnh đề}{Mệnh đề}\n\\crefname{cor}{Hệ quả}{Hệ quả}\\Crefname{cor}{Hệ quả}{Hệ quả}\n\\crefname{defi}{Định nghĩa}{Định nghĩa}\\Crefname{defi}{Định nghĩa}{Định nghĩa}\n\\crefname{rem}{Nhận xét}{Nhận xét}\\Crefname{rem}{Nhận xét}{Nhận xét}\n\\crefname{ex}{Ví dụ}{Ví dụ}\\Crefname{ex}{Ví dụ}{Ví dụ}\n\\crefname{section}{Mục}{Mục}\\Crefname{section}{Mục}{Mục}\n\\crefname{subsection}{Mục}{Mục}\\Crefname{subsection}{Mục}{Mục}\n\\crefname{chapter}{Chương}{Chương}\\Crefname{chapter}{Chương}{Chương}\n\\crefname{equation}{Công thức}{Công thức}\\Crefname{equation}{Công thức}{Công thức}\n\\crefname{figure}{Hình}{Hình}\\Crefname{figure}{Hình}{Hình}\n\\crefname{table}{Bảng}{Bảng}\\Crefname{table}{Bảng}{Bảng}\n\n% --- Tên đầy đủ: bỏ % ở đầu dòng nếu muốn gõ \\begin{theorem} ---\n%\\newtheorem{theorem}[thm]{Định lí}\\crefalias{theorem}{thm}\n%\\newtheorem{lemma}[thm]{Bổ đề}\\crefalias{lemma}{lem}\n%\\newtheorem{proposition}[thm]{Mệnh đề}\\crefalias{proposition}{prop}\n%\\newtheorem{corollary}[thm]{Hệ quả}\\crefalias{corollary}{cor}\n%\\newtheorem{definition}[thm]{Định nghĩa}\\crefalias{definition}{defi}\n%\\newtheorem{remark}[thm]{Nhận xét}\\crefalias{remark}{rem}\n%\\newtheorem{example}[thm]{Ví dụ}\\crefalias{example}{ex}\n\n% --- Môi trường mở rộng (đang tắt) ---\n%\\newtheorem{claim}[thm]{Khẳng định}\\crefname{claim}{Khẳng định}{Khẳng định}\\Crefname{claim}{Khẳng định}{Khẳng định}\n%\\newtheorem{conj}[thm]{Giả thuyết}\\crefname{conj}{Giả thuyết}{Giả thuyết}\\Crefname{conj}{Giả thuyết}{Giả thuyết}\n%\\newtheorem{conjecture}[thm]{Giả thuyết}\\crefalias{conjecture}{conj}\n%\\newtheorem{axiom}[thm]{Tiên đề}\\crefname{axiom}{Tiên đề}{Tiên đề}\\Crefname{axiom}{Tiên đề}{Tiên đề}\n%\\newtheorem{asm}[thm]{Giả thiết}\\crefname{asm}{Giả thiết}{Giả thiết}\\Crefname{asm}{Giả thiết}{Giả thiết}\n%\\newtheorem{assumption}[thm]{Giả thiết}\\crefalias{assumption}{asm}\n%\\newtheorem{fact}[thm]{Sự kiện}\\crefname{fact}{Sự kiện}{Sự kiện}\\Crefname{fact}{Sự kiện}{Sự kiện}\n%\\newtheorem{nota}[thm]{Ký hiệu}\\crefname{nota}{Ký hiệu}{Ký hiệu}\\Crefname{nota}{Ký hiệu}{Ký hiệu}\n%\\newtheorem{notation}[thm]{Ký hiệu}\\crefalias{notation}{nota}\n%\\newtheorem{prob}[thm]{Bài toán}\\crefname{prob}{Bài toán}{Bài toán}\\Crefname{prob}{Bài toán}{Bài toán}\n%\\newtheorem{problem}[thm]{Bài toán}\\crefalias{problem}{prob}\n%\\newtheorem{exer}[thm]{Bài tập}\\crefname{exer}{Bài tập}{Bài tập}\\Crefname{exer}{Bài tập}{Bài tập}\n%\\newtheorem{exercise}[thm]{Bài tập}\\crefalias{exercise}{exer}\n%\\newtheorem{ques}[thm]{Câu hỏi}\\crefname{ques}{Câu hỏi}{Câu hỏi}\\Crefname{ques}{Câu hỏi}{Câu hỏi}\n%\\newtheorem{question}[thm]{Câu hỏi}\\crefalias{question}{ques}\n\n% --- Môi trường riêng ---\n\\theoremstyle{plain}\n\\newtheorem{pty}[thm]{Tính chất}\n\\crefname{pty}{Tính chất}{Tính chất}\\Crefname{pty}{Tính chất}{Tính chất}\n\n% --- Danh sách: (a) mặc định, (i) trong định lý ---\n\\setlist[enumerate,1]{label=(\\alph*)}\n\\setlist[enumerate,2]{label=(\\roman*)}\n\\newcommand{\\romanlists}[1]{\\AtBeginEnvironment{#1}{\\setlist[enumerate,1]{label=(\\roman*)}\\setlist[enumerate,2]{label=(\\alph*)}}}\n\\forcsvlist{\\romanlists}{thm,lem,prop,cor,defi,rem}\n\\romanlists{pty}\n\n% ---------- 12. MACROS (shared/macros.tex) ----------\n\\input{shared/macros}\n"},{n:"shared/fonts.tex",c:"% shared/fonts.tex: font cho XeLaTeX (cần cài Mali và Euler Math)\n\\usepackage{fontspec}\n\\setmainfont{Mali}\n\\usepackage{unicode-math}\n\\setmathfont{Euler Math}\n\\setmathfont[range=up/{latin,Latin}]{Euler Math}\n\\setoperatorfont\\symup\n"},{n:"shared/macros.tex",c:"% shared/macros.tex: mọi macro dùng chung cho các tài liệu\n\n% --- Trang tiêu đề (dùng \\DocTitle, \\DocSubtitle, \\DocAuthor, \\DocInstitution) ---\n\\newcommand{\\DocTitlePage}{%\n  \\thispagestyle{empty}\n  \\begin{center}\n    {\\Huge \\bfseries \\color{docMain} \\DocTitle \\par}\n    \\ifdefempty{\\DocSubtitle}{}{{\\large \\color{docMain} \\textit{\\DocSubtitle} \\par}}\n    \\vspace{3mm}\n    {\\color{docMain!60}\\rule{0.55\\textwidth}{0.8pt}\\par}\n    \\vspace{3mm}\n    {\\large \\bfseries \\color{docMain!75!black} \\DocAuthor\\ifdefempty{\\DocInstitution}{}{, \\DocInstitution} \\par}\n    \\vspace{1.5mm}\n    {\\large \\color{docAccent} \\today \\par}\n  \\end{center}\n  \\vspace{1.5cm}% khoảng cách từ tiêu đề xuống mục lục\n}\n\n% --- Custom names (add \\newcommand lines here only) ---\n"},{n:".vscode/settings.json",c:"{\n  \"latex-workshop.latex.outDir\": \"%DIR%/build\",\n  \"latex-workshop.latex.recipe.default\": \"xelatex ➞ bibtex ➞ xelatex×2\",\n  \"latex-workshop.latex.recipes\": [\n    {\n      \"name\": \"xelatex ➞ bibtex ➞ xelatex×2\",\n      \"tools\": [\"xelatex\", \"bibtex\", \"xelatex\", \"xelatex\"]\n    },\n    {\n      \"name\": \"xelatex\",\n      \"tools\": [\"xelatex\"]\n    }\n  ],\n  \"latex-workshop.latex.tools\": [\n    {\n      \"name\": \"xelatex\",\n      \"command\": \"xelatex\",\n      \"args\": [\"-synctex=1\", \"-interaction=nonstopmode\", \"-file-line-error\", \"-output-directory=%OUTDIR%\", \"%DOC%\"]\n    },\n    {\n      \"name\": \"bibtex\",\n      \"command\": \"bibtex\",\n      \"args\": [\"%OUTDIR%/%DOCFILE%\"]\n    }\n  ],\n  \"latex-workshop.latex.autoBuild.run\": \"onSave\",\n  \"latex-workshop.latex.search.rootFiles.include\": [\"*.tex\"],\n  \"latex-workshop.latex.rootFile.doNotPrompt\": false,\n  \"latex-workshop.latex.clean.fileTypes\": [\"*.aux\", \"*.bbl\", \"*.blg\", \"*.idx\", \"*.ind\", \"*.lof\", \"*.lot\", \"*.out\", \"*.toc\", \"*.synctex.gz\"]\n}\n"},{n:".gitignore",c:"# Build output\nbuild/\n\n# LaTeX junk\n*.aux\n*.bbl\n*.blg\n*.fdb_latexmk\n*.fls\n*.idx\n*.ilg\n*.ind\n*.lof\n*.log\n*.lot\n*.out\n*.toc\n*.nav\n*.snm\n*.vrb\n*.synctex.gz\n*.synctex(busy)\n*.xdv\n\n# OS / editor (keep .vscode/settings.json)\n.DS_Store\nThumbs.db\n.vscode/*\n!.vscode/settings.json\n"}],guide:["Create a repo (for example <code>akmathsnotes-tex</code>) with exactly this tree, or download the <code>.zip</code> from the file list.", "One document = one root file at the top level (<code>my-notes.tex</code>) + one folder with the same name (<code>my-notes/</code>) holding <code>chapterN.tex</code> and <code>refs.bib</code>. The PDF takes the root file name.", "Edit <code>\\\\DocTitle</code>, <code>\\\\DocSubtitle</code>, <code>\\\\DocAuthor</code>, <code>\\\\DocInstitution</code> and the colour <code>docMain</code> at the top of the root file. Everything shared (packages, header, headings, theorems, cleveref) is in <code>shared/preamble.tex</code>; shared macros go in <code>shared/macros.tex</code>.", "A second document: copy <code>my-notes.tex</code> and the folder under a new name and change the three <code>my-notes</code> paths (<code>\\\\input</code> lines and <code>\\\\bibliography</code>).", "Open the folder in VS Code with LaTeX Workshop. Each chapter starts with <code>% !TEX root = ../my-notes.tex</code>, so building from a chapter compiles the root. Build output goes to <code>build/</code> (ignored by git).", "Compile with XeLaTeX → BibTeX → XeLaTeX ×2. The font block in the root file is commented out; remove the <code>%</code> if you have Mali and Euler Math installed."]};
+const CUSTOM_WS={id:'ws-xe-vi',t:'ws',e:'xe',l:'vi',title:'Notes workspace · XeLaTeX · VI',desc:'Multi-document notes repo: shared preamble, fonts and macros; one root file plus one folder per document.',note:'Each document needs its own folder with refs.bib. Compile the root file (XeLaTeX, BibTeX, XeLaTeX twice); .vscode/settings.json does this in VS Code.',files:[{n:"my-notes.tex",c:"% !TEX program = xelatex\n% !TEX bibProgram = bibtex\n% Gốc của một tài liệu: đặt tên file này = tên PDF; thư mục chứa nội dung cùng tên (my-notes/).\n\\documentclass[12pt,a4paper,notitlepage,openany]{book}\n\n% --- Document info (edit here) ---\n\\newcommand{\\DocTitle}{Tiêu đề tài liệu}\n\\newcommand{\\DocSubtitle}{Phụ đề (để trống nếu không cần)}\n\\newcommand{\\DocAuthor}{Tên tác giả}\n\\newcommand{\\DocInstitution}{Đơn vị}\n\n\\input{shared/preamble}\n\n% --- Màu riêng của tài liệu ---\n\\definecolor{docMain}{RGB}{178,34,34}\n\n% --- Font tùy chọn (XeLaTeX): bỏ dấu % ở đầu dòng để dùng (cần Mali, Euler Math) ---\n%\\input{shared/fonts}\n\n% --- Custom names (add \\newcommand lines here only) ---\n\n\\begin{document}\n\\DocTitlePage\n\\tableofcontents\n\n% Tạo my-notes/chapter2.tex, ... rồi thêm \\input tương ứng\n\\input{my-notes/chapter1}\n%\\input{my-notes/chapter2}\n\n% Tài liệu tham khảo (cần my-notes/refs.bib)\n\\addcontentsline{toc}{chapter}{Tài liệu tham khảo}\n\\nocite{*}\n\\bibliography{my-notes/refs}\n\\end{document}\n"},{n:"my-notes/chapter1.tex",c:"% !TEX root = ../my-notes.tex\n\n\\chapter{Chương đầu tiên}\n"},{n:"my-notes/refs.bib",c:BIB},{n:"shared/preamble.tex",c:"% ============================================================\n%  shared/preamble.tex: setup dùng chung cho mọi tài liệu\n%  File gốc phải định nghĩa TRƯỚC khi \\input: \\DocTitle, \\DocSubtitle,\n%  \\DocAuthor, \\DocInstitution. Màu docMain đặt lại SAU khi \\input.\n%  Mục: 1 Gói cơ bản  2 Màu  3 Hình/bảng  4 TikZ  5 Listings\n%       6 Tài liệu tham khảo  7 Hyperref  8 Header/Footer  9 Tiêu đề\n%       10 Mục lục  11 cleveref (nạp cuối) + môi trường  12 Macros\n% ============================================================\n\n% ---------- 1. GÓI CƠ BẢN ----------\n\\usepackage[vietnamese]{babel}\n\\usepackage{amsmath, amsthm, amssymb, amsfonts, amscd, latexsym, mathtools}\n\\usepackage{enumerate, enumitem, etoolbox, titlesec, titletoc, float, indentfirst}\n\\usepackage[titletoc]{appendix}\n\\usepackage[top=2cm, bottom=2cm, left=2cm, right=1.5cm]{geometry} % lề theo quy chuẩn khóa luận\n\\usepackage{silence}\n\\WarningFilter{hyperref}{Token not allowed in a PDF string}\n\n% ---------- 2. MÀU SẮC ----------\n\\usepackage[dvipsnames]{xcolor}\n\\definecolor{docMain}{RGB}{178,34,34}     % màu chủ đạo: chương, mục, header\n\\definecolor{docAccent}{RGB}{0,102,51}    % trích dẫn, ngày tháng\n\\definecolor{docLink}{RGB}{153,0,0}   % liên kết URL\n\\colorlet{docInternal}{orange}             % liên kết nội bộ\n\n% ---------- 3. HÌNH ẢNH, BẢNG ----------\n\\usepackage{graphicx, wrapfig, multirow, tabularx, fancybox, url}\n\\usepackage{caption, subcaption}\n\\captionsetup[subfigure]{labelformat=empty}\n\\captionsetup[figure]{labelsep=space}\n\n% ---------- 4. TIKZ & SƠ ĐỒ ----------\n\\usepackage{tikz, tkz-tab, tikz-cd, tcolorbox}\n\\usetikzlibrary{calc, patterns, shadings, angles, intersections, quotes, arrows.meta, decorations.pathreplacing}\n\\usepackage[all]{xy}\n\n% quiver (https://q.uiver.app): sơ đồ giao hoán. Tác giả: varkor, AndréC, Andrew Stacey (v1.6.0)\n\\usetikzlibrary{decorations.pathmorphing, spath3}\n\\tikzset{curve/.style={settings={#1},to path={(\\tikztostart)\n          .. controls ($(\\tikztostart)!\\pv{pos}!(\\tikztotarget)!\\pv{height}!270:(\\tikztotarget)$)\n          and ($(\\tikztostart)!1-\\pv{pos}!(\\tikztotarget)!\\pv{height}!270:(\\tikztotarget)$)\n          .. (\\tikztotarget)\\tikztonodes}},\n  settings/.code={\\tikzset{quiver/.cd,#1}\n      \\def\\pv##1{\\pgfkeysvalueof{/tikz/quiver/##1}}},\n  quiver/.cd,pos/.initial=0.35,height/.initial=0}\n\\tikzset{between/.style n args={2}{/tikz/execute at end to={\n          \\tikzset{spath/split at keep middle={current}{#1}{#2}}\n        }}}\n\\tikzset{tail reversed/.code={\\pgfsetarrowsstart{tikzcd to}}}\n\\tikzset{2tail/.code={\\pgfsetarrowsstart{Implies[reversed]}}}\n\\tikzset{2tail reversed/.code={\\pgfsetarrowsstart{Implies}}}\n\\tikzset{no body/.style={/tikz/dash pattern=on 0 off 1mm}}\n\n% ---------- 5. LISTINGS (mã nguồn) ----------\n\\usepackage{listings}\n\\lstset{\n  language=Python,\n  backgroundcolor=\\color{gray!10},\n  basicstyle=\\ttfamily\\small,\n  keywordstyle=\\color{blue}\\bfseries,\n  commentstyle=\\color{green!60!black},\n  stringstyle=\\color{red},\n  showstringspaces=false,\n  breaklines=true,\n  frame=single\n}\n\n% ---------- 6. TÀI LIỆU THAM KHẢO ----------\n\\usepackage[numbers]{natbib}\n\\bibliographystyle{ieeetr}\n\n% ---------- 7. HYPERREF ----------\n\\usepackage[unicode]{hyperref}\n\\hypersetup{\n  unicode    = true,\n  colorlinks = true,\n  linkcolor  = docInternal,\n  citecolor  = docAccent,\n  urlcolor   = docLink,\n  filecolor  = docLink,\n  pdftitle   = {\\DocTitle},\n  pdfauthor  = {\\DocAuthor}\n}\n\n% ---------- 8. HEADER & FOOTER ----------\n\\usepackage{fancyhdr}\n\\setlength{\\headheight}{16pt}\n\\pagestyle{fancy}\n\\fancyhf{}\n\\fancyhead[LO]{\\color{docMain}\\bfseries \\DocAuthor}        % góc trái, trang lẻ\n\\fancyhead[RE]{\\color{docMain}\\bfseries \\DocInstitution}   % góc phải, trang chẵn\n\\fancyfoot[C]{\\thepage}\n\\renewcommand{\\headrulewidth}{0.5pt}\n\\renewcommand{\\footrulewidth}{0pt}\n% Trang mở đầu chương: chỉ có số trang\n\\fancypagestyle{plain}{\n  \\fancyhf{}\n  \\fancyfoot[C]{\\thepage}\n  \\renewcommand{\\headrulewidth}{0pt}\n  \\renewcommand{\\footrulewidth}{0pt}\n}\n\n% ---------- 9. TIÊU ĐỀ CHƯƠNG / MỤC ----------\n\\providecommand{\\chaptertitlename}{}\n\\renewcommand{\\chaptertitlename}{\\fontsize{14pt}{14pt}\\selectfont{CHƯƠNG}}\n\\titleformat{\\chapter}[display]\n  {\\vspace{-2cm}\\normalfont\\Large\\filcenter\\bfseries\\color{docMain}}\n  {{\\chaptertitlename\\,}\\thechapter}{0pc}{\\color{docMain}\\MakeUppercase}\n  [\\vspace{2mm}{\\color{docMain}\\titlerule[1pt]}\\vspace{4mm}]\n\\titleformat{\\section}\n  {\\normalfont\\Large\\bfseries\\color{docMain}}{\\thesection}{1em}{}\n\\titleformat{\\subsection}\n  {\\normalfont\\large\\bfseries\\color{docMain!75!black}}{\\thesubsection}{1em}{}\n\n% ---------- 10. MỤC LỤC KHÔNG TIÊU ĐỀ ----------\n\\makeatletter\n\\renewcommand{\\tableofcontents}{\\@starttoc{toc}}\n\\makeatother\n\n% ---------- 11. CLEVEREF (nạp CUỐI CÙNG) + MÔI TRƯỜNG ----------\n\\usepackage[capitalize,nameinlink]{cleveref}\n\n% --- Theorem-like environments (one shared counter) ---\n\\theoremstyle{plain}\n\\newtheorem{thm}{Định lí}\n\\newtheorem{lem}[thm]{Bổ đề}\n\\newtheorem{prop}[thm]{Mệnh đề}\n\\newtheorem{cor}[thm]{Hệ quả}\n\\theoremstyle{definition}\n\\newtheorem{defi}[thm]{Định nghĩa}\n\\newtheorem{ex}[thm]{Ví dụ}\n\\theoremstyle{remark}\n\\newtheorem{rem}[thm]{Nhận xét}\n\\numberwithin{thm}{section}\n\\numberwithin{equation}{section}\n\n% --- Reference names ---\n\\crefname{thm}{Định lí}{Định lí}\\Crefname{thm}{Định lí}{Định lí}\n\\crefname{lem}{Bổ đề}{Bổ đề}\\Crefname{lem}{Bổ đề}{Bổ đề}\n\\crefname{prop}{Mệnh đề}{Mệnh đề}\\Crefname{prop}{Mệnh đề}{Mệnh đề}\n\\crefname{cor}{Hệ quả}{Hệ quả}\\Crefname{cor}{Hệ quả}{Hệ quả}\n\\crefname{defi}{Định nghĩa}{Định nghĩa}\\Crefname{defi}{Định nghĩa}{Định nghĩa}\n\\crefname{rem}{Nhận xét}{Nhận xét}\\Crefname{rem}{Nhận xét}{Nhận xét}\n\\crefname{ex}{Ví dụ}{Ví dụ}\\Crefname{ex}{Ví dụ}{Ví dụ}\n\\crefname{section}{Mục}{Mục}\\Crefname{section}{Mục}{Mục}\n\\crefname{subsection}{Mục}{Mục}\\Crefname{subsection}{Mục}{Mục}\n\\crefname{chapter}{Chương}{Chương}\\Crefname{chapter}{Chương}{Chương}\n\\crefname{equation}{Công thức}{Công thức}\\Crefname{equation}{Công thức}{Công thức}\n\\crefname{figure}{Hình}{Hình}\\Crefname{figure}{Hình}{Hình}\n\\crefname{table}{Bảng}{Bảng}\\Crefname{table}{Bảng}{Bảng}\n\n% --- Tên đầy đủ: bỏ % ở đầu dòng nếu muốn gõ \\begin{theorem} ---\n%\\newtheorem{theorem}[thm]{Định lí}\\crefalias{theorem}{thm}\n%\\newtheorem{lemma}[thm]{Bổ đề}\\crefalias{lemma}{lem}\n%\\newtheorem{proposition}[thm]{Mệnh đề}\\crefalias{proposition}{prop}\n%\\newtheorem{corollary}[thm]{Hệ quả}\\crefalias{corollary}{cor}\n%\\newtheorem{definition}[thm]{Định nghĩa}\\crefalias{definition}{defi}\n%\\newtheorem{remark}[thm]{Nhận xét}\\crefalias{remark}{rem}\n%\\newtheorem{example}[thm]{Ví dụ}\\crefalias{example}{ex}\n\n% --- Môi trường mở rộng (đang tắt) ---\n%\\newtheorem{claim}[thm]{Khẳng định}\\crefname{claim}{Khẳng định}{Khẳng định}\\Crefname{claim}{Khẳng định}{Khẳng định}\n%\\newtheorem{conj}[thm]{Giả thuyết}\\crefname{conj}{Giả thuyết}{Giả thuyết}\\Crefname{conj}{Giả thuyết}{Giả thuyết}\n%\\newtheorem{conjecture}[thm]{Giả thuyết}\\crefalias{conjecture}{conj}\n%\\newtheorem{axiom}[thm]{Tiên đề}\\crefname{axiom}{Tiên đề}{Tiên đề}\\Crefname{axiom}{Tiên đề}{Tiên đề}\n%\\newtheorem{asm}[thm]{Giả thiết}\\crefname{asm}{Giả thiết}{Giả thiết}\\Crefname{asm}{Giả thiết}{Giả thiết}\n%\\newtheorem{assumption}[thm]{Giả thiết}\\crefalias{assumption}{asm}\n%\\newtheorem{fact}[thm]{Sự kiện}\\crefname{fact}{Sự kiện}{Sự kiện}\\Crefname{fact}{Sự kiện}{Sự kiện}\n%\\newtheorem{nota}[thm]{Ký hiệu}\\crefname{nota}{Ký hiệu}{Ký hiệu}\\Crefname{nota}{Ký hiệu}{Ký hiệu}\n%\\newtheorem{notation}[thm]{Ký hiệu}\\crefalias{notation}{nota}\n%\\newtheorem{prob}[thm]{Bài toán}\\crefname{prob}{Bài toán}{Bài toán}\\Crefname{prob}{Bài toán}{Bài toán}\n%\\newtheorem{problem}[thm]{Bài toán}\\crefalias{problem}{prob}\n%\\newtheorem{exer}[thm]{Bài tập}\\crefname{exer}{Bài tập}{Bài tập}\\Crefname{exer}{Bài tập}{Bài tập}\n%\\newtheorem{exercise}[thm]{Bài tập}\\crefalias{exercise}{exer}\n%\\newtheorem{ques}[thm]{Câu hỏi}\\crefname{ques}{Câu hỏi}{Câu hỏi}\\Crefname{ques}{Câu hỏi}{Câu hỏi}\n%\\newtheorem{question}[thm]{Câu hỏi}\\crefalias{question}{ques}\n\n% --- Môi trường riêng ---\n\\theoremstyle{plain}\n\\newtheorem{pty}[thm]{Tính chất}\n\\crefname{pty}{Tính chất}{Tính chất}\\Crefname{pty}{Tính chất}{Tính chất}\n\n% --- Danh sách: (a) mặc định, (i) trong định lý ---\n\\setlist[enumerate,1]{label=(\\alph*)}\n\\setlist[enumerate,2]{label=(\\roman*)}\n\\newcommand{\\romanlists}[1]{\\AtBeginEnvironment{#1}{\\setlist[enumerate,1]{label=(\\roman*)}\\setlist[enumerate,2]{label=(\\alph*)}}}\n\\forcsvlist{\\romanlists}{thm,lem,prop,cor,defi,rem}\n\\romanlists{pty}\n\n% ---------- 12. MACROS (shared/macros.tex) ----------\n\\input{shared/macros}\n"},{n:"shared/fonts.tex",c:"% shared/fonts.tex: font cho XeLaTeX (cần cài Mali và Euler Math)\n\\usepackage{fontspec}\n\\setmainfont{Mali}\n\\usepackage{unicode-math}\n\\setmathfont{Euler Math}\n\\setmathfont[range=up/{latin,Latin}]{Euler Math}\n\\setoperatorfont\\symup\n"},{n:"shared/macros.tex",c:"% shared/macros.tex: mọi macro dùng chung cho các tài liệu\n\n% --- Trang tiêu đề (dùng \\DocTitle, \\DocSubtitle, \\DocAuthor, \\DocInstitution) ---\n\\newcommand{\\DocTitlePage}{%\n  \\thispagestyle{empty}\n  \\begin{center}\n    {\\Huge \\bfseries \\color{docMain} \\DocTitle \\par}\n    \\ifdefempty{\\DocSubtitle}{}{{\\large \\color{docMain} \\textit{\\DocSubtitle} \\par}}\n    \\vspace{3mm}\n    {\\color{docMain!60}\\rule{0.55\\textwidth}{0.8pt}\\par}\n    \\vspace{3mm}\n    {\\large \\bfseries \\color{docMain!75!black} \\DocAuthor\\ifdefempty{\\DocInstitution}{}{, \\DocInstitution} \\par}\n    \\vspace{1.5mm}\n    {\\large \\color{docAccent} \\today \\par}\n  \\end{center}\n  \\vspace{1.5cm}% khoảng cách từ tiêu đề xuống mục lục\n}\n\n% --- Custom names (add \\newcommand lines here only) ---\n"},{n:".vscode/settings.json",c:"{\n  \"latex-workshop.latex.outDir\": \"%DIR%/build\",\n  \"latex-workshop.latex.recipe.default\": \"xelatex ➞ bibtex ➞ xelatex×2\",\n  \"latex-workshop.latex.recipes\": [\n    {\n      \"name\": \"xelatex ➞ bibtex ➞ xelatex×2\",\n      \"tools\": [\"xelatex\", \"bibtex\", \"xelatex\", \"xelatex\"]\n    },\n    {\n      \"name\": \"xelatex\",\n      \"tools\": [\"xelatex\"]\n    }\n  ],\n  \"latex-workshop.latex.tools\": [\n    {\n      \"name\": \"xelatex\",\n      \"command\": \"xelatex\",\n      \"args\": [\"-synctex=1\", \"-interaction=nonstopmode\", \"-file-line-error\", \"-output-directory=%OUTDIR%\", \"%DOC%\"]\n    },\n    {\n      \"name\": \"bibtex\",\n      \"command\": \"bibtex\",\n      \"args\": [\"%OUTDIR%/%DOCFILE%\"]\n    }\n  ],\n  \"latex-workshop.latex.autoBuild.run\": \"onSave\",\n  \"latex-workshop.latex.search.rootFiles.include\": [\"*.tex\"],\n  \"latex-workshop.latex.rootFile.doNotPrompt\": false,\n  \"latex-workshop.latex.clean.fileTypes\": [\"*.aux\", \"*.bbl\", \"*.blg\", \"*.idx\", \"*.ind\", \"*.lof\", \"*.lot\", \"*.out\", \"*.toc\", \"*.synctex.gz\"]\n}\n"},{n:".gitignore",c:"# Build output\nbuild/\n\n# LaTeX junk\n*.aux\n*.bbl\n*.blg\n*.fdb_latexmk\n*.fls\n*.idx\n*.ilg\n*.ind\n*.lof\n*.log\n*.lot\n*.out\n*.toc\n*.nav\n*.snm\n*.vrb\n*.synctex.gz\n*.synctex(busy)\n*.xdv\n\n# OS / editor (keep .vscode/settings.json)\n.DS_Store\nThumbs.db\n.vscode/*\n!.vscode/settings.json\n"}],guide:["Create a folder (or a git repo) with exactly this tree, or download the <code>.zip</code> from the file list.", "One document = one root file at the top level (<code>my-notes.tex</code>) + one folder with the same name (<code>my-notes/</code>) holding <code>chapterN.tex</code> and <code>refs.bib</code>. The PDF takes the root file name.", "Edit <code>\\DocTitle</code>, <code>\\DocSubtitle</code>, <code>\\DocAuthor</code>, <code>\\DocInstitution</code> and the colour <code>docMain</code> at the top of the root file. Everything shared (packages, header, headings, theorems, cleveref) is in <code>shared/preamble.tex</code>; shared macros go in <code>shared/macros.tex</code>.", "A second document: copy <code>my-notes.tex</code> and the folder under a new name and change the three <code>my-notes</code> paths (<code>\\input</code> lines and <code>\\bibliography</code>).", "Open the folder in VS Code with LaTeX Workshop. Each chapter starts with <code>% !TEX root = ../my-notes.tex</code>, so building from a chapter compiles the root. Build output goes to <code>build/</code> (ignored by git).", "Compile with XeLaTeX → BibTeX → XeLaTeX ×2. The font block in the root file is commented out; remove the <code>%</code> if you have Mali and Euler Math installed."]};
 TPL.push(CUSTOM_EXAM);
 TPL.push(CUSTOM_WS);
 TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map(f=>f.c).join('\n')});
@@ -1639,7 +1669,53 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
   'use strict';
 
   var KEY = 'latexGuide.v2';
+  var HOWTO = [
+    { id: 'what', t: 'What this is', h:
+      '<p>A reference for writing LaTeX in one consistent style. <b>Rules</b> is the rule set, <b>Macros</b> holds reusable definitions, <b>Templates</b> gives ready-to-compile documents, <b>Review</b> has common mistakes and a submission checklist, and <b>AI prompt</b> turns the rules into text you can paste into an AI assistant. Everything runs in your browser; nothing is uploaded.</p>' },
+    { id: 'start', t: 'Quick start', h:
+      '<ol><li>Open <b>Templates</b> and choose Type, Engine and Language. Exactly one template matches.</li>' +
+      '<li>Look at the <b>Structure</b> card above the source: it shows the files you get. Copy one file, or press <b>Download .zip</b> for all of them.</li>' +
+      '<li>Edit the placeholders (title, author, institution), add your content, and create <code>refs.bib</code> if the template needs it (a sample is included).</li>' +
+      '<li>Compile with the engine named in the template\'s <b>Setup</b> tab.</li></ol>' },
+    { id: 'rules', t: 'Rules', h:
+      '<p>Every rule has a code (for example <code>LAB-01</code>), a level (Required, Recommended, Optional), a mode (Article, Book/Report or Common) and a Don\'t / Do comparison, with a rendered preview where it helps.</p>' +
+      '<ul><li>Use <b>Mode</b> and <b>Level</b> in the left column to narrow the list, and press <kbd>/</kbd> to search.</li>' +
+      '<li><b>Link</b> copies a link to one rule; links open the page scrolled to that rule.</li>' +
+      '<li><b>Review</b> lists the most common mistakes, and the checklist remembers what you tick.</li></ul>' },
+    { id: 'templates', t: 'Templates', h:
+      '<div class="tw"><table><thead><tr><th>Type</th><th>Files</th><th>Compile with</th></tr></thead><tbody>' +
+      '<tr><td>Article</td><td><code>main.tex</code>, bibliography inside the file</td><td>pdfLaTeX or XeLaTeX, twice</td></tr>' +
+      '<tr><td>Book/Report</td><td><code>main.tex</code>, <code>setup.tex</code> (XeLaTeX versions), <code>refs.bib</code>, plus your chapter files</td><td>XeLaTeX or pdfLaTeX, BibTeX, then twice more</td></tr>' +
+      '<tr><td>Beamer</td><td><code>main.tex</code></td><td>pdfLaTeX or XeLaTeX, twice</td></tr>' +
+      '<tr><td>Homework</td><td><code>main.tex</code>, solutions switch inside</td><td>pdfLaTeX or XeLaTeX, twice</td></tr>' +
+      '<tr><td>Workspace</td><td>Several documents sharing one preamble, fonts and macros</td><td>XeLaTeX, BibTeX, XeLaTeX twice</td></tr>' +
+      '<tr><td>Exam</td><td>Three <code>.tex</code> files</td><td>pdfLaTeX</td></tr></tbody></table></div>' +
+      '<p>The <b>Minimal</b> switch (Book/Report only, off by default) drops decoration packages and keeps the functional ones. Templates that are a single file show a one-line note instead of a tree.</p>' },
+    { id: 'macros', t: 'Macro Pack', h:
+      '<p>Templates ship with no macros. Copy only the macros you use into the <code>Custom names</code> block of your template. A symbol used once can simply be written in place. <code>mymath.sty</code> (the whole pack in one file) is optional and never loaded by a template.</p>' },
+    { id: 'ai', t: 'With an AI assistant', h:
+      '<div class="tw"><table><thead><tr><th>Paste</th><th>When</th></tr></thead><tbody>' +
+      '<tr><td><b>Common</b></td><td>Always</td></tr>' +
+      '<tr><td><b>Article</b> or <b>Book/Report</b></td><td>Together with Common, for that kind of document</td></tr>' +
+      '<tr><td><b>Macros</b></td><td>When the AI has to declare symbols such as PSL or Hom</td></tr>' +
+      '<tr><td><b>Full</b></td><td>To have a finished text reviewed against every rule</td></tr></tbody></table></div>' +
+      '<p>Give the AI your template too. With a template that follows the rules it only adds lines to the <code>Custom names</code> block; with no template, or one that breaks the rules, it rewrites the preamble.</p>' },
+    { id: 'vscode', t: 'VS Code workflow', h:
+      '<ol><li>Install the <b>LaTeX Workshop</b> extension and a TeX distribution with XeLaTeX.</li>' +
+      '<li>Open the folder of the <b>Workspace</b> template. <code>.vscode/settings.json</code> builds the root file into <code>build/</code>.</li>' +
+      '<li>Each chapter starts with <code>% !TEX root = ../my-notes.tex</code>, so building from a chapter compiles the root file and <code>\\input</code> never fails.</li>' +
+      '<li>A second document: copy the root file and its folder under a new name, then change the <code>\\input</code> lines and <code>\\bibliography</code>.</li></ol>' },
+    { id: 'keys', t: 'Keyboard', h:
+      '<div class="tw"><table><thead><tr><th>Key</th><th>Action</th></tr></thead><tbody>' +
+      '<tr><td><kbd>Ctrl/⌘ K</kbd> or <kbd>/</kbd></td><td>Focus search</td></tr>' +
+      '<tr><td><kbd>↑</kbd> <kbd>↓</kbd> <kbd>⏎</kbd></td><td>Move through search results, open</td></tr>' +
+      '<tr><td><kbd>Esc</kbd></td><td>Close search, clear it, close the left column</td></tr>' +
+      '<tr><td><kbd>j</kbd> / <kbd>k</kbd></td><td>Next / previous rule in the current group</td></tr>' +
+      '<tr><td><kbd>t</kbd></td><td>Switch theme</td></tr>' +
+      '<tr><td><kbd>←</kbd> <kbd>→</kbd></td><td>Move within a focused filter, or resize the left column</td></tr></tbody></table></div>' }
+  ];
   var RES = [
+    { k: 'howto',     label: 'How to use', icon: 'ti-help-circle' },
     { k: 'rules',     label: 'Rules',      icon: 'ti-list-details' },
     { k: 'macros',    label: 'Macro Pack', icon: 'ti-braces' },
     { k: 'templates', label: 'Templates',  icon: 'ti-file-code' },
@@ -1652,7 +1728,7 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
   var FORCE  = { exam: ['pdf', 'vi'], ws: ['xe', 'vi'] };
   var TEN    = [['pdf', 'pdfLaTeX'], ['xe', 'XeLaTeX']];
   var TLANG  = [['vi', 'Vietnamese'], ['en', 'English']];
-  var KIND_ORDER = ['Rule', 'Macro', 'Template', 'File', 'Pitfall', 'Check'];
+  var KIND_ORDER = ['Guide', 'Rule', 'Macro', 'Template', 'File', 'Pitfall', 'Check'];
 
   var state = {
     view: 'rules', group: null, rule: null, macro: null,
@@ -2003,10 +2079,11 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
     if (!p.length) {
       var r = state.resume;
       if (r && RES.some(function (x) { return x.k === r.view; })) {
-        return { view: r.view, group: r.group || null, macro: r.macro || null, tpl: r.tpl || null, sub: r.sub || 'pitfalls' };
+        return { view: r.view, group: r.group || null, macro: r.macro || null, tpl: r.tpl || null, sub: r.sub || 'pitfalls', sec: r.sec || null };
       }
-      return { view: 'rules', group: null };
+      return { view: 'howto', sec: null };
     }
+    if (p[0] === 'how-to' || p[0] === 'howto') return { view: 'howto', sec: p[1] || null };
     if (/^[A-Z]{3,4}-\d{2}$/i.test(p[0])) {
       var id = p[0].toUpperCase();
       return { view: 'rules', group: id.split('-')[0], rule: id };
@@ -2033,6 +2110,7 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
       return '/templates/' + r.tpl + (r.file ? '/' + encodeURIComponent(r.file) : '');
     }
     if (r.view === 'review') return '/review/' + (r.sub || 'pitfalls');
+    if (r.view === 'howto') return '/how-to' + (r.sec ? '/' + r.sec : '');
     return '/ai';
   }
   function resHref(k) {
@@ -2040,6 +2118,7 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
     if (k === 'macros') return '#' + routeHash({ view: 'macros', macro: state.macro });
     if (k === 'templates') return '#' + routeHash({ view: 'templates', tpl: state.tpl });
     if (k === 'review') return '#' + routeHash({ view: 'review', sub: state.sub });
+    if (k === 'howto') return '#/how-to';
     return '#/ai';
   }
   function applyRoute(r) {
@@ -2059,9 +2138,11 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
       state.file = r.file || null;
     }
     if (r.view === 'review') state.sub = r.sub || state.sub;
+    if (r.view === 'howto') state.sec = r.sec || null;
     state.route = r;
     if (r.rule) pending = { id: r.rule, flash: true };
     else if (r.macro) pending = { id: 'm-' + r.macro };
+    else if (r.view === 'howto' && r.sec) pending = { id: 'h-' + r.sec };
   }
   function placeKey() { return state.view + '|' + state.group + '|' + state.tpl + '|' + state.sub; }
   function go(r, replace) {
@@ -2147,6 +2228,12 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
   }
 
   function railIndex() {
+    if (state.view === 'howto') {
+      return '<hr class="rail-sep"><div class="rail-h"><b>On this page</b><span>' + HOWTO.length + '</span></div>' +
+        '<div class="idx" role="list">' + HOWTO.map(function (x) {
+          return '<a class="grp sm" role="listitem" href="#' + routeHash({ view: 'howto', sec: x.id }) + '"' + (state.sec === x.id ? ' aria-current="true"' : '') + '><span>' + esc(x.t) + '</span></a>';
+        }).join('') + '</div>';
+    }
     if (state.view === 'rules') {
       var gc = groupCounts();
       var keys = groupKeys();
@@ -2310,6 +2397,90 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
       '</div></div>';
   }
 
+  /* ---------- Structure card (folder tree of a template) ---------- */
+  var ST_NOTES = {
+    'my-notes.tex': 'root file: title, author, \\input chapters',
+    'my-notes/chapter1.tex': 'chapter content',
+    'my-notes/refs.bib': 'bibliography',
+    'shared/preamble.tex': 'packages, header, theorems, cleveref',
+    'shared/fonts.tex': 'Mali + Euler Math (optional)',
+    'shared/macros.tex': 'title page + your macros',
+    '.vscode/settings.json': 'XeLaTeX recipe, builds into build/',
+    '.gitignore': 'ignores build/ and LaTeX junk',
+    'Template_De_Kiem_Tra.tex': 'root file: the questions',
+    'Setup_DeKiemTra.tex': 'packages and \\cau commands',
+    'Header1st.tex': 'school and exam header'
+  };
+  var ST_BOOK = { 'main.tex': 'root file: title page, chapters, bibliography', 'setup.tex': 'packages, colours, headers, theorems', 'refs.bib': 'sample bibliography' };
+  function stNote(cur, p) {
+    if (cur.t === 'book') return ST_BOOK[p] || '';
+    return ST_NOTES[p] || '';
+  }
+  function stBuild(paths) {
+    var root = { name: 'your-folder', dir: true, kids: [] };
+    paths.forEach(function (p) {
+      var parts = p.split('/'), node = root;
+      parts.forEach(function (name, i) {
+        var last = i === parts.length - 1;
+        var hit = node.kids.filter(function (k) { return k.name === name && k.dir === !last; })[0];
+        if (!hit) { hit = { name: name, dir: !last, kids: [], path: parts.slice(0, i + 1).join('/') }; node.kids.push(hit); }
+        node = hit;
+      });
+    });
+    (function sort(n) {
+      n.kids.sort(function (a, b) {
+        if (a.dir !== b.dir) return a.dir ? -1 : 1;
+        var da = a.name[0] === '.', db = b.name[0] === '.';
+        if (da !== db) return da ? -1 : 1;
+        return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
+      });
+      n.kids.forEach(sort);
+    })(root);
+    return root;
+  }
+  function stRows(node, pre, out) {
+    node.kids.forEach(function (k, i) {
+      var last = i === node.kids.length - 1;
+      out.push({ glyph: pre + (last ? '└── ' : '├── '), node: k });
+      if (k.dir) stRows(k, pre + (last ? '    ' : '│   '), out);
+    });
+    return out;
+  }
+  function structureHtml(cur, file) {
+    var names = cur.files.map(function (f) { return f.n; });
+    var paths = names.slice();
+    if (cur.t === 'book') paths.push('refs.bib');
+    if (paths.length < 2) {
+      return '<div class="st-one"><i class="ti ti-file" aria-hidden="true"></i><span>Single file: <code>' + esc(paths[0]) + '</code></span></div>';
+    }
+    var root = stBuild(paths), rows = stRows(root, '', []);
+    var width = 0;
+    rows.forEach(function (r) { width = Math.max(width, r.glyph.length + r.node.name.length + (r.node.dir ? 1 : 0)); });
+    var text = 'your-folder/\n' + rows.map(function (r) {
+      var label = r.glyph + r.node.name + (r.node.dir ? '/' : '');
+      var note = r.node.dir ? '' : stNote(cur, r.node.path);
+      return note ? label + new Array(width - label.length + 3).join(' ') + '# ' + note : label;
+    }).join('\n');
+    var body = '<div class="st-row st-root"><i class="ti ti-folder-open st-ic" aria-hidden="true"></i><span class="st-n">your-folder/</span></div>' +
+      rows.map(function (r) {
+        var k = r.node, note = k.dir ? '' : stNote(cur, k.path);
+        var inner = '<span class="st-g">' + r.glyph + '</span><i class="ti ' + (k.dir ? 'ti-folder' : 'ti-file-text') + ' st-ic" aria-hidden="true"></i>' +
+          '<span class="st-n">' + esc(k.name) + (k.dir ? '/' : '') + '</span>' + (note ? '<span class="st-c"># ' + esc(note) + '</span>' : '');
+        var cls = 'st-row' + (k.dir ? ' st-dir' : '') + (!k.dir && k.path === file.n ? ' on' : '');
+        if (!k.dir && names.indexOf(k.path) >= 0) {
+          return '<a class="' + cls + '" href="#' + routeHash({ view: 'templates', tpl: cur.id, file: k.path }) + '" data-file="' + esc(k.path) + '">' + inner + '</a>';
+        }
+        return '<div class="' + cls + '">' + inner + '</div>';
+      }).join('');
+    var foot = '';
+    if (cur.id.indexOf('book-xe') === 0) foot = 'Add your chapter files next to <code>main.tex</code>.';
+    else if (cur.t === 'ws') foot = 'Another document: copy <code>my-notes.tex</code> and the <code>my-notes/</code> folder under a new name.';
+    else if (cur.t === 'exam') foot = 'Put figure images in the same folder.';
+    return '<div class="st"><div class="st-h"><i class="ti ti-sitemap" aria-hidden="true"></i><b>Structure</b><span class="n">' + paths.length + ' files</span>' +
+      '<div class="acts">' + cpBtn(text, 'Copy tree') + '</div></div><div class="st-body">' + body + '</div>' +
+      (foot ? '<div class="st-foot">' + foot + '</div>' : '') + '</div>';
+  }
+
   function tplBodyHtml() {
     var cur = currentTpl();
     if (!cur) {
@@ -2346,7 +2517,7 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
     h += '</div>';
 
     /* source */
-    h += '<div class="tpl-main"><div class="tpl-bar"><i class="ti ti-file-code" aria-hidden="true" style="color:var(--faint)"></i>' +
+    h += '<div class="tpl-main">' + structureHtml(cur, file) + '<div class="tpl-bar"><i class="ti ti-file-code" aria-hidden="true" style="color:var(--faint)"></i>' +
       '<span class="fn">' + esc(file.n) + '</span>' +
       '<div class="acts">' + cpBtn(file.c, 'Copy file') + dlBtn(file.n.split('/').pop(), file.c, 'Download') + '</div></div>';
 
@@ -2523,6 +2694,13 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
       '<div class="acts" style="margin:14px 0">' + cpBtn(g, 'Copy', 'solid') + dlBtn(AI_FILE[k], g, 'Download ' + AI_FILE[k]) + '</div>' +
       '<pre class="src" style="border:1px solid var(--line);border-radius:10px;max-height:min(64vh,620px)">' + esc(g) + '</pre>';
   }
+  function viewHowto() {
+    return '<div class="page-h"><h1>How to use</h1><span class="count">' + HOWTO.length + ' sections</span></div>' +
+      '<p class="hint" style="margin-bottom:22px">From picking a template to compiling it, and how to use the rules with an AI assistant.</p>' +
+      HOWTO.map(function (s) {
+        return '<section class="how" id="h-' + s.id + '"><h2>' + esc(s.t) + '</h2>' + s.h + '</section>';
+      }).join('');
+  }
   function viewAI() {
     var k = state.ai || 'common';
     return '<div class="page-h"><h1>AI prompt</h1><span class="count" id="ai-count">' + count(aiText(k).split('\n').length, 'line', 'lines') + '</span></div>' +
@@ -2560,6 +2738,9 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
           route: { view: 'templates', tpl: x.id, file: f.n }
         });
       });
+    });
+    HOWTO.forEach(function (x) {
+      INDEX.push({ kind: 'Guide', id: x.id, title: x.t, meta: 'How to use', hay: (x.t + ' ' + x.h.replace(/<[^>]*>/g, ' ')).toLowerCase(), route: { view: 'howto', sec: x.id } });
     });
     DD.forEach(function (d) {
       INDEX.push({ kind: 'Pitfall', id: '', title: d[0] + '  →  ' + d[1], meta: 'Pitfalls', hay: (d[0] + ' ' + d[1]).toLowerCase(), route: { view: 'review', sub: 'pitfalls' } });
@@ -2669,7 +2850,7 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
   }
 
   /* ---------- render ---------- */
-  var VIEWS = { rules: viewRules, macros: viewMacros, templates: viewTemplates, review: viewReview, ai: viewAI };
+  var VIEWS = { howto: viewHowto, rules: viewRules, macros: viewMacros, templates: viewTemplates, review: viewReview, ai: viewAI };
 
   function render() {
     store = [];
