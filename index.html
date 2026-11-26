@@ -435,26 +435,42 @@ select:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .how kbd{font:500 11px/1 'JetBrains Mono',monospace;color:var(--mut);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:2px 5px;background:var(--bg-2)}
 .how .tw{margin:6px 0 12px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--bg-2)}
 .how table{width:100%;border-collapse:collapse;font-size:13px;table-layout:auto}
-.how th,.how td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere;color:var(--mut)}
+.how th,.how td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;overflow-wrap:break-word;color:var(--mut)}
+.how th:first-child,.how td:first-child{white-space:nowrap}
 .how th{color:var(--fg);font-weight:600;background:var(--tint)}.how tr:last-child td{border-bottom:0}
-.st{margin:12px 12px 0;border:1px solid var(--line);border-radius:10px;background:var(--bg-2);overflow:hidden}
-.st-h{display:flex;align-items:center;gap:8px;height:36px;padding:0 8px 0 12px;border-bottom:1px solid var(--line);font-size:12px;color:var(--mut)}
-.st-h i{font-size:15px;color:var(--faint)}.st-h b{color:var(--fg);font-weight:600;letter-spacing:.02em}
-.st-h .n{font:11px 'JetBrains Mono',monospace;color:var(--faint)}.st-h .acts{margin-left:auto}
-.st-body{padding:8px 6px;font:12.5px/1.8 'JetBrains Mono',ui-monospace,monospace}
-.st-row{display:flex;align-items:baseline;flex-wrap:wrap;padding:0 8px;border-radius:6px;min-width:0;color:var(--mut)}
-a.st-row:hover{background:var(--tint);color:var(--fg)}
-.st-row.on{background:var(--tint)}.st-row.on .st-n{color:var(--accent);font-weight:600}.st-row.on .st-ic{color:var(--accent)}
-.st-g{white-space:pre;color:var(--faint);opacity:.55}
-.st-ic{font-size:14px;margin:0 7px 0 0;align-self:center;color:var(--faint)}
-.st-n{color:var(--fg);white-space:nowrap}.st-dir .st-n{color:var(--mut)}.st-root .st-n{font-weight:600}
-.st-c{margin-left:auto;padding-left:18px;color:var(--faint);font-size:11.5px;text-align:right}
-.st-foot{padding:8px 14px 10px;border-top:1px solid var(--line);font-size:12px;color:var(--mut)}
-.st-foot code,.st-one code{font:12px 'JetBrains Mono',monospace;color:var(--fg)}
-.st-one{margin:12px 12px 0;display:flex;align-items:center;gap:9px;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg-2);font-size:12.5px;color:var(--mut)}
-.st-one i{font-size:15px;color:var(--faint)}
-@media (max-width:700px){.st-c{margin-left:0;padding:0 0 4px 22px;flex-basis:100%;text-align:left}}
-@media print{.st .acts{display:none}}
+.tpl-side-h{justify-content:flex-start}
+.tpl-side-h .ex-cnt{margin-left:2px}
+.ex-acts{margin-left:auto;display:flex;gap:2px}
+.ex-btn{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border:0;border-radius:6px;background:transparent;color:var(--faint);cursor:pointer}
+.ex-btn:hover{background:var(--tint);color:var(--fg)}.ex-btn i{font-size:15px}
+.ex-tgl{display:none}
+.ex-root{display:flex;align-items:center;gap:6px;height:28px;padding:0 12px;color:var(--fg);font:600 12.5px 'JetBrains Mono',ui-monospace,monospace}
+.ex-root i{font-size:14px;color:var(--mut)}
+.ex{padding:0 0 6px;font:12.5px/1 'JetBrains Mono',ui-monospace,monospace;overflow-y:auto;max-height:min(52vh,460px)}
+.ex-row{position:relative;display:flex;align-items:center;gap:6px;height:27px;padding:0 10px 0 12px;color:var(--mut);cursor:pointer;white-space:nowrap;user-select:none;border-left:2px solid transparent;text-decoration:none}
+.ex-row[hidden]{display:none}
+.ex-row:hover{background:var(--tint);color:var(--fg)}
+.ex-row:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.ex-row[aria-current="true"]{background:var(--tint);color:var(--accent);border-left-color:var(--accent)}
+.ex-row[aria-current="true"] .ex-ic{color:var(--accent)}
+.ex-g{flex:none;align-self:stretch;width:14px;border-left:1px solid var(--line);margin-left:2px}
+.ex-chev{flex:none;width:14px;font-size:12px;color:var(--faint);text-align:center}
+.ex-sp{flex:none;width:14px}
+.ex-ic{flex:none;font-size:14px;color:var(--faint)}
+.ex-dir .ex-ic{color:var(--mut)}
+.ex-n{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.ex-num{margin-left:auto;padding-left:8px;font-size:10px;color:var(--faint)}
+.ex-note{margin:4px 10px 8px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);font:12px/1.5 Inter,system-ui,sans-serif;color:var(--mut)}
+.ex-note code{font:11.5px 'JetBrains Mono',monospace;color:var(--fg);word-break:break-all}
+.ex-hint{margin-top:6px;padding-top:6px;border-top:1px dashed var(--line)}
+.ex-hint code{font:11.5px 'JetBrains Mono',monospace;color:var(--fg)}
+@media (max-width:899px){
+  .ex-tgl{display:inline-flex}
+  .tpl-side:not(.open) .ex,.tpl-side:not(.open) .ex-root,.tpl-side:not(.open) .ex-note,.tpl-side:not(.open) .tpl-note{display:none}
+  .tpl-side.open .ex-tgl i{transform:rotate(180deg)}
+  .ex{max-height:50vh}
+}
+@media print{.tpl-side-h .ex-acts{display:none}}
 .btn.zip:hover{background:var(--tint);border-color:var(--line-2)}
 .btn.zip i{color:var(--accent)}
 .btn.zip:active{transform:scale(.98)}
@@ -1674,7 +1690,7 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
       '<p>A reference for writing LaTeX in one consistent style. <b>Rules</b> is the rule set, <b>Macros</b> holds reusable definitions, <b>Templates</b> gives ready-to-compile documents, <b>Review</b> has common mistakes and a submission checklist, and <b>AI prompt</b> turns the rules into text you can paste into an AI assistant. Everything runs in your browser; nothing is uploaded.</p>' },
     { id: 'start', t: 'Quick start', h:
       '<ol><li>Open <b>Templates</b> and choose Type, Engine and Language. Exactly one template matches.</li>' +
-      '<li>Look at the <b>Structure</b> card above the source: it shows the files you get. Copy one file, or press <b>Download .zip</b> for all of them.</li>' +
+      '<li>Look at the <b>Files</b> tree next to the source: it shows the files you get, with a note for each. Copy one file, or press <b>Download .zip</b> for all of them.</li>' +
       '<li>Edit the placeholders (title, author, institution), add your content, and create <code>refs.bib</code> if the template needs it (a sample is included).</li>' +
       '<li>Compile with the engine named in the template\'s <b>Setup</b> tab.</li></ol>' },
     { id: 'rules', t: 'Rules', h:
@@ -1690,7 +1706,7 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
       '<tr><td>Homework</td><td><code>main.tex</code>, solutions switch inside</td><td>pdfLaTeX or XeLaTeX, twice</td></tr>' +
       '<tr><td>Workspace</td><td>Several documents sharing one preamble, fonts and macros</td><td>XeLaTeX, BibTeX, XeLaTeX twice</td></tr>' +
       '<tr><td>Exam</td><td>Three <code>.tex</code> files</td><td>pdfLaTeX</td></tr></tbody></table></div>' +
-      '<p>The <b>Minimal</b> switch (Book/Report only, off by default) drops decoration packages and keeps the functional ones. Templates that are a single file show a one-line note instead of a tree.</p>' },
+      '<p>The <b>Minimal</b> switch (Book/Report only, off by default) drops decoration packages and keeps the functional ones. Every template lists its files in a tree next to the source: click a folder to collapse it, a file to open it, and use the copy button to take the whole tree as text.</p>' },
     { id: 'macros', t: 'Macro Pack', h:
       '<p>Templates ship with no macros. Copy only the macros you use into the <code>Custom names</code> block of your template. A symbol used once can simply be written in place. <code>mymath.sty</code> (the whole pack in one file) is optional and never loaded by a template.</p>' },
     { id: 'ai', t: 'With an AI assistant', h:
@@ -1734,7 +1750,7 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
     view: 'rules', group: null, rule: null, macro: null,
     tpl: null, file: null, tsub: 'source', sub: 'pitfalls',
     mode: 'any', level: 'all', tt: 'art', te: 'pdf', tl: 'en',
-    ai: 'common', min: false, theme: 'dark', done: new Set(), q: '', rail: null
+    ai: 'common', min: false, exClosed: {}, exMobile: false, exFocus: 0, theme: 'dark', done: new Set(), q: '', rail: null
   };
 
   var store = [];
@@ -2256,16 +2272,7 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
             (state.macro === s ? ' aria-current="true"' : '') + '><span>' + esc(m[0]) + '</span></a>';
         }).join('') + '</div>';
     }
-    if (state.view === 'templates') {
-      var tplCur = currentTpl();
-      var fl = tplCur ? tplCur.files : [];
-      return '<hr class="rail-sep"><div class="rail-h"><b>Files</b><span>' + fl.length + '</span></div>' +
-        '<div class="idx" role="list">' + fl.map(function (f) {
-          return '<a class="grp sm" role="listitem" href="#' + routeHash({ view: 'templates', tpl: tplCur.id, file: f.n }) + '"' +
-            (state.file === f.n ? ' aria-current="true"' : '') + '>' +
-            '<span>' + esc(f.n) + '</span><span class="n">' + f.c.split('\n').length + '</span></a>';
-        }).join('') + '</div>';
-    }
+    if (state.view === 'templates') return '';
     if (state.view === 'review') {
       return '<hr class="rail-sep"><div class="rail-h"><b>Review</b><span>' + (DD.length + CK.length) + '</span></div>' +
         '<div class="idx" role="list">' +
@@ -2397,7 +2404,7 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
       '</div></div>';
   }
 
-  /* ---------- Structure card (folder tree of a template) ---------- */
+  /* ---------- Explorer (file tree of a template) ---------- */
   var ST_NOTES = {
     'my-notes.tex': 'root file: title, author, \\input chapters',
     'my-notes/chapter1.tex': 'chapter content',
@@ -2446,40 +2453,124 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
     });
     return out;
   }
-  function structureHtml(cur, file) {
-    var names = cur.files.map(function (f) { return f.n; });
-    var paths = names.slice();
-    if (cur.t === 'book') paths.push('refs.bib');
-    if (paths.length < 2) {
-      return '<div class="st-one"><i class="ti ti-file" aria-hidden="true"></i><span>Single file: <code>' + esc(paths[0]) + '</code></span></div>';
-    }
-    var root = stBuild(paths), rows = stRows(root, '', []);
+  function exFiles(cur) {
+    var files = cur.files.slice();
+    if (cur.t === 'book') files.push({ n: 'refs.bib', c: BIB });
+    return files;
+  }
+  function exIcon(name) {
+    var ext = name.indexOf('.') > 0 ? name.split('.').pop() : name.replace(/^\./, '');
+    return { tex: 'ti-file-text', bib: 'ti-book', json: 'ti-braces', gitignore: 'ti-brand-git' }[ext] || 'ti-file';
+  }
+  function exText(cur, rows) {
     var width = 0;
     rows.forEach(function (r) { width = Math.max(width, r.glyph.length + r.node.name.length + (r.node.dir ? 1 : 0)); });
-    var text = 'your-folder/\n' + rows.map(function (r) {
+    return 'your-folder/\n' + rows.map(function (r) {
       var label = r.glyph + r.node.name + (r.node.dir ? '/' : '');
       var note = r.node.dir ? '' : stNote(cur, r.node.path);
       return note ? label + new Array(width - label.length + 3).join(' ') + '# ' + note : label;
     }).join('\n');
-    var body = '<div class="st-row st-root"><i class="ti ti-folder-open st-ic" aria-hidden="true"></i><span class="st-n">your-folder/</span></div>' +
-      rows.map(function (r) {
-        var k = r.node, note = k.dir ? '' : stNote(cur, k.path);
-        var inner = '<span class="st-g">' + r.glyph + '</span><i class="ti ' + (k.dir ? 'ti-folder' : 'ti-file-text') + ' st-ic" aria-hidden="true"></i>' +
-          '<span class="st-n">' + esc(k.name) + (k.dir ? '/' : '') + '</span>' + (note ? '<span class="st-c"># ' + esc(note) + '</span>' : '');
-        var cls = 'st-row' + (k.dir ? ' st-dir' : '') + (!k.dir && k.path === file.n ? ' on' : '');
-        if (!k.dir && names.indexOf(k.path) >= 0) {
-          return '<a class="' + cls + '" href="#' + routeHash({ view: 'templates', tpl: cur.id, file: k.path }) + '" data-file="' + esc(k.path) + '">' + inner + '</a>';
-        }
-        return '<div class="' + cls + '">' + inner + '</div>';
-      }).join('');
-    var foot = '';
-    if (cur.id.indexOf('book-xe') === 0) foot = 'Add your chapter files next to <code>main.tex</code>.';
-    else if (cur.t === 'ws') foot = 'Another document: copy <code>my-notes.tex</code> and the <code>my-notes/</code> folder under a new name.';
-    else if (cur.t === 'exam') foot = 'Put figure images in the same folder.';
-    return '<div class="st"><div class="st-h"><i class="ti ti-sitemap" aria-hidden="true"></i><b>Structure</b><span class="n">' + paths.length + ' files</span>' +
-      '<div class="acts">' + cpBtn(text, 'Copy tree') + '</div></div><div class="st-body">' + body + '</div>' +
-      (foot ? '<div class="st-foot">' + foot + '</div>' : '') + '</div>';
   }
+  function exHint(cur) {
+    if (cur.id.indexOf('book-xe') === 0) return 'Add your chapter files next to <code>main.tex</code>.';
+    if (cur.t === 'ws') return 'Another document: copy <code>my-notes.tex</code> and the <code>my-notes/</code> folder under a new name.';
+    if (cur.t === 'exam') return 'Put figure images in the same folder.';
+    return '';
+  }
+  function exHtml(cur, file, files) {
+    var rows = stRows(stBuild(files.map(function (f) { return f.n; })), '', []);
+    var lines = {};
+    files.forEach(function (f) { lines[f.n] = f.c.split('\n').length; });
+    var closed = state.exClosed || {};
+    var tree = rows.map(function (r) {
+      var k = r.node, parts = k.path.split('/'), anc = [], i, guides = '';
+      for (i = 1; i < parts.length; i++) anc.push(parts.slice(0, i).join('/'));
+      for (i = 1; i < parts.length; i++) guides += '<span class="ex-g" aria-hidden="true"></span>';
+      var hidden = anc.some(function (a) { return closed[a]; });
+      var common = ' role="treeitem" aria-level="' + parts.length + '" data-anc="' + esc(anc.join(' ')) + '"' + (hidden ? ' hidden' : '');
+      if (k.dir) {
+        var c = !!closed[k.path];
+        return '<div class="ex-row ex-dir"' + common + ' tabindex="-1" aria-expanded="' + !c + '" data-dir="' + esc(k.path) + '">' + guides +
+          '<i class="ti ' + (c ? 'ti-chevron-right' : 'ti-chevron-down') + ' ex-chev" aria-hidden="true"></i>' +
+          '<i class="ti ' + (c ? 'ti-folder' : 'ti-folder-open') + ' ex-ic" aria-hidden="true"></i><span class="ex-n">' + esc(k.name) + '</span></div>';
+      }
+      var on = k.path === file.n, note = stNote(cur, k.path);
+      return '<a class="ex-row ex-file"' + common + ' tabindex="' + (on ? 0 : -1) + '" href="#' + routeHash({ view: 'templates', tpl: cur.id, file: k.path }) + '"' +
+        ' data-path="' + esc(k.path) + '"' + (note ? ' title="' + esc(note) + '"' : '') + (on ? ' aria-current="true"' : '') + '>' + guides +
+        '<span class="ex-sp" aria-hidden="true"></span><i class="ti ' + exIcon(k.name) + ' ex-ic" aria-hidden="true"></i>' +
+        '<span class="ex-n">' + esc(k.name) + '</span><span class="ex-num">' + lines[k.path] + '</span></a>';
+    }).join('');
+    var note = stNote(cur, file.n), hint = exHint(cur);
+    var copyBtn = '<button class="ex-btn" data-copy="' + (store.push(exText(cur, rows)) - 1) + '" title="Copy tree" aria-label="Copy tree"><i class="ti ti-copy" aria-hidden="true"></i></button>';
+    return '<div class="tpl-side' + (state.exMobile ? ' open' : '') + '"><div class="tpl-side-h"><span>Files</span><span class="ex-cnt">' + files.length + '</span>' +
+      '<span class="ex-acts">' + copyBtn + '<button class="ex-btn ex-tgl" data-act="ex-toggle" title="Show or hide the file tree" aria-label="Show or hide the file tree"><i class="ti ti-chevron-down" aria-hidden="true"></i></button></span></div>' +
+      '<div class="ex-root" aria-hidden="true"><i class="ti ti-folder-open" aria-hidden="true"></i><span>your-folder/</span></div>' +
+      '<div class="ex" role="tree" aria-label="Template files">' + tree + '</div>' +
+      '<div class="ex-note"><code>' + esc(file.n) + '</code>' + (note ? ' ' + esc(note) : '') + (hint ? '<div class="ex-hint">' + hint + '</div>' : '') + '</div>' +
+      (cur.desc ? '<div class="tpl-note">' + esc(cur.desc) + '</div>' : '');
+  }
+  function applyExState() {
+    var closed = state.exClosed || {};
+    Array.prototype.forEach.call(document.querySelectorAll('.ex-dir'), function (d) {
+      var c = !!closed[d.getAttribute('data-dir')];
+      d.setAttribute('aria-expanded', String(!c));
+      d.querySelector('.ex-chev').className = 'ti ' + (c ? 'ti-chevron-right' : 'ti-chevron-down') + ' ex-chev';
+      d.querySelector('.ex-ic').className = 'ti ' + (c ? 'ti-folder' : 'ti-folder-open') + ' ex-ic';
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('.ex-row[data-anc]'), function (r) {
+      var anc = (r.getAttribute('data-anc') || '').split(' ').filter(Boolean);
+      r.hidden = anc.some(function (a) { return closed[a]; });
+    });
+  }
+  function toggleDir(p) {
+    state.exClosed = state.exClosed || {};
+    state.exClosed[p] = !state.exClosed[p];
+    applyExState();
+  }
+  function afterTplRender() {
+    if (state.exFocus && Date.now() - state.exFocus < 1000) {
+      var a = document.querySelector('.ex-file[aria-current="true"]');
+      if (a) a.focus();
+    }
+  }
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest ? e.target : null;
+    if (!t) return;
+    var d = t.closest('.ex-dir');
+    if (d) { toggleDir(d.getAttribute('data-dir')); return; }
+    if (t.closest('.ex-file')) state.exMobile = false;
+    var g = t.closest('[data-act="ex-toggle"]');
+    if (g) {
+      state.exMobile = !state.exMobile;
+      var sd = document.querySelector('.tpl-side');
+      if (sd) sd.classList.toggle('open', state.exMobile);
+    }
+  });
+  document.addEventListener('keydown', function (e) {
+    var row = e.target.closest ? e.target.closest('.ex-row') : null;
+    if (!row || !row.closest('.ex')) return;
+    var rows = Array.prototype.filter.call(document.querySelectorAll('.ex-row[role="treeitem"]'), function (r) { return !r.hidden; });
+    var i = rows.indexOf(row), k = e.key;
+    var go = function (r) { if (r) { r.focus(); e.preventDefault(); } };
+    var isDir = row.classList.contains('ex-dir');
+    if (k === 'ArrowDown') go(rows[i + 1]);
+    else if (k === 'ArrowUp') go(rows[i - 1]);
+    else if (k === 'Home') go(rows[0]);
+    else if (k === 'End') go(rows[rows.length - 1]);
+    else if (k === 'ArrowRight' && isDir) {
+      if (row.getAttribute('aria-expanded') === 'false') { toggleDir(row.getAttribute('data-dir')); e.preventDefault(); }
+      else go(rows[i + 1]);
+    } else if (k === 'ArrowLeft') {
+      if (isDir && row.getAttribute('aria-expanded') === 'true') { toggleDir(row.getAttribute('data-dir')); e.preventDefault(); }
+      else {
+        var anc = (row.getAttribute('data-anc') || '').split(' ').filter(Boolean).pop();
+        if (anc) go(document.querySelector('.ex-dir[data-dir="' + anc + '"]'));
+      }
+    } else if (k === 'Enter' || k === ' ') {
+      if (isDir) { toggleDir(row.getAttribute('data-dir')); e.preventDefault(); }
+      else { state.exFocus = Date.now(); if (k === ' ') { e.preventDefault(); row.click(); } }
+    }
+  });
 
   function tplBodyHtml() {
     var cur = currentTpl();
@@ -2487,7 +2578,8 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
       return '<div class="empty">No template matches these filters.<br><button class="btn" data-act="clear-tpl"><i class="ti ti-filter" aria-hidden="true"></i>Clear filters</button></div>';
     }
     state.tpl = cur.id;
-    var file = cur.files.filter(function (f) { return f.n === state.file; })[0] || cur.files[0];
+    var files = exFiles(cur);
+    var file = files.filter(function (f) { return f.n === state.file; })[0] || files[0];
     state.file = file.n;
     var sub = state.tsub === 'setup' && cur.guide ? 'setup' : 'source';
     var engine = cur.e === 'xe' ? 'XeLaTeX' : 'pdfLaTeX';
@@ -2495,20 +2587,12 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
 
     h += '<div class="tpl-wrap">';
 
-    /* file list */
-    h += '<div class="tpl-side"><div class="tpl-side-h"><span>Files</span><span>' + cur.files.length + '</span></div>' +
-      '<div class="tpl-files" role="list">' + cur.files.map(function (f) {
-        var on = f.n === file.n;
-        return '<a class="file" role="listitem" href="#' + routeHash({ view: 'templates', tpl: cur.id, file: f.n }) + '" data-file="' + esc(f.n) + '"' +
-        (on ? ' aria-current="true"' : '') + '><i class="ti ' + (on ? 'ti-file-text' : 'ti-file') + '" aria-hidden="true"></i>' +
-          '<span>' + esc(f.n) + '</span><span class="n">' + f.c.split('\n').length + '</span></a>';
-      }).join('') + '</div>' +
-      (cur.desc ? '<div class="tpl-note">' + esc(cur.desc) + '</div>' : '');
+    /* explorer */
+    h += exHtml(cur, file, files);
     if (cur.note) {
       h += '<div class="tpl-extra"><span class="meta">' + esc(cur.note) + '</span></div>';
     } else if (cur.t === 'book') {
-      h += '<div class="tpl-extra"><span class="meta">A refs.bib file is required next to the main file. Cite with \\cite{key}, then run bibtex.</span>' +
-        '<div class="acts">' + cpBtn(BIB, 'Copy sample refs.bib') + dlBtn('refs.bib', BIB, 'refs.bib') + '</div></div>';
+      h += '<div class="tpl-extra"><span class="meta">A refs.bib file is required next to the main file (a sample is in the file tree). Cite with \\cite{key}, then run bibtex.</span></div>';
     } else if (!cur.nobib) {
       h += '<div class="tpl-extra"><span class="meta">The bibliography is inside main.tex: remove the % from the thebibliography block and cite with \\cite{key}. No refs.bib, natbib or bibtex needed. Compile twice.</span></div>';
     } else {
@@ -2517,7 +2601,7 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
     h += '</div>';
 
     /* source */
-    h += '<div class="tpl-main">' + structureHtml(cur, file) + '<div class="tpl-bar"><i class="ti ti-file-code" aria-hidden="true" style="color:var(--faint)"></i>' +
+    h += '<div class="tpl-main"><div class="tpl-bar"><i class="ti ti-file-code" aria-hidden="true" style="color:var(--faint)"></i>' +
       '<span class="fn">' + esc(file.n) + '</span>' +
       '<div class="acts">' + cpBtn(file.c, 'Copy file') + dlBtn(file.n.split('/').pop(), file.c, 'Download') + '</div></div>';
 
@@ -2570,6 +2654,7 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
     if (!box) return;
     updateMinSwitch();
     box.innerHTML = tplBodyHtml();
+    afterTplRender();
     var c = $('tpl-count');
     if (c) c.textContent = count(tplList().length, 'template', 'templates');
     var zip = document.querySelector('.btn.zip');
@@ -2859,6 +2944,7 @@ TPL.forEach(x=>{if(!x.files)x.files=[{n:'main.tex',c:x.code}];x.code=x.files.map
     centerRail();
     var pane = $('pane');
     pane.innerHTML = VIEWS[state.view]();
+    afterTplRender();
     initSegs(pane);
     renderMath(pane);
     syncThemeBtn();
