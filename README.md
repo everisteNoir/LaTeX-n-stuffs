@@ -9,7 +9,7 @@ A single-page reference for LaTeX writing rules, with a macro pack and ready-to-
 - **Minimal switch** (Templates filter bar, off by default, remembered): swaps the custom Book/Report (XeLaTeX · Vietnamese) for a version with functional packages only. It is dimmed for Article, Beamer, Homework and Exam; Article is always the lean version.
 - **Review**: a pitfalls table and a submission checklist that remembers what you ticked.
 - **How to use**: the first page for new visitors (quick start, how to read the rules, what each template contains, how to use the rules with an AI assistant, VS Code workflow, keyboard shortcuts).
-- **AI prompt**: a segmented control with four rule sets, each with its own copy and download: **Common** (9 lines for any template), **Article**, **Book/Report**, **Full**, and **Macros** (the Macro Pack definitions to declare in the Custom names block, `latex-macros.md`) (every rule, convention, common mistake and the checklist, `latex-rules.md`).
+- **AI prompt**: a segmented control with rule sets, each with its own copy and download: **Common** (9 lines for any template), **Article**, **Book/Report**, **Beamer → Slidev** (rules for writing Beamer that converts cleanly, plus instructions and starter files to convert it to [Slidev](https://sli.dev/)), **Full**, and **Macros** (the Macro Pack definitions to declare in the Custom names block, `latex-macros.md`) (every rule, convention, common mistake and the checklist, `latex-rules.md`).
 
 ## Use
 
@@ -74,3 +74,7 @@ Adding a rule to `RULES` is enough — the rail counts, the group reading view, 
 - The `.zip` download is built in the browser with a small stored-mode ZIP writer, so it works offline and needs no library.
 - Motion (ambient drift, group transition, panel spotlight, theme reveal) is disabled under `prefers-reduced-motion` and the theme switch falls back to an instant swap where the View Transitions API is unavailable.
 - Printing (`Print rules` in the Export menu, or the browser's own print) drops the rail, bar and actions and prints the rule sheet.
+
+## Beamer and Slidev
+
+The Beamer templates are written for conversion to [Slidev](https://sli.dev/): rules SLD-01 to SLD-12 limit Beamer to a subset that maps one-to-one to Slidev Markdown (one idea per frame, `\pause` only, KaTeX-safe math, simple macros, PNG/SVG figures). The mapping table, starter components and `setup/katex.ts` live in the `G_BM` text (AI prompt tab). The conversion was verified by building a sample deck with Slidev.
